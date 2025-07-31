@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>http://example.com</id>
+    <title>ShokaX Can</title>
+    <subtitle></subtitle>
+    <icon>http://example.com/assets/favicon.ico</icon>
+    <link href="http://example.com" />
+    <author>
+      <name>John Doe</name>
+    </author>
+    <updated>2025-07-31T14:40:59.736Z</updated>
+</feed>
