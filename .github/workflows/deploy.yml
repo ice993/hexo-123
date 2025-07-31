@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate static files
+        run: pnpm run build
+
+      - name: Add CNAME file
+        run: echo 'ice993.github.io' > ./public/CNAME
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PUBLIC_REPO_TOKEN }}
+          publish_dir: ./public
+          # 🔧 添加这一项：部署到默认分支
+          external_repository: ice993/ice993.github.io
+          publish_branch: gh-pages   # ← 推荐显式指定发布分支
+          user_name: github-actions
+          user_email: github-actions@github.com
