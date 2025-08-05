@@ -1,0 +1,45 @@
+name: Deploy Hexo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 监听 main 分支的推送事件
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出源码
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 安装 Hexo
+      - name: Install Hexo globally
+        run: npm install -g hexo-cli
+
+      # 生成静态文件
+      - name: Generate static files
+        run: hexo generate
+
+      # 添加 CNAME 文件
+      - name: Add CNAME file
+        run: echo 'ice993.github.io' > ./public/CNAME
+
+      # 部署到公共仓库
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PUBLIC_REPO_TOKEN }}
+          publish_dir: ./public  # Hexo 生成的静态文件目录
+          external_repository: ice993/ice993.github.io  # 替换为你的公共仓库
