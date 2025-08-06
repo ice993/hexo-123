@@ -13,7 +13,8 @@ seccomp-tools dump ./文件
 
 看第四行是不是return kill 了是不是禁用了execve
 
-![img](https://hnusec-star.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDhkMmJhMWRiY2YxZDEwYmFiNDE3NDUxZjk2YmEwNjNfenRXaTdZdlhYOWZqUmtaZkZnbEJzeGhKVTU0TGkzMzJfVG9rZW46V2ZkTGIwcWNrb282dWl4WjhBeWMwZ1pabkZnXzE3NTQ0NTQyNTQ6MTc1NDQ1Nzg1NF9WNA)
+<img width="865" height="280" alt="image" src="https://github.com/user-attachments/assets/e7753892-c679-4b63-be3a-cf5181cc0ea3" />
+
 
 有的里面好像也直接有sandbox
 
