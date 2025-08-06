@@ -1,7 +1,7 @@
 ---
 title: test
 date: 2025-08-04 21:24:30
-tags:
+tags: test
 ---
 
 # Test
