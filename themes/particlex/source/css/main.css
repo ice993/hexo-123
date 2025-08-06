@@ -973,3 +973,27 @@ ol li {
         padding-left: 20px;
     }
 }
+
+/* 点击波纹效果 */
+.ripple {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.ripple:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
