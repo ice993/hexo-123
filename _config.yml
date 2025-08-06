@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 标题
-subtitle: '子标题'
-description: '描述'
-keywords:这是什么
+title:  标题
+subtitle:  '子标题'
+description:  '描述'
+keywords: 这是什么
 author: 作者名字
 language: zh-CN
 timezone: ''
