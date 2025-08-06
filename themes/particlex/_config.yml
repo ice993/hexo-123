@@ -6,7 +6,7 @@ avatar: /images/lty.png
 
 # Home page background image
 background:
-    - /images/background.jpg
+    - /images/1.jpg
 
 # Loading image
 loading: /images/loading.gif
