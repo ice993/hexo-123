@@ -1,5 +1,5 @@
 
-#sandbox
+## sandbox
 
 沙箱可以这个来看开没开
 
@@ -112,21 +112,23 @@ read-->0  write-->1  open-->2  exit-->60
 
 3.然后再在底下添加判断正确或错误的函数。
 
+
+...
 这个是模板，单字节比对示例：
 
-```C
+` ` `C
 mov al, [flag_addr + offset]      ; 读取实际 Flag 字节
 mov bl, guessed_char              ; 将猜测字节载入
 cmp al, bl                        ; 比对
 jne wrong                         ; 如果不相等则跳转到 wrong
 ; 相等：进入死循环或耗时路径
 jmp in_loop
-```
+` ` `
 
 ## 一道题
 
 下面看一下这个litctf里的侧信道
-
+...
 暂时无法在飞书文档外展示此内容
 
 看一下沙箱
