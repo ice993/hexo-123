@@ -60,21 +60,78 @@
     <% if (page.comments) { %>
     <%- partial("comment") %>
     <% } %>
-    <meting-js
-        server="netease"
-        type="playlist"
-        id="7481365421"
-        fixed="true"
-        autoplay="false"
-        loop="all"
-        order="random"
-        volume="0.7"
-        theme="#66afef">
-    </meting-js>
+    <div id="aplayer-container"></div>
+    <script>
+    window.addEventListener("load", function() {
+        new APlayer({
+            container: document.getElementById("aplayer-container"),
+            fixed: true,
+            mini: true,
+            autoplay: false,
+            loop: "all",
+            order: "random",
+            volume: 0.7,
+            theme: "#66afef",
+            audio: [
+                {
+                    name: "Rain",
+                    artist: "Free Lofi",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/(FREE)%20Lo-fi%20Type%20Beat%20-%20Rain.mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "Hanging Lanterns",
+                    artist: "Kalaido",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/Kalaido%20-%20Hanging%20Lanterns.mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "First Snow",
+                    artist: "Kerusu",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/Kerusu%20-%20First%20Snow.mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "Waves",
+                    artist: "Matt Quentin",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/Matt%20Quentin%20-%20Waves.mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "Onion",
+                    artist: "Lukrembo",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/Onion%20(Prod.%20by%20Lukrembo).mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "Tranquillity",
+                    artist: "Chill Lofi",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/Tranquillity%20-%20Chill%20Lofi%20Hip%20Hop%20Beat%20(FREE%20FOR%20PROFIT%20USE).mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "car radio",
+                    artist: "flovry",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/flovry%20-%20car%20radio.mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                },
+                {
+                    name: "deep space",
+                    artist: "Ambient Lofi",
+                    url: "https://archive.org/download/kalaido-hanging-lanterns_202101/deep%20space%20-%20Ambient%20Lofi%20Hip%20Hop%20Beat%20(FREE%20FOR%20PROFIT%20USE).mp3",
+                    cover: "https://archive.org/services/img/kalaido-hanging-lanterns_202101"
+                }
+            ]
+        });
+    });
+    </script>
     <script>
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/sw.js");
     }
+    window.addEventListener("load", function() {
+        new cursoreffects.fairyDustCursor({ colors: ["#66afef", "#92cafa", "#ffa2c4", "#a29bfe", "#fd79a8"] });
+    });
     </script>
 </body>
 </html>
