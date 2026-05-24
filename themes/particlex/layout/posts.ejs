@@ -48,7 +48,7 @@
             <% } else if (post.excerpt) { %>
             <%- post.excerpt %>
             <% } else { %>
-            <%- post.content %>
+            <%- post.content.replace(/<[^>]+>/g, '').substring(0, 200) %>...
             <% } %>
         </div>
     </div>
