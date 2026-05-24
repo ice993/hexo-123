@@ -37,6 +37,12 @@ archive_generator:
     monthly: false
     daily: false
 
+category_generator:
+    per_page: 0
+
+tag_generator:
+    per_page: 0
+
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
