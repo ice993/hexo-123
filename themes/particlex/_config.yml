@@ -49,11 +49,25 @@ menu:
 card:
     enable: true
     description: |
-        Description
-        ...
+        Here's an cat...
     iconLinks:
+        GitHub:
+            name: github
+            theme: brands
+            link: https://github.com/ice993
+        QQ:
+            name: qq
+            theme: brands
+            link: http://wpa.qq.com/msgrd?v=3&uin=2940582316&site=qq&menu=yes
+        X:
+            name: x-twitter
+            theme: brands
+            link: https://x.com/Arctic_oceanIce
+        Email:
+            name: envelope
+            theme: solid
+            link: mailto:2940582316@qq.com
     friendLinks:
-        Argvchs: https://argvchs.github.io
 
 # Footer info
 footer:

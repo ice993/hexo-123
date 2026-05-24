@@ -55,5 +55,10 @@
     <% if (type === "post" && page.comments) { %>
     <%- partial("comment") %>
     <% } %>
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
 </body>
 </html>
