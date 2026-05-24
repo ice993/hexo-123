@@ -60,6 +60,17 @@
     <% if (page.comments) { %>
     <%- partial("comment") %>
     <% } %>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3778678"
+        fixed="true"
+        autoplay="false"
+        loop="all"
+        order="random"
+        volume="0.7"
+        theme="#66afef">
+    </meting-js>
     <script>
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/sw.js");
