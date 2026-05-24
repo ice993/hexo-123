@@ -2,7 +2,7 @@
 # https://github.com/theme-particlex/hexo-theme-particlex
 
 # Avatar image
-avatar: /images/avatar.jpg
+avatar: /images/lty.png
 
 # Home page background image
 background:
@@ -110,19 +110,19 @@ search:
 # giscus
 # https://github.com/giscus/giscus
 giscus:
-    enable: false
+    enable: true
     src: https://giscus.app/client.js
-    repo:
-    repoID:
-    category:
-    categoryID:
+    repo: ice993/hexo-123
+    repoID: R_kgDOPWL0Lg
+    category: Announcements
+    categoryID: DIC_kwDOPWL0Ls4Ct1k-
     mapping: pathname
     strict: 0
     reactionsEnabled: 1
     emitMetadata: 0
     inputPosition: bottom
     theme: preferred_color_scheme
-    lang:
+    lang: zh-CN
 
 # Gitalk
 # https://github.com/gitalk/gitalk

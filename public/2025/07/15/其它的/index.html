@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>其它知识点（mmap 等） | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>其它知识点（mmap 等）</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/15
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ffa2c4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/mmap/" style="color: #00a596">
+                    mmap
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h1><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530739616-5c381643-84f3-4946-972b-66b3990f7907.png"></p>
+<p>映射的三要素：虚拟地址，物理地址，映射的大小</p>
+<p>mmap映射进程在用户里面的一个固定区域。</p>
+<p>mmap的底层操作</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530739580-158582ac-d59a-48a4-a691-75fcf3a07682.png"></p>
+<p>虚拟地址——&gt;大小——&gt;验证号</p>
+<p>相对io调用 效率变高开销变小</p>
+<p>这个mmap是linux里利用内存的一个特别方法。好像是能把程序直接映射到内存里。通过mmap.</p>
+<p>这个可以提高效率，可以</p>
+<p>传统文件 I&#x2F;O 需 4 次数据拷贝（磁盘→内核缓冲→用户缓冲→内核套接字→网卡），而 <code>mmap</code> 仅需 2 次（磁盘→内核缓冲→网卡），减少 CPU 开销</p>
+<p>文件直接到磁盘里，直接用指针访问。然后多个进程到一个文件里。通过一个“ <code>MAP_SHARED</code>”可以共享。父子进程可以通过fork实现这种功能。</p>
+<ol>
+<li>文件映射<ol>
+<li>将磁盘文件映射到进程内存中，程序通过指针直接访问文件内容，无需调用 <code>read</code>&#x2F;<code>write</code> 等 I&#x2F;O 函数</li>
+<li>修改映射内存时，系统自动将脏页回写至文件（需指定 <code>MAP_SHARED</code> 标志）</li>
+</ol>
+</li>
+<li>匿名映射<ol>
+<li>创建不与文件关联的内存区域（如 <code>MAP_ANONYMOUS</code>），常用于进程间共享数据或动态分配大内存</li>
+<li>例如 <code>malloc()</code> 分配大内存时底层可能调用 <code>mmap</code></li>
+</ol>
+</li>
+</ol>
+<p>堆里面也可以看到malloc大内存。有mmap</p>
+<h1 id="strcpy"><a href="#strcpy" class="headerlink" title="strcpy"></a>strcpy</h1><p> 在C++中，strcpy函数用于将一个字符串复制到另一个字符串。这个函数定义在__头文件中，并且属于_std_命名空间。使用时，需要确保目标字符串的大小足以容纳源字符串，否则可能会导致缓冲区溢出。</p>
+<pre><code class="language-plain">#include 
+#include 
+
+int main() &#123;
+char src[40];
+char dest[100];
+
+// 使用strcpy函数复制字符串
+std::strcpy(dest, &quot;Hello, World!&quot;);
+
+std::cout &lt;&lt; &quot;dest: &quot; &lt;&lt; dest &lt;&lt; std::endl; // 输出: dest: Hello, World!
+return 0;
+&#125;
+</code></pre>
+<p> 为了提高安全性，C++引入了_strcpy_s_函数，它要求额外指定目标缓冲区的大小。如果使用动态分配的字符串，则应使用带有三个参数的版本，其中第二个参数是目标缓冲区的大小。</p>
+<h1 id="scanf函数"><a href="#scanf函数" class="headerlink" title="scanf函数"></a>scanf函数</h1><p>参数%d</p>
+<h2 id="正常输入时"><a href="#正常输入时" class="headerlink" title="正常输入时"></a>正常输入时</h2><p>输入为范围在-2147483648~2147483647内的整数。</p>
+<h2 id="如果输入范围在"><a href="#如果输入范围在" class="headerlink" title="如果输入范围在"></a>如果输入范围在</h2><p>-9223372036854775808~9223372036854775807内的整数，则会截断高位读取，此范围是long long int的范围。</p>
+<h2 id="如果输入范围在long-long-int范围之外，"><a href="#如果输入范围在long-long-int范围之外，" class="headerlink" title="如果输入范围在long long int范围之外，"></a>如果输入范围在long long int范围之外，</h2><p>则统一将参数赋值为-1（0xFFFFFFFF）</p>
+<h2 id="如果输入为非数字，"><a href="#如果输入为非数字，" class="headerlink" title="如果输入为非数字，"></a>如果输入为非数字，</h2><p>分为下列情况：</p>
+<p>– （1） 如果输入仅有一个，则该输入无效，该值不变。</p>
+<p>– （2） 如果输入有数字前缀（如12345abcd），则scanf仅会读取前面的数字，从第一个非数字开始，后面全部舍弃（12345）。</p>
+<p>– （3） 如果输入有多个且使用一个scanf语句（如scanf(“%d, %d”, &amp;a, &amp;b)）。输入第一个非数字后，后面的所有输入均为无效，前面的输入可以赋值。</p>
+<p>– （4） 如果输入有多个且使用多个scanf语句（含循环，即一个scanf中仅有一个输入），则输入非数字时，如果输入的不是’+’或’-’，则后面紧跟的所有scanf均自动跳过，变为无效，不能输入。如果输入的是’+’或’-’，则会跳过当前输入，后面仍然可以进行输入。应用：XCTF dubblesort</p>
+<h1 id="mprotect函数"><a href="#mprotect函数" class="headerlink" title="mprotect函数"></a>mprotect函数</h1><p>函数原型如下：</p>
+<pre><code class="language-plain">int mprotect(void * addr, size_t len, int prot)
+</code></pre>
+<p>其中变量addr代表对应内存块的指针，len代表内存块的大小，而prot代表内存块所拥有的权限</p>
+<p>对于prot来说，对应权限依照以下规则改变值</p>
+<p>无法访问 即PROT_NONE：不允许访问，值为 0</p>
+<p>可读权限 即PROT_READ：可读，值加 1</p>
+<p>可写权限 即PROT_WRITE：可读， 值加 2</p>
+<p>可执行权限 即PROT_EXEC：可执行，值加 4</p>
+<p>例如：我们要将某块内存区域权限设置为可读可写可执行，那么mprotect函数中prot参数便应该是1+2+4&#x3D;7。</p>
+<h2 id="这个函数主要是这么用"><a href="#这个函数主要是这么用" class="headerlink" title="这个函数主要是这么用"></a>这个函数主要是这么用</h2><p>利用mprotect与read等输入函数配合修改栈或bss段权限以执行shellcode</p>
+<p>SROP</p>
+<p> ciscn_2019_s_3  （BUUCTF）</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

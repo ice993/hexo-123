@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>格式化字符串漏洞 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>格式化字符串漏洞</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/20
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ffa2c4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/fmt/" style="color: #00a596">
+                    fmt
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>%*X$c%Y$n 会把偏移X处的值赋给栈中偏移Y处指针指向的地址</p>
+<p><code>%x</code>、<code>%s</code>、<code>%n</code> 这些格式控制符，<code>printf</code> 会把它们当作指示去处理，而去读取栈上的其他内容  </p>
+<h1 id="寄存器是为了访问速度更加的快设计的"><a href="#寄存器是为了访问速度更加的快设计的" class="headerlink" title="寄存器是为了访问速度更加的快设计的"></a>寄存器是为了访问速度更加的快设计的</h1><p>顺序是这样的</p>
+<p>在 x86_64 架构（也就是 64位）的 System V 调用约定中，<strong>前六个整数或指针类型参数</strong>会依次通过寄存器传递，顺序如下：</p>
+<ol>
+<li><strong>RDI</strong></li>
+<li><strong>RSI</strong></li>
+<li><strong>RDX</strong></li>
+<li><strong>RCX</strong></li>
+<li><strong>R8</strong></li>
+<li><strong>R9</strong></li>
+</ol>
+<p>而当处于系统调用（<code>syscall</code>）上下文时，调用约定略有不同，传递参数的顺序变为：</p>
+<ol>
+<li><strong>RDI</strong></li>
+<li><strong>RSI</strong></li>
+<li><strong>RDX</strong></li>
+<li><strong>R10</strong> （替代用户空间中的 RCX）</li>
+<li><strong>R8</strong></li>
+<li><strong>R9</strong><br>这是因为 <code>syscall</code> 指令会用 RCX 暂存返回指令地址，因而无法用于传参，因此内核使用 R10 来替代将原 RCX 的位置</li>
+</ol>
+<p>还有通用寄存器</p>
+<ul>
+<li>原始 x86 扩展寄存器：</li>
+<li><code>rax</code>, <code>rbx</code>, <code>rcx</code>, <code>rdx</code></li>
+<li><code>rsi</code>, <code>rdi</code>, <code>rbp</code>（基址指针），<code>rsp</code>（栈顶指针）</li>
+<li>新增的 64 位寄存器（x64 模式新增）：</li>
+<li><code>r8</code>, <code>r9</code>, <code>r10</code>, <code>r11</code>, <code>r12</code>, <code>r13</code>, <code>r14</code>, <code>r15</code></li>
+</ul>
+<p>32位是rax eax</p>
+<p>不同的功能</p>
+<ul>
+<li><code>rax</code>: 存储系统调用号</li>
+<li><code>rdi</code>: 存储文件名或文件描述符</li>
+<li><code>rsi</code>: 存储缓冲区地址</li>
+<li><code>rdx</code>: 存储字节数</li>
+</ul>
+<p>orw时寄存器参数设置</p>
+<p>read里的fd写3是因为程序执行的时候文件描述符是从3开始的，write里的1是标准输出到显示器</p>
+<ul>
+<li><code>**RDI**</code> 寄存器 &#x3D; <strong>地址</strong> of “&#x2F;bin&#x2F;sh” 字符串</li>
+<li><code>**RSI**</code> &#x3D; 0</li>
+<li><code>**RDX**</code> &#x3D; 0</li>
+<li><code>**RAX**</code> &#x3D; 系统调用号</li>
+<li>然后执行 <code>**syscall**</code></li>
+</ul>
+<p>可以这么来理解：</p>
+<p>选好了合适的函数名（某个特殊寄存器的特殊的值），你设定好了参数（其他寄存器的特殊的值），并call 这个函数（一个特殊的语句），就能够执行这个函数（产生作用）</p>
+<pre><code class="language-plain">rop寻找bin/sh
+
+ROPgadget --binary retsyscall  --string &#39;/bin/sh&#39;
+</code></pre>
+<ul>
+<li>系统调用号，即 eax 应该为 0xb，因为是execve所以是0xb</li>
+<li>第一个参数，即 ebx 应该指向 &#x2F;bin&#x2F;sh 的地址，其实执行 sh 的地址也可以。</li>
+<li>第二个参数，即 ecx 应该为 0</li>
+<li>第三个参数，即 edx 应该为 0</li>
+</ul>
+<p>payload实现</p>
+<pre><code class="language-plain">payload=b&#39;a&#39;*112+\      #112为实际栈溢出的偏移          
+        p32(gadget_eax_ret_addr)+p32(0xb)+ \
+        p32(gadget_edx_ecx_ebx_ret)+p32(0)+p32(0)+p32(bin_sh_addr)+ \
+        p32(int_0x80_addr)
+</code></pre>
+<h1 id="查看libc版本号"><a href="#查看libc版本号" class="headerlink" title="查看libc版本号"></a>查看libc版本号</h1><p>strings libc.so.6 | grep GLIBC_</p>
+<p>修改替换libc文件</p>
+<pre><code class="language-python">patchelf --replace-needed libc.so.6 /home/yh3h636/桌面/libc.so.6 heap
+</code></pre>
+<p>libc和ld需要保持版本一致</p>
+<p>设置ld文件。在文件夹里找到对应的ld版本修改名称，最后写链接的文件名</p>
+<pre><code class="language-python">patchelf --set-interpreter /home/yh3h636/桌面/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/ld-linux-x86-64.so.2 --set-rpath /home/yh3h636/桌面/glibc-all-in-one/libs/2.23-0ubuntu3_amd64/ ./heap
+</code></pre>
+<h2 id="怎么找到-one-gadget"><a href="#怎么找到-one-gadget" class="headerlink" title="怎么找到 one_gadget"></a>怎么找到 one_gadget</h2><p>比如：</p>
+<p>onegadget获取偏移</p>
+<pre><code class="language-python">one_gadget libc-2.23.so
+</code></pre>
+<p>会列出一堆候选地址，大概长这样：</p>
+<pre><code class="language-plain">cpp
+
+
+复制编辑
+0x45216 execve(&quot;/bin/sh&quot;, rsp+0x30, environ)
+constraints:
+  rsp+0x30 == NULL
+</code></pre>
+<p>这表示在 <code>libc</code> 偏移 <code>0x45216</code> 的位置有个 gadget，可以直接调用 <code>execve(&quot;/bin/sh&quot;, ...)</code>。</p>
+<hr>
+<h2 id="2-one-gadget-的“调用条件”（constraints）"><a href="#2-one-gadget-的“调用条件”（constraints）" class="headerlink" title="2. one_gadget 的“调用条件”（constraints）"></a>2. one_gadget 的“调用条件”（constraints）</h2><p>one_gadget 通常会附带一些 <strong>约束条件</strong>，因为它利用了 <code>libc</code> 内部某些代码路径，这些路径对寄存器 &#x2F; 内存有要求。</p>
+<pre><code class="language-plain">yaml
+
+
+复制编辑
+0x45216: execve(&quot;/bin/sh&quot;, rsp+0x30, environ)
+constraints:
+  rsp+0x30 == NULL
+</code></pre>
+<p>意思是：</p>
+<ul>
+<li>调用这个 gadget 时，它会尝试执行 <code>execve(&quot;/bin/sh&quot;, rsp+0x30, environ)</code></li>
+<li>要求 <code>**rsp+0x30**</code>** 指向的内存必须是 NULL**<br>→ 因为 <code>argv</code> 参数需要是 <code>NULL</code> 结尾的指针数组</li>
+</ul>
+<p>如果条件不满足，<code>execve</code> 调用就会失败（可能直接崩溃）。</p>
+<h2 id="为什么会有这些条件？"><a href="#为什么会有这些条件？" class="headerlink" title="为什么会有这些条件？"></a>为什么会有这些条件？</h2><p>因为 one_gadget 本质上不是“万能的 gadget”，而是 <code>libc</code> 内部某条执行路径（比如 <code>execve</code> 的某个错误分支、某个初始化流程），这条路径在调用时默认假定某些寄存器 &#x2F; 内存布局已经满足条件。<br>所以用它时必须保证这些前置约束成立，否则就不能直接 getshell。</p>
+<h2 id="常见-gadget-类型"><a href="#常见-gadget-类型" class="headerlink" title="常见 gadget 类型"></a>常见 gadget 类型</h2><ul>
+<li><strong>寄存器传参 gadget</strong></li>
+</ul>
+<pre><code class="language-plain">pop rdi ; ret     ; 控制 RDI
+pop rsi ; ret     ; 控制 RSI
+pop rdx ; ret     ; 控制 RDX
+</code></pre>
+<p>用来构造函数调用参数。</p>
+<h3 id="栈迁移-gadget"><a href="#栈迁移-gadget" class="headerlink" title="栈迁移 gadget"></a><strong>栈迁移 gadget</strong></h3><ol>
+<li></li>
+</ol>
+<pre><code class="language-plain">leave ; ret
+</code></pre>
+<p>可以调整栈指针，切换新的栈空间。</p>
+<p>2.gadget: </p>
+<pre><code class="language-plain">xchg esp, edi; ret
+</code></pre>
+<ul>
+<li><code>xchg esp, edi</code> &#x3D; 交换 <code>esp</code> 和 <code>edi</code> 的值。</li>
+<li>如果事先控制了 <code>edi = bss_addr</code>，那么交换之后：<ul>
+<li><code>esp</code> &#x3D; <code>bss_addr</code></li>
+<li><code>edi</code> &#x3D; 原本的 <code>esp</code></li>
+</ul>
+</li>
+<li>紧接着执行 <code>ret</code> 指令：<ul>
+<li><code>ret</code> 会做的事情是：从 <code>[rsp]</code> 取出一个地址，跳转到那里执行，然后 <code>rsp += 8</code>（在 x64 下）。</li>
+<li>由于此时 <code>rsp</code> 已经被我们换到 <code>bss_addr</code>，所以 <code>ret</code> 会把 BSS 上的数据当成“返回地址”，跳过去执行。</li>
+<li>之后的 gadget、参数都从 BSS 上连续取 → 这就是 <strong>栈迁移成功</strong>。</li>
+</ul>
+</li>
+<li><strong>任意指令 gadget</strong><br>比如：</li>
+</ul>
+<pre><code class="language-plain">add rax, 1 ; ret
+</code></pre>
+<p>可以在构造链时对寄存器做运算。</p>
+<p>把 <code>**top_chunk**</code>** 的地址伪造为某个目标地址**，那么下一次 <code>malloc</code> 返回的 chunk 就会落在目标地址上。</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pdv5MMUQ9ACpeCpyGnxb1Q">https://mp.weixin.qq.com/s/pdv5MMUQ9ACpeCpyGnxb1Q</a></p>
+<p>%p是将对应地址存的东西打印出来，而%n是将对应的地址作为指针索引，得到对应的内容。</p>
+<p>systab 符号表</p>
+<h1 id="canary"><a href="#canary" class="headerlink" title="canary"></a>canary</h1><p>在ebp下面存放了一个随机值。不知道这个随机值，篡改的时候就会出错</p>
+<p>%p 会把栈上的东西打印出来。当%p足够多的时候，就会把canary打印出来</p>
+<p>%s 是打印地址存放的内容 </p>
+<p>可以用它来泄露任意地址的内容</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>栈溢出讲义 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>栈溢出讲义</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/5
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00a596">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/stack-overflow/" style="color: #00bcd4">
+                    stack-overflow
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ELF/" style="color: #00a596">
+                    ELF
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h4 id="1-1-1ELF-可执行文件格式与内存布局"><a href="#1-1-1ELF-可执行文件格式与内存布局" class="headerlink" title="1.1.1ELF 可执行文件格式与内存布局"></a>1.1.1ELF 可执行文件格式与内存布局</h4><p>在 Linux 系统中，二进制程序通常以 ELF（Executable and Linkable Format）格式存在。当一个 ELF 文件被加载到内存中运行时，它会映射为特定的虚拟内存布局。理解这一布局是理解溢出的前提 。</p>
+<ul>
+<li><strong>代码段（.text）</strong>：存放 CPU 执行的机器指令。通常是只读的（Read-Only）和可执行的（Executable）。如果攻击者能够将指令指针（RIP）指向这里，CPU 就会忠实地执行其中的代码。</li>
+<li><strong>数据段（.data）</strong>：存放已初始化的全局变量和静态变量。</li>
+<li><strong>BSS 段（.bss）</strong>：存放未初始化的全局变量。在程序加载时，这块内存会被清零。由于它通常是可读写的，常被利用于存放攻击者构造的数据。</li>
+<li><strong>堆（Heap）</strong>：用于动态内存分配（如 <code>malloc</code>）。堆从低地址向高地址增长。</li>
+<li><strong>栈（Stack）</strong>：这是栈溢出攻击的核心区域。用于存放局部变量、函数参数和函数返回地址。栈的增长方向与堆相反，是从<strong>高地址向低地址</strong>增长 。</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2026/webp/58878864/1769219011600-a1bc2d55-265f-4f43-9f49-6f75461fe187.webp"></p>
+<h4 id="1-1-2-寄存器架构（x86-与-x86-64）"><a href="#1-1-2-寄存器架构（x86-与-x86-64）" class="headerlink" title="1.1.2 寄存器架构（x86 与 x86-64）"></a>1.1.2 寄存器架构（x86 与 x86-64）</h4><p>寄存器是 CPU 内部极其高速的存储单元，是数据处理和指令执行的直接场所。在 Pwn 中，我们主要关注通用寄存器和特殊寄存器。目前主流的架构分为 32 位（x86）和 64 位（x86-64&#x2F;AMD64）。</p>
+<p><strong>通用寄存器及其用途：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>64位寄存器 (8字节)</strong></th>
+<th><strong>32位寄存器 (4字节)</strong></th>
+<th><strong>主要用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>RAX</strong></td>
+<td>EAX</td>
+<td><strong>累加器</strong>。通常用于存储函数的返回值。在系统调用（Syscall）中存储调用号。</td>
+</tr>
+<tr>
+<td><strong>RBX</strong></td>
+<td>EBX</td>
+<td><strong>基址寄存器</strong>。通常作为数据指针。</td>
+</tr>
+<tr>
+<td><strong>RCX</strong></td>
+<td>ECX</td>
+<td><strong>计数寄存器</strong>。常用于循环计数。在 64 位函数调用中作为第 4 个参数。</td>
+</tr>
+<tr>
+<td><strong>RDX</strong></td>
+<td>EDX</td>
+<td><strong>数据寄存器</strong>。常配合 RAX 进行运算。在 64 位函数调用中作为第 3 个参数。</td>
+</tr>
+<tr>
+<td><strong>RSI</strong></td>
+<td>ESI</td>
+<td><strong>源变址寄存器</strong>。常用于字符串操作。在 64 位函数调用中作为第 2 个参数。</td>
+</tr>
+<tr>
+<td><strong>RDI</strong></td>
+<td>EDI</td>
+<td><strong>目的变址寄存器</strong>。常用于字符串操作。在 64 位函数调用中作为 <strong>第 1 个参数</strong>。</td>
+</tr>
+<tr>
+<td><strong>RBP</strong></td>
+<td>EBP</td>
+<td><strong>基址指针寄存器</strong>。指向当前栈帧（Stack Frame）的底部，是栈操作的基准点 。</td>
+</tr>
+<tr>
+<td><strong>RSP</strong></td>
+<td>ESP</td>
+<td><strong>栈指针寄存器</strong>。始终指向栈顶，随着 Push&#x2F;Pop 操作动态变化 。</td>
+</tr>
+<tr>
+<td><strong>RIP</strong></td>
+<td>EIP</td>
+<td><strong>指令指针寄存器</strong>。存放<strong>下一条</strong>即将执行指令的地址。这是攻击者的终极目标——控制了 RIP 就控制了程序的执行流 。</td>
+</tr>
+<tr>
+<td><strong>R8 - R15</strong></td>
+<td>N&#x2F;A</td>
+<td>64 位架构新增的通用寄存器。</td>
+</tr>
+</tbody></table>
+<p><strong>重要差异：函数调用约定（Calling Convention）</strong></p>
+<ul>
+<li><strong>x86 (32位)</strong>：函数参数通过<strong>栈</strong>传递。参数从右向左压栈，最后压入返回地址。</li>
+<li><strong>x64 (64位)</strong>：前 6 个参数依次通过寄存器 <strong>RDI, RSI, RDX, RCX, R8, R9</strong> 传递。超过 6 个的参数才通过栈传递 。</li>
+<li>这一差异直接决定了我们在构造攻击载荷（Payload）时的策略。在 64 位系统中，仅仅覆盖栈上的数据不足以控制函数参数，我们必须想办法操作寄存器，这通常需要 ROP 技术。</li>
+</ul>
+<h4 id="1-2-3-关键汇编指令"><a href="#1-2-3-关键汇编指令" class="headerlink" title="1.2.3 关键汇编指令"></a>1.2.3 关键汇编指令</h4><ul>
+<li>MOV dest, src：数据传送。将 src 的内容复制到 dest。</li>
+<li>PUSH src：压栈。先将 RSP 减小（因为栈向低地址增长），然后将 src 的值存入 RSP 指向的内存 。<ul>
+<li><code>RSP = RSP - 8</code></li>
+<li><code>*RSP = src</code></li>
+</ul>
+</li>
+<li><code>POP dest</code>：出栈。将 RSP 指向的内存值读入 dest，然后将 RSP 增大。<ul>
+<li><code>dest = *RSP</code></li>
+<li><code>RSP = RSP + 8</code></li>
+</ul>
+</li>
+<li><code>LEAVE</code>：恢复栈帧。等价于 <code>MOV RSP, RBP</code> 然后 <code>POP RBP</code>。用于函数退出前清理现场。</li>
+<li><code>RET</code>：返回。等价于 <code>POP RIP</code>。这是栈溢出利用的“引爆点”。它从栈顶弹出一个值赋给 RIP，CPU 接着跳转到该地址执行。如果栈顶的值被攻击者修改为恶意地址，攻击就生效了 。</li>
+</ul>
+<h4 id="1-2-4-字节序（Endianness）"><a href="#1-2-4-字节序（Endianness）" class="headerlink" title="1.2.4 字节序（Endianness）"></a>1.2.4 字节序（Endianness）</h4><p>在内存中存储多字节数据（如 64 位的地址）时，有两种顺序：</p>
+<ul>
+<li><strong>大端序（Big-Endian）</strong>：高位字节存放在低地址。</li>
+<li><strong>小端序（Little-Endian）</strong>：低位字节存放在低地址。x86&#x2F;x64 架构使用小端序。 例如，地址 <code>0x7fffffffe4b0</code> 在内存中存放的顺序是 <code>b0 e4 ff ff ff 7f 00 00</code>。在编写 Python 攻击脚本时，我们需要使用 <code>p64()</code> 函数将数值转换为这种小端序的字节流 。</li>
+</ul>
+<hr>
+<h2 id="2-深入理解栈数据结构与内存布局"><a href="#2-深入理解栈数据结构与内存布局" class="headerlink" title="2. 深入理解栈数据结构与内存布局"></a>2. 深入理解栈数据结构与内存布局</h2><p>为什么会有“栈溢出”？要回答这个问题，必须深入理解栈在函数调用过程中的生命周期。栈不仅仅是一块内存，它是维护程序逻辑上下文（Context）的核心数据结构 。</p>
+<pre><code class="language-bash">                                           +-----------------+
+                                           |     retaddr     |
+                                           +-----------------+
+                                           |     saved ebp   |
+                                    ebp---&gt;+-----------------+
+                                           |                 |
+                                           |                 |
+                                           |                 |
+                                           |                 |
+                                           |                 |
+                                           |                 |
+                              s,ebp-0x14--&gt;+-----------------+
+</code></pre>
+<p>栈的简单结构</p>
+<h3 id="2-1-栈的动态变化：函数调用全过程"><a href="#2-1-栈的动态变化：函数调用全过程" class="headerlink" title="2.1 栈的动态变化：函数调用全过程"></a>2.1 栈的动态变化：函数调用全过程</h3><p>当一个函数（Caller）调用另一个函数（Callee）时，栈会发生一系列精确的操作来保存现场，以便 Callee 执行完毕后能回到 Caller 继续执行。这个过程称为“栈帧的建立与销毁”。</p>
+<p><strong>Step 1: 参数入栈（32位）或 寄存器赋值（64位）</strong></p>
+<p>在调用发生前，参数被准备好。</p>
+<p><strong>Step 2: 保存返回地址（The Return Address）</strong> 执行 <code>call func</code> 指令时，CPU 会自动将 <code>call</code> 指令的<strong>下一条指令地址</strong>压入栈顶。这个地址就是“返回地址”。这是攻击者梦寐以求想要覆盖的数据 。</p>
+<p><strong>Step 3: 保存调用者的基址指针（Saved RBP）</strong></p>
+<p>进入 Callee 后，第一件事通常是保存 Caller 的 RBP，以便后续恢复。</p>
+<pre><code class="language-z80">push rbp
+</code></pre>
+<p><strong>Step 4: 建立新的栈帧（Set up Stack Frame）</strong></p>
+<p>将当前的 RSP 赋值给 RBP，标志着新栈帧的开始。</p>
+<pre><code class="language-z80">mov rbp, rsp
+</code></pre>
+<p>此时，RBP 指向当前栈帧的“底部”（虽然物理地址较高）。</p>
+<p><strong>Step 5: 分配局部变量空间</strong></p>
+<p>将 RSP 减去一个数值，为局部变量腾出空间。</p>
+<pre><code class="language-z80">sub rsp, 0x40  ; 分配 64 字节空间
+</code></pre>
+<p><strong>此时栈的布局（从高地址到低地址）：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>内存内容</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>攻击价值</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Arguments</strong></td>
+<td>函数参数（32位）</td>
+<td>影响函数逻辑</td>
+</tr>
+<tr>
+<td><strong>Return Address</strong></td>
+<td>返回地址（8字节）</td>
+<td><strong>最高价值</strong>。控制执行流</td>
+</tr>
+<tr>
+<td><strong>Saved RBP</strong></td>
+<td>保存的旧 RBP（8字节）</td>
+<td>影响栈迁移（Stack Pivot）</td>
+</tr>
+<tr>
+<td><strong>Local Variables</strong></td>
+<td>局部变量缓冲区（如 char buf）</td>
+<td><strong>溢出起点</strong>。注入数据</td>
+</tr>
+<tr>
+<td><strong>Top of Stack</strong></td>
+<td>RSP 指向此处</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="2-2-为什么会有栈溢出漏洞？"><a href="#2-2-为什么会有栈溢出漏洞？" class="headerlink" title="2.2 为什么会有栈溢出漏洞？"></a>2.2 为什么会有栈溢出漏洞？</h3><p>C 语言的设计哲学是“信任程序员”和“追求性能”。标准库中的许多字符串处理函数（如 <code>strcpy</code>, <code>gets</code>, <code>strcat</code>）在复制数据时，<strong>不检查目标缓冲区的大小</strong>。</p>
+<p>假设源代码如下：</p>
+<pre><code class="language-c">void vulnerable_function() &#123;
+    char buffer;
+    gets(buffer); // 危险！
+&#125;
+</code></pre>
+<p>gets函数 会一直读取用户输入，直到遇到换行符。如果用户输入了 100 个 ‘A’：</p>
+<ol>
+<li>前 64 个 ‘A’ 填满了 <code>buffer</code>。</li>
+<li>接下来的 8 个 ‘A’ 覆盖了 <strong>Saved RBP</strong>。</li>
+<li>再接下来的 8 个 ‘A’ 覆盖了 <strong>Return Address</strong>。</li>
+<li>剩余的 ‘A’ 继续向高地址覆盖。</li>
+</ol>
+<p>当 <code>vulnerable_function</code> 执行完毕，运行到 <code>ret</code> 指令时，CPU 会执行 <code>pop rip</code>。此时栈顶的值已经被我们覆盖成了 <code>0x4141414141414141</code>（’A’ 的 ASCII 码）。CPU 试图跳转到这个地址去执行指令。由于这是一个无效地址，程序通常会报“段错误”（Segmentation Fault）并崩溃。但如果我们精心构造，将这里的 ‘A’ 换成一个合法的代码地址，CPU 就会跳转过去执行，这就完成了攻击 。</p>
+<hr>
+<h2 id="3-动态调试与分析艺术"><a href="#3-动态调试与分析艺术" class="headerlink" title="3. 动态调试与分析艺术"></a>3. 动态调试与分析艺术</h2><p>假设我们有一个名为 <code>vuln</code> 的可执行文件。</p>
+<ul>
+<li><code>gdb./vuln</code>：启动调试。</li>
+<li><code>checksec</code>：(Pwndbg ) 检查二进制文件的保护机制（NX, Canary, PIE, RELRO）。</li>
+<li><code>run</code> (或 <code>r</code>)：开始运行程序。</li>
+<li><code>break *0x401123</code> (或 <code>b</code>)：在特定内存地址下断点。</li>
+<li><code>next</code> (或 <code>n</code>)：单步步过（不进入函数）。</li>
+<li><code>step</code> (或 <code>s</code>)：单步步入（进入函数）。</li>
+<li><code>continue</code> (或 <code>c</code>)：继续执行直到下一个断点。</li>
+<li><code>x/20gx $rsp</code>：查看栈内存。<ul>
+<li><code>x</code>：Examine（检查）。</li>
+<li><code>20</code>：显示 20 个单位。</li>
+<li><code>g</code>：Giant word（8字节，64位系统常用）。</li>
+<li><code>x</code>：以十六进制显示。</li>
+<li><code>$rsp</code>：从 RSP 指向的地址开始。</li>
+</ul>
+</li>
+<li><code>info registers</code> (或 <code>i r</code>)：查看所有寄存器的值。</li>
+<li><code>disassemble main</code>：反汇编 main 函数代码。</li>
+</ul>
+<h3 id="确定溢出偏移（Offset）"><a href="#确定溢出偏移（Offset）" class="headerlink" title="确定溢出偏移（Offset）"></a>确定溢出偏移（Offset）</h3><p>这是利用栈溢出的第一步：我们需要确切地知道，填充多少字节的垃圾数据，才能刚好触碰到 Return Address 。</p>
+<p><strong>方法一：手动计算</strong></p>
+<p>通过 IDA Pro 或 Ghidra 反编译，查看缓冲区相对于 RBP 的偏移。</p>
+<p>例如：<code>char buf</code> 通常在 <code>rbp-0x40</code>。</p>
+<p>返回地址在 <code>rbp+0x8</code>。</p>
+<p>所以偏移量 &#x3D; 0x40 (64) + 0x8 (Saved RBP 8字节) &#x3D; 72 字节。</p>
+<p><strong>方法二：Cyclic Pattern（动态测量）</strong></p>
+<p>这是更通用的方法。Pwntools 提供了一个工具 <code>cyclic</code>，生成特定规律的字符串。</p>
+<ol>
+<li>生成 100 字节的 Pattern：</li>
+</ol>
+<pre><code class="language-bash">cyclic 100
+# 输出: aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaama...
+</code></pre>
+<ol start="2">
+<li>在 GDB 中运行程序，输入该字符串。</li>
+<li>程序崩溃。查看崩溃时的栈顶或 RIP 寄存器。<ul>
+<li>在 64 位系统中，程序通常会在 <code>ret</code> 指令处崩溃，因为弹出的地址无效。此时查看栈顶的值。</li>
+<li>假设 GDB 显示栈顶（RSP）的值为 <code>0x6161616c</code>（对应字符 ‘laaa’）。</li>
+</ul>
+</li>
+<li>计算偏移：</li>
+</ol>
+<pre><code class="language-bash">cyclic -l 0x6161616c
+# 输出: 72
+</code></pre>
+<p>这意味着我们需要 72 个字节的填充，第 73-80 个字节将覆盖 Return Address 。</p>
+<hr>
+<h2 id="4-基础防护机制概览"><a href="#4-基础防护机制概览" class="headerlink" title="4. 基础防护机制概览"></a>4. 基础防护机制概览</h2><p>在开始实战前，必须看懂 <code>checksec</code> 的输出，这决定了我们的攻击路径 。</p>
+<ol>
+<li><strong>Arch (架构)</strong>: x86 或 amd64。决定了寄存器大小和系统调用方式。</li>
+<li><strong>RELRO (Relocation Read-Only)</strong>:<ul>
+<li>No RELRO: GOT 表可写。</li>
+<li>Partial RELRO: GOT 表可写（常见）。</li>
+<li>Full RELRO: GOT 表只读，无法修改 GOT 表劫持函数调用。</li>
+</ul>
+</li>
+<li><strong>Stack Canary (栈哨兵)</strong>:<ul>
+<li>Enabled: 栈中插入了校验值，防止连续覆盖。</li>
+<li>Disabled: 可以随意溢出。</li>
+</ul>
+</li>
+<li><strong>NX (No-Execute) &#x2F; DEP</strong>:<ul>
+<li>Enabled: 栈和堆不可执行。无法直接运行 Shellcode，必须使用 ROP。</li>
+<li>Disabled: 栈可执行。可以直接跳到栈上执行 Shellcode。</li>
+</ul>
+</li>
+<li><strong>PIE (Position Independent Executable)</strong>:<ul>
+<li>Enabled: 代码段地址随机化。不知道函数地址。</li>
+<li>Disabled: 代码段地址固定。可以直接硬编码函数地址。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-实战演练-I：Ret2Text（有后门的程序）"><a href="#5-实战演练-I：Ret2Text（有后门的程序）" class="headerlink" title="5. 实战演练 I：Ret2Text（有后门的程序）"></a>5. 实战演练 I：Ret2Text（有后门的程序）</h2><p>这是最简单的场景。目标程序中存在一个 <code>win()</code> 或 <code>backdoor()</code> 函数，能直接给 Shell 或打印 Flag，但正常逻辑不会调用它。我们要做的就是把 <code>main</code> 函数的返回地址改为 <code>win</code> 函数的地址。</p>
+<p><strong>题目特征</strong>：</p>
+<ul>
+<li>Stack Overflow 漏洞存在（如 <code>gets</code>）。</li>
+<li><strong>NX Enabled</strong> (无所谓，因为利用的是程序自带代码)。</li>
+<li><strong>PIE Disabled</strong> (关键，地址固定)。</li>
+<li><strong>Canary Disabled</strong>。</li>
+</ul>
+<h3 id="5-1-攻击步骤"><a href="#5-1-攻击步骤" class="headerlink" title="5.1 攻击步骤"></a>5.1 攻击步骤</h3><ol>
+<li><strong>静态分析</strong>：使用 IDA&#x2F;Ghidra 或 <code>objdump -d./pwn | grep win</code> 找到 <code>win</code> 函数的地址。假设为 <code>0x401176</code>。</li>
+<li><strong>动态调试</strong>：使用 <code>cyclic</code> 测出溢出偏移量。假设为 40。</li>
+<li><strong>编写脚本</strong>：使用 Pwntools。</li>
+</ol>
+<h3 id="5-2-Pwntools-脚本示例"><a href="#5-2-Pwntools-脚本示例" class="headerlink" title="5.2 Pwntools 脚本示例"></a>5.2 Pwntools 脚本示例</h3><pre><code class="language-python">from pwn import *
+
+# 1. 设置目标架构
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+# 2. 启动进程
+p = process(&#39;./ret2text_challenge&#39;)
+# p = remote(&#39;ip&#39;, port) # 远程连接
+
+# 3. 准备数据
+offset = 40
+win_addr = 0x401176
+
+# 4. 构造 Payload
+# b&#39;A&#39; * 40 填充缓冲区和 Saved RBP
+# p64(win_addr) 将地址打包成 8 字节小端序
+payload = b&#39;A&#39; * offset + p64(win_addr)
+
+# 5. 发送 Payload
+p.sendline(payload)
+
+# 6. 交互
+p.interactive()
+</code></pre>
+<h3 id="5-3-栈对齐（Stack-Alignment）"><a href="#5-3-栈对齐（Stack-Alignment）" class="headerlink" title="5.3 栈对齐（Stack Alignment）"></a>5.3 栈对齐（Stack Alignment）</h3><p>在 Ubuntu 18.04 及更高版本的 64 位系统中，调用 <code>system</code> 或 <code>printf</code> 等库函数时，要求栈顶指针 RSP 必须是 <strong>16 字节对齐</strong>的（即 RSP 的末尾必须是 0）。如果直接跳转到 <code>win</code> 函数，且 <code>win</code> 函数第一条指令就是调用 <code>system</code>，可能会因为栈未对齐而导致 <code>movaps</code> 指令崩溃（Segfault）。</p>
+<p><strong>解决方案</strong>：在跳转到 <code>win</code> 之前，先跳转到一个 <code>ret</code> 指令（Ret Gadget）。</p>
+<p><code>ret</code> 指令相当于 <code>pop rip</code>，会把 RSP 增加 8。这样原本不对应 16 的 RSP 就可能对齐了。</p>
+<p>Payload 变为：<code>Padding + p64(ret_gadget) + p64(win_addr)</code>。</p>
+<hr>
+<h2 id="6-实战演练-II：Shellcode-生成与利用（NX-Disabled）"><a href="#6-实战演练-II：Shellcode-生成与利用（NX-Disabled）" class="headerlink" title="6. 实战演练 II：Shellcode 生成与利用（NX Disabled）"></a>6. 实战演练 II：Shellcode 生成与利用（NX Disabled）</h2><p><strong>场景</strong>：程序没有后门函数，但是关闭了 NX 保护（Stack Executable）。 <strong>目标</strong>：将自己编写的机器码（Shellcode）注入栈中，并控制 RIP 跳转到栈上执行它 。</p>
+<h3 id="6-1-什么是-Shellcode？"><a href="#6-1-什么是-Shellcode？" class="headerlink" title="6.1 什么是 Shellcode？"></a>6.1 什么是 Shellcode？</h3><p>Shellcode 是一段用于启动 Shell 的机器指令。在 Linux x64 下，通常是调用 <code>execve(&quot;/bin/sh&quot;, 0, 0)</code> 系统调用。</p>
+<p><strong>汇编实现逻辑：</strong></p>
+<ol>
+<li>设置 RAX &#x3D; 59 (syscall number for execve).</li>
+<li>设置 RDI &#x3D; 指向 “&#x2F;bin&#x2F;sh” 字符串的地址.</li>
+<li>设置 RSI &#x3D; 0.</li>
+<li>设置 RDX &#x3D; 0.</li>
+<li>执行 <code>syscall</code>.</li>
+</ol>
+<h3 id="6-2-利用-Pwntools-生成-Shellcode"><a href="#6-2-利用-Pwntools-生成-Shellcode" class="headerlink" title="6.2 利用 Pwntools 生成 Shellcode"></a>6.2 利用 Pwntools 生成 Shellcode</h3><p>手写汇编比较繁琐，Pwntools 的 <code>shellcraft</code> 模块可以自动生成各种架构的 Shellcode 。</p>
+<pre><code class="language-python"># 生成 amd64 架构下 Linux 的 sh 脚本汇编代码
+sc_asm = shellcraft.amd64.linux.sh()
+# 编译成机器码
+shellcode = asm(sc_asm)
+</code></pre>
+<h3 id="6-3-攻击策略：NOP-Sled-与-JMP-RSP"><a href="#6-3-攻击策略：NOP-Sled-与-JMP-RSP" class="headerlink" title="6.3 攻击策略：NOP Sled 与 JMP RSP"></a>6.3 攻击策略：NOP Sled 与 JMP RSP</h3><p>我们在栈上注入 Shellcode，但问题是：我们怎么知道 Shellcode 在栈上的确切地址？</p>
+<p>栈地址在不同环境（本地 vs 远程）可能会有微小变化。</p>
+<p><strong>方法：NOP Sled（滑雪橇）</strong> NOP（机器码 <code>0x90</code>）指令什么都不做，CPU 读到它只会执行下一条。 我们在 Shellcode 前面填充大量的 NOP。只要 RIP 跳转到 NOP 区域的任意位置，CPU 就会一路滑下去，直到执行 Shellcode 。</p>
+<p><strong>Payload 结构：</strong></p>
+<p><code>[ NOPs (100 bytes) ] + + [ Padding ] +</code></p>
+<p>然而，如果开启了 ASLR，栈地址是随机的，我们无法硬编码返回地址。这时候通常需要结合寄存器。如果函数返回时，某个寄存器（如 <code>RAX</code> 或 <code>RSP</code>）刚好指向我们的 Buffer，我们可以利用程序中自带的 <code>jmp rax</code> 或 <code>call rax</code> 指令（Gadget）来跳转。</p>
+<p>如果可以直接泄露栈地址（例如程序打印了 Buffer 的地址），则直接填入该地址即可。</p>
+<hr>
+<h2 id="7-实战演练-III：Canary-绕过技术"><a href="#7-实战演练-III：Canary-绕过技术" class="headerlink" title="7. 实战演练 III：Canary 绕过技术"></a>7. 实战演练 III：Canary 绕过技术</h2><p><strong>场景</strong>：开启了 Stack Canary 保护。 <strong>原理</strong>：编译器在 Stack Frame 的 Return Address 之前插入一个随机值（Canary）。函数返回前会检查这个值是否被修改。如果我们在溢出时覆盖了它，程序会报错 <code>*** stack smashing detected ***</code> 并终止，根本不会执行 <code>ret</code>。</p>
+<p>Canary 的特点：</p>
+<ul>
+<li>通常是 8 字节（64位）。</li>
+<li>最低位字节通常是 <code>\x00</code>。这是为了防止 <code>printf</code> 等字符串函数意外打印出 Canary（字符串遇 <code>\0</code> 截断）。</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/58878864/1769218949712-3c56b946-1a8d-44da-920f-f09105846337.png"></p>
+<h3 id="7-1-方法一：泄露-Canary-Leak"><a href="#7-1-方法一：泄露-Canary-Leak" class="headerlink" title="7.1 方法一：泄露 Canary (Leak)"></a>7.1 方法一：泄露 Canary (Leak)</h3><p>如果程序存在格式化字符串漏洞，或者可以通过溢出覆盖 Canary 的最低位 <code>\x00</code>，就可以读出 Canary。</p>
+<p><strong>覆盖截断法</strong>：</p>
+<p>Canary 内存如：<code>00 a1 b2 c3...</code></p>
+<p>如果我们溢出，刚好把第一个字节 <code>00</code> 覆盖成 <code>61</code> (‘a’)。</p>
+<p>Canary 变为：<code>61 a1 b2 c3...</code></p>
+<p>此时调用 <code>printf(&quot;%s&quot;, buffer)</code>，因为没有了 <code>\0</code> 截断，<code>printf</code> 会连着 Buffer 把后面的 Canary 也打印出来。</p>
+<p>获取到 Canary 后，我们在构造 Payload 时，将正确的值填回去，就能骗过检查。</p>
+<h3 id="7-2-方法二：爆破-Brute-force"><a href="#7-2-方法二：爆破-Brute-force" class="headerlink" title="7.2 方法二：爆破 (Brute-force)"></a>7.2 方法二：爆破 (Brute-force)</h3><p><strong>适用场景</strong>：服务器使用 <code>fork()</code> 处理网络请求。</p>
+<p><strong>原理</strong>：<code>fork()</code> 出来的子进程会完全拷贝父进程的内存，包括 Canary。这意味着每次连接的 Canary 都是一样的。</p>
+<p>我们可以逐个字节地猜。</p>
+<ul>
+<li>先猜第 1 个字节（已知是 0x00，但如果是 Windows 或特殊环境可能不同）。</li>
+<li>猜第 2 个字节：发送 0x00，如果不崩溃，说明猜对；如果崩溃（Socket 断开），说明猜错，试 0x01…</li>
+<li>猜出第 2 个字节后，固定它，继续猜第 3 个。</li>
+<li>最多尝试 256 * 7 次即可拿到完整 Canary。这比暴力穷举 64 位数值要快得多 。</li>
+</ul>
+<p>还有格式化字符串直接读取canary</p>
+<h3 id="7-3修改-stack-chk-fail-local的got表地址"><a href="#7-3修改-stack-chk-fail-local的got表地址" class="headerlink" title="7.3修改__stack_chk_fail_local的got表地址"></a>7.3修改__stack_chk_fail_local的got表地址</h3><hr>
+<h2 id="8-实战演练-IV：Ret2Syscall-与-ROP（无后门、NX-开启）"><a href="#8-实战演练-IV：Ret2Syscall-与-ROP（无后门、NX-开启）" class="headerlink" title="8. 实战演练 IV：Ret2Syscall 与 ROP（无后门、NX 开启）"></a>8. 实战演练 IV：Ret2Syscall 与 ROP（无后门、NX 开启）</h2><ul>
+<li><strong>NX Enabled</strong>: 无法执行 Shellcode。</li>
+<li><strong>No “Win” Function</strong>: 必须自己构造系统调用。</li>
+<li><strong>Static Link</strong> (静态链接) 或 <strong>Ret2Libc</strong> (动态链接)。这里先讲最基础的利用程序自身 Gadget 的 Ret2Syscall。</li>
+</ul>
+<h3 id="8-1-ROP-Return-Oriented-Programming-原理"><a href="#8-1-ROP-Return-Oriented-Programming-原理" class="headerlink" title="8.1 ROP (Return Oriented Programming) 原理"></a>8.1 ROP (Return Oriented Programming) 原理</h3><p>既然不能写入新代码，我们就复用程序里已有的代码片段。这些片段以 <code>ret</code> 结尾，称为 <strong>Gadget</strong>。 通过精心排列栈上的返回地址，我们可以让 CPU 在执行完一个 Gadget 后，跳到下一个 Gadget，像拼积木一样拼出复杂的逻辑。(我们通过写rop链设置寄存器。然后调用system函数完成题目)</p>
+<h3 id="8-2-目标：拼凑-execve-系统调用"><a href="#8-2-目标：拼凑-execve-系统调用" class="headerlink" title="8.2 目标：拼凑 execve 系统调用"></a>8.2 目标：拼凑 execve 系统调用</h3><p>我们需要寻找以下 Gadgets（使用 <code>ROPgadget</code> 或 <code>ropper</code> 工具）：</p>
+<ol>
+<li><code>pop rdi; ret</code> ：用于设置 RDI 寄存器。</li>
+<li><code>pop rsi; ret</code> ：用于设置 RSI 寄存器。</li>
+<li><code>pop rdx; ret</code> ：用于设置 RDX 寄存器。</li>
+<li><code>pop rax; ret</code> ：用于设置 RAX 寄存器。</li>
+<li><code>syscall; ret</code> ：触发系统调用。</li>
+<li>寻找的指令：</li>
+</ol>
+<pre><code class="language-bash">ROPgadget --binary ret2libc1（自己的文件名） --only &quot;pop|ret&quot; |grep  &#39;rdi&#39;
+//这里查询rdi为例//
+</code></pre>
+<p>此外，我们需要一个地址存放字符串 “&#x2F;bin&#x2F;sh”。可以使用程序中已有的（.data 段），或者利用 <code>read</code> 函数写一段进去。</p>
+<h3 id="8-3-ROP-链构造流程"><a href="#8-3-ROP-链构造流程" class="headerlink" title="8.3 ROP 链构造流程"></a>8.3 ROP 链构造流程</h3><p>假设我们找到了所有 Gadgets，且地址 <code>0x404000</code> 处有 “&#x2F;bin&#x2F;sh” 字符串。</p>
+<p><strong>栈布局（Payload）设计：</strong></p>
+<ol>
+<li><strong>Padding</strong>: 填充溢出偏移。</li>
+<li><strong>Gadget 1 Addr</strong> (<code>pop rax; ret</code>)</li>
+<li><strong>Value</strong>: 59 (0x3b) -&gt; 弹入 RAX</li>
+<li><strong>Gadget 2 Addr</strong> (<code>pop rdi; ret</code>)</li>
+<li><strong>Value</strong>: 0x404000 (ptr to “&#x2F;bin&#x2F;sh”) -&gt; 弹入 RDI</li>
+<li><strong>Gadget 3 Addr</strong> (<code>pop rsi; ret</code>)</li>
+<li><strong>Value</strong>: 0 -&gt; 弹入 RSI</li>
+<li><strong>Gadget 4 Addr</strong> (<code>pop rdx; ret</code>)</li>
+<li><strong>Value</strong>: 0 -&gt; 弹入 RDX</li>
+<li><strong>Gadget 5 Addr</strong> (<code>syscall</code>)</li>
+</ol>
+<pre><code class="language-bash">低地址
+|-----------------------| &lt;-- 溢出开始点
+| 垃圾数据 (填充buf)   |
+|-----------------------|
+| 原来的 rbp (覆盖)     |
+|-----------------------|
+| 0x4005a3 (pop rdi; ret) | &lt;-- 覆盖的返回地址，第一次跳转
+|-----------------------|
+| 指向 “/bin/sh” 的地址 | &lt;-- pop rdi 会把这个值弹入 rdi
+|-----------------------|
+| 0x4007c1 (pop rsi; ret) | &lt;-- 上一条 gadget 的 ret 会跳到这里
+|-----------------------|
+| 0x0                   | &lt;-- pop rsi 会把这个值弹入 rsi
+|-----------------------|
+| 0x4008f2 (pop rdx; ret) |
+|-----------------------|
+| 0x0                   | &lt;-- pop rdx 会把这个值弹入 rdx
+|-----------------------|
+| 0x401000 (mov rax, 0x3b; syscall) |
+|-----------------------|
+高地址
+</code></pre>
+<p>当函数返回时，它会依次执行上述指令，最终触发 <code>execve(&quot;/bin/sh&quot;, 0, 0)</code>，获取 Shell 。</p>
+<p>Pwntools 提供了极其强大的 ROP 模块，可以自动寻找 Gadgets 并构建链条（但是一般还是需要自己写）：</p>
+<pre><code class="language-python">elf = ELF(&#39;./rop_challenge&#39;)
+rop = ROP(elf)
+
+# 假设程序中已经有了 /bin/sh 字符串
+bin_sh_addr = next(elf.search(b&#39;/bin/sh&#39;))
+
+# 自动生成调用 execve(&#39;/bin/sh&#39;, 0, 0) 的链
+rop.execve(bin_sh_addr, 0, 0)
+
+print(rop.dump()) # 打印生成的 ROP 链结构
+
+payload = b&#39;A&#39; * offset + rop.chain()
+p.sendline(payload)
+</code></pre>
+<p>如果程序是动态链接且没有静态的 <code>syscall</code> 片段，我们需要使用 <strong>Ret2Libc</strong> 技术：先泄露 <code>puts</code> 或 <code>write</code> 的真实地址，计算出 <code>libc</code> 的基地址，再调用 <code>libc</code> 中的 <code>system</code> 函数。这属于更进阶的内容，但在逻辑上依然是 ROP 的一种应用。</p>
+<hr>
+<h3 id="9-知识图谱回顾"><a href="#9-知识图谱回顾" class="headerlink" title="9 知识图谱回顾"></a>9 知识图谱回顾</h3><ul>
+<li><strong>核心原理</strong>：栈帧的 LIFO 结构、Return Address 的关键作用。</li>
+<li><strong>工具使用</strong>：GDB 动态调试查看内存，Pwntools 编写 Exploit。</li>
+<li><strong>攻击演进</strong>：<ul>
+<li>简单的 Ret2Text（修改返回地址）。</li>
+<li>Shellcode 注入（针对 NX 关闭）。</li>
+<li>Canary 绕过（泄露与爆破）。</li>
+<li>ROP &#x2F; Ret2Syscall（针对 NX 开启）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="进阶学习路线"><a href="#进阶学习路线" class="headerlink" title="进阶学习路线"></a>进阶学习路线</h3><p>栈溢出仅仅是二进制安全的冰山一角。掌握上述内容后，建议继续探索：</p>
+<ol>
+<li><strong>Ret2Libc &amp; GOT&#x2F;PLT Hijacking</strong>：应对 ASLR 和动态链接的标准解法 。</li>
+<li><strong>堆漏洞（Heap Exploitation）</strong>：<code>malloc</code> 和 <code>free</code> 的机制极其复杂，涉及 Use-After-Free (UAF)、Double Free、Heap Overflow 等，是现代 Pwn 的主流 。</li>
+<li><strong>格式化字符串漏洞（Format String）</strong>：利用 <code>printf</code> 实现任意内存读写 。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://zjnu-kong.github.io/2025/07/05/canary/">https://zjnu-kong.github.io/2025/07/05/canary/</a></p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

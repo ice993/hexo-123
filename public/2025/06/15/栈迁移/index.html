@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>栈迁移技术详解 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>栈迁移技术详解</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/15
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00bcd4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ROP/" style="color: #00a596">
+                    ROP
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/stack-pivot/" style="color: #00bcd4">
+                    stack-pivot
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>栈迁移<br>存在栈溢出漏洞，并且不够写后续的ROP或者其它东西的时候就可以用。可以迁移到栈上和bss段<br>就像这样它剩下的16是肯定不够写接下来的ROP链的，但是刚好够写leave ret。</p>
+<p>这个也比较典型<br>栈迁移核心就在要把ebp(rbp)覆盖成我们想要迁过去的地址。然后返回地址覆盖成leave ret</p>
+<p>然后需要我们：<br>1、要能够栈溢出，这点尤其重要，最起码也要溢出覆盖个ebp<br>2、你要有个可写的地方（就是要GetShell的地方），先考虑bss段，bss段固定最后再考虑写到栈中<br>我们能写的就这几个:栈区、堆区、bss、.data<br>那先我们考虑bss和.data段。迁移到栈还是bss。题目应该都会准备好或者有暗示。然后我们为什么不迁移到data段呢，因为data段离got表太近了，可能把它就改了。一般我们迁移不到栈的话先迁到bss段。<br>先说一下比较重要的一件事。leave;ret 指令<br>leave指令即为mov esp,ebp;pop ebp先将ebp赋给esp，此时esp与ebp位于了一个地址，你可以现在把它们指向的那个地址，即当成栈顶又可以当成是栈底。然后pop ebp，将栈顶的内容弹入ebp（此时栈顶的内容也就是ebp的内容，也就是说现在把ebp的内容赋给了ebp）。因为esp要时刻指向栈顶，既然栈顶的内容都弹走了，那么esp自然要往下挪一个内存单元。(64位换成对应的寄存器就行)<br>就是将 ebp 赋值给 esp ，并弹出 ebp 。<br>ret指令为pop eip，这个指令就是把栈顶的内容弹进了eip<br>这是leave 的两步</p>
+<p>ret</p>
+<p>查找的命令<br>ok,那么常规思路下面我们一般是这么做的。迁移之后我们就需要在迁移到的bss或者栈上布置rop了<br>常用序列：<br>总结一下就是<br>pop rbp 把 target_addr 写入 rbp；leave 做 mov rsp, rbp; pop rbp（会从 target_addr 弹出一个值到rbp），随后 ret 会从新的 rsp 弹出返回地址并跳转 —— 因此你必须在 target_addr 布置好第一项（给 leave 的 pop rbp）和第二项（给 ret 的返回地址）。<br>一般是<br>就是这两个阶段<br>1.第一阶段有限空间内写入一个能覆盖返回地址的payload，这个 payload 含有：把 .bss地址放到某寄存器&#x2F;栈上并触发栈 pivot 的 gadget（就比如前面了解到的  leave; ret）。<br>2.执行 pivot 后，rsp 指向 .bss（你预先写好的“假栈”），程序从那里继续执行完整的 ROP 链或调用 mprotect&#x2F;mmap 来获得可执行内存后执行 shellcode。<br>注意<br>如果有地址随机化的话，那需要先泄露地址。计算好要迁移的位置<br>NX：.bss 默认不可执行；若你想在假栈上直接执行 shellcode，需先用 ROP 调 用mprotect。让它shellcode能执行<br>写入假栈：必须有手段把第二阶段 payload 写入到那个假栈地址（例如用连续的读操作、puts&#x2F;read&#x2F;recv 写入，或者利用程序的全局缓冲区）。<br>栈迁移是一种技术手段。它可以让你在空间不够用的时候继续增加空间。有的题目可能迁移两三次。<br>这样的就比较麻烦了。不过这样的话写起来的格式就跟第一次迁移的差不多。除了leave ret ;这个gadget,还有<br>迁移两次一般就是第一次泄露libc,第二次再getshell<br>这里举一个小小的例子。参考ctf-SkYe Wiki上的i春秋新春战役 borrowstack<br>原程序：<br>第一次迁移<br>第一次栈迁移需要向 bank+0x90 写入需要执行的代码。这道题是利用的是第二次 read 输入 stack 1 数据。需要进行两次迁移的话，在输入 stack 1 数据就要考虑第二次栈迁移的地址，可以选择 bank+0x60 。<br>在  stack1 需要泄露出 libc 基地址，写入stack 2 数据。泄露地址就选择一个函数真实地址输出并计算偏移，然后调用 main 函数中的 read2 写入 stack 2 ，因为顺序执行，因此还执行了一次 leave （即 main 函数从 read2 开始运行一遍），触发第二次栈迁移。<br>1准备完成，并且为  2 预留写入函数，接下来就是处理并写入 2 。因为这个栈已经是最后一个栈，所以不需要关心 ebp 的值。随便赋一个值就行<br>如果遇到有的题目需要3 次、 4 次等多次迁移，就将 ebp 赋值为下一次迁移的地址，直到最后一次。<br>3次可参考此篇栈迁移：三种利用方法-CSDN博客。里面还用了一个read 的leave  gadget 来做</p>
+<p>其它间接迁移的gadget<br>比如<br>需要提前设置rax。xchg换成mov也可以<br>相对移动作用有限<br>基本上leave ret用的还是比较多<br>看两道题，一个是栈上的。一个是bss段的<br>迁移到栈上</p>
+<p>这个题没有后门要构造rop。覆盖rbp以后再覆盖返回地址就只剩0x10.不够rop<br>这个时候考虑栈迁移。因为题目里给的比较明显第一次read以后再来一次read。那就是迁到第二次那继续ROP<br>找到rbp地址来确定栈的地址。<br>栈的地址确定就可以确定旧rbp。vuln，新rbp。main<br>基本上没有保护<br>先格式化泄露rbp.知道了栈基址。通过gdb可以看到新栈和旧栈之间距离<br>地址找好以后迁移完就是rop。刚开始做的栈溢出。没有载荷要发送bin&#x2F;sh.<br>找到确定偏移就可以了<br>迁移到bss<br>iscc的最后一轮的第一道题</p>
+<p>read里可以写0x100个。但是覆盖完rbp,再覆盖canary。一共是0x30+0x08&#x3D;0x38   还剩0x100-0x38&#x3D;0xD0个<br>一般来说rop链 是rdi+bin&#x2F;sh+&#x2F;sysytem 0x24就可以了。实际上rop链里面要对各个寄存器进行设置。还要调用一些函数。比如说沙箱里的orw<br>最后还要栈对齐什么的。好像0xD0的空间就这样 &#x2F;8之后就只有8个。就是说它只能写8个进去就满了。应该对与沙箱绕过的rop是不够的。栈里面也没有那么大的空间去操作，就迁移到bss段<br>实际上，这道题是格式化字符串，栈迁移和orw的结合。orw的链太长了。原来的栈空间不够，需要迁移到bss段。但首先我们要用格式化字符串泄露canary才能进行栈迁移<br>这里给出exp<br>控制流段1: 泄露信息<br>控制流段2: 栈迁移<br>控制流段3: ROP拼接<br>迁移好以后算出来每个对应的偏移地址。在orw链里给每个寄存器赋值。在新的bss段上调用open read write<br>注意第一次溢出执行leave ret;的时候要把泄露的canary加上。让它通过检查。</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

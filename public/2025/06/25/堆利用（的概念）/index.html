@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>堆利用基本概念 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>堆利用基本概念</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/25
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #00a596">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/heap/" style="color: #ffa2c4">
+                    heap
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="堆的基本概念"><a href="#堆的基本概念" class="headerlink" title="堆的基本概念"></a>堆的基本概念</h1><p>elf中的一个段</p>
+<p>一个内存区，动态的。需要的时候可以申请。不想要的时候可以还回去</p>
+<p>在heap段申请</p>
+<p>堆是全局变量</p>
+<p>e.g.</p>
+<p>char *buffer &#x3D; (char *)malloc(10);</p>
+<p>free(buffer);</p>
+<p>heap从低向高，申请的时候这个brk会向上移。（这个主要是因为main_arena要管理堆空间，这也是它的手段。）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530633916-393f11bf-9105-4187-aa0c-5fc5ae345e4f.png"></p>
+<p>只有主线程的main_arena 能访问heap段和mmap区域</p>
+<h1 id="main-arena-管理者。主要竞技场"><a href="#main-arena-管理者。主要竞技场" class="headerlink" title="main_arena(管理者。主要竞技场)"></a>main_arena(管理者。主要竞技场)</h1><h3 id="它是："><a href="#它是：" class="headerlink" title="它是："></a>它是：</h3><p>对应了程序启动后通过 <code>sbrk()</code> 获得的第一块堆空间。<code>main_arena</code> 属于一个 <code>malloc_state</code> 类型的结构体，包含了一系列与堆管理相关的元数据和多个双向链表。</p>
+<h3 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h3><p>（1）</p>
+<p>用于存放不同大小的空闲块（fastbins、small bins、large bins 等）</p>
+<p>以及记录当前顶端 chunk、最近剩余（last_remainder）等信息</p>
+<p>（2）</p>
+<p>维护初始分配空闲，多线程下当第一个 arena，</p>
+<p>后续各线程如果需要更多的并发性能，会新建【线程 arena（thread arena）】</p>
+<h1 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h1><p>malloc通过main_arena分配一小块内存。如果不够可以通过brk扩张。空闲的空间太多它也可以缩小</p>
+<p>non_main_arena只有132kb可以读写的</p>
+<p>heap_info:每个堆的头部，main_arena没有</p>
+<p>（2）malloc_state:arena的头部，这个是全局变量不是堆</p>
+<p>malloc_chunk:每个chunk头部</p>
+<p>ptmalloc：是堆管理器</p>
+<p><strong>最小申请的<strong><strong>堆内存</strong></strong>大小</strong></p>
+<p>用户最小申请的内存大小必须是 2 * SIZE_SZ 的最小整数倍。</p>
+<h1 id="堆的简单申请"><a href="#堆的简单申请" class="headerlink" title="堆的简单申请"></a>堆的简单申请</h1><p>堆可以通过 malloc 或者 mmap 向系统内核空间申请堆空间。</p>
+<p>一般大小的堆的申请，使用malloc,大于128K的申请，使用 mmap。</p>
+<p>这些可以通过配置项修改</p>
+<h1 id="chunk宏"><a href="#chunk宏" class="headerlink" title="chunk宏"></a>chunk宏</h1><h2 id="prev-size"><a href="#prev-size" class="headerlink" title="prev_size"></a><strong>prev_size</strong></h2><p> 如果该 chunk 的 物理相邻的前一地址 chunk 是空闲的话，那该字段记录的是前一个 chunk 的大小 (包括 chunk 头)。否则，该字段可以用来存储物理相邻的前一个 chunk 的数据。 (较低地址的 chunk )</p>
+<h2 id="size"><a href="#size" class="headerlink" title="size"></a><strong>size</strong></h2><p>这个的大小必须是 MALLOC_ALIGNMENT 的整数倍。</p>
+<p>  如果申请的内存大小不是 MALLOC_ALIGNMENT 的整数倍，会被转换满足大小的最小的 MALLOC_ALIGNMENT 的倍数。</p>
+<p>  这通过 request2size() 宏完成。</p>
+<p>  32 位系统中， MALLOC_ALIGNMENT 可能是 4或 8 ；64 位系统中，MALLOC_ALIGNMENT 是 8。 低三位对chunk大小没有影响</p>
+<h2 id="non-main-arena"><a href="#non-main-arena" class="headerlink" title="non_main_arena"></a>non_main_arena</h2><p>记录当前 chunk 是否不属于主线程，1 表示不属于，0 表示属于。</p>
+<h3 id="is-mapped"><a href="#is-mapped" class="headerlink" title="is_mapped"></a>is_mapped</h3><p>记录当前 chunk 是否是由 mmap 分配的。</p>
+<h3 id="prev-inuse"><a href="#prev-inuse" class="headerlink" title="prev_inuse"></a>prev_inuse</h3><p>记录前一个 chunk 块是否被分配。堆中第一个被分配的内存块的 size 字段的 P 位都会被设置为 1，防止访问前面的非法内存。 P 位为 0 时，我们能通过 prev_inuse字段来获取上一个 chunk 的大小以及地址。这也方便进行空闲 chunk 之间的合并。</p>
+<h2 id="fd-和bk"><a href="#fd-和bk" class="headerlink" title="fd****和bk"></a><strong>fd****和bk</strong></h2><p>   chunk 处于分配状态时，从 fd 字段开始是用户的数据。 </p>
+<p>  fd 和bk 分别指向下一个和上一个（不是物理相邻）空闲的 chunk 。</p>
+<p>  通过 fd 和 bk 可以把空闲的 chunk 块加入到空闲的 chunk 块链表进行统一管理。</p>
+<p>   申请返回的指针，指向的 user data</p>
+<h2 id="fd-nextsize，-bk-nextsize，"><a href="#fd-nextsize，-bk-nextsize，" class="headerlink" title="fd_nextsize， bk_nextsize，"></a><strong>fd_nextsize， bk_nextsize</strong>，</h2><p>   只有 chunk 空闲的时候才使用，不过其用于较大的 chunk（large chunk）。</p>
+<p>   fd_nextsize 和bk_nextsize 分别指向前一个和后一个与当前 chunk 大小不同的第一个空闲块，并且不包含 bin 的头指针。</p>
+<p>   一般空闲的 large chunk 在 fd 的遍历顺序中，由大到小排列。避免在寻找合适 chunk 时挨个遍历。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634739-bad24147-c482-4c0f-8b91-8394fbc2d2f2.png"></p>
+<h2 id="简单的，一个泄露方法"><a href="#简单的，一个泄露方法" class="headerlink" title="简单的，一个泄露方法"></a>简单的，一个泄露方法</h2><p>这个（2）在libc地址里如果知道了malloc_state的地址就可以泄露出libc的地址</p>
+<h2 id="Allocated-Chunk（已分配的）"><a href="#Allocated-Chunk（已分配的）" class="headerlink" title="Allocated Chunk（已分配的）"></a>Allocated Chunk（已分配的）</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634474-52dd1e34-a9e6-445f-b425-ac5460f6310c.png"></p>
+<p>32位为4B，64位为8B。</p>
+<p>填充了用户的数据以后，它再溢出就可以溢出到pre chunk的下面。再到低位。</p>
+<p>已分配的chunk区域是Usr data一块。但是真正认为是从if(最上面开始的)</p>
+<h2 id="chunk和mem的转换"><a href="#chunk和mem的转换" class="headerlink" title="chunk和mem的转换"></a>chunk和mem的转换</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634203-176958aa-bafe-4036-abf2-729083aedf4e.png"></p>
+<p>申请内存时，由于字节对齐。可能申请的不一定等于可用的</p>
+<p>64位16字节对齐。只申请一个8字节的chunk。它就会给你补上剩下的8字节。</p>
+<p>申请了8字节却得到了16字节</p>
+<p>malloc_usable_size函数来获得可用内存大小</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530634179-cbbde016-1fee-4cf9-9262-ba81163d54ca.png"></p>
+<h2 id="Free-chunk"><a href="#Free-chunk" class="headerlink" title="Free chunk"></a>Free chunk</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635216-c99d09ce-32a4-4414-9e0e-560154ac7c25.png"></p>
+<p>fd(forwrod)和bk(back)在free chunk处于large bins才会生效。</p>
+<p>如果上个chunk也是free的它就会和上一个合并。合并成一个新的free chunk.直到它上面是一个已经分配的chunk.</p>
+<h1 id="Top-chunk"><a href="#Top-chunk" class="headerlink" title="Top chunk"></a>Top chunk</h1><p>在arena顶部的chunk叫做top chunk.不属于任何bin.bin没有空闲的chunk时。切割top chunk来满足申请</p>
+<h2 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h2><p>Top chunk（N字节）</p>
+<p>申请了（K字节）</p>
+<h3 id="1-如果top-chunk够用"><a href="#1-如果top-chunk够用" class="headerlink" title="1.如果top chunk够用"></a>1.如果top chunk够用</h3><p>top chunk切割为K（分配给用户）</p>
+<p>和N-K字节（叫做Last Remember chunk）两部分。</p>
+<h3 id="2-top-chunk不够用"><a href="#2-top-chunk不够用" class="headerlink" title="2.top chunk不够用"></a>2.top chunk不够用</h3><p>(1)在main_arena中用brk()扩张top chunk</p>
+<p>(2)在non_main_arena中，用mmap()分配新的chunk</p>
+<p>top chunk的PREV_INUSE位(就是我们在gdb里可以拿x32&#x2F;x看到的heap的最后一位。如果是1.表示,前一个 chunk 已经在用（in use）。)</p>
+<p>总是1</p>
+<h1 id="Last-Remainder-chunk"><a href="#Last-Remainder-chunk" class="headerlink" title="Last Remainder chunk"></a>Last Remainder chunk</h1><p>（1）chunk的small bin里没有满足分配的小字节k的要求的。</p>
+<p>（2）并且这个时候last remainder chunk能满足要求。</p>
+<p>这个时候就会：</p>
+<p>K字节的chunk分配给用户</p>
+<p>N-K的chunk成为新的last remainder chunk</p>
+<p>作用就是使得连续的小空间申请时分配到的内存都相邻。就不破坏堆的存储结构。</p>
+<h1 id="Bin的结构（free-list-malloc-state-heap-list结构）"><a href="#Bin的结构（free-list-malloc-state-heap-list结构）" class="headerlink" title="Bin的结构（free list&#x2F;malloc_state&#x2F;heap_list结构）"></a>Bin的结构（free list&#x2F;malloc_state&#x2F;heap_list结构）</h1><h1 id="（链表桶）"><a href="#（链表桶）" class="headerlink" title="（链表桶）"></a>（链表桶）</h1><p>bin实现了空闲链表。用来存储空闲的chunk。有下面几种类型：</p>
+<p>1.10个fast bins ,存储在fastbinsY中</p>
+<p>2.1个unsorted bin,存储在bin[1]中</p>
+<p>3.62个small bins,存储在bin[2]到bin[63]</p>
+<p>4.63个large bins,存储在bin[64]到bin[126]中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635277-ba8d628e-e851-477d-a471-1e7887236ed4.png"></p>
+<h2 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h2><p>当把chunk free到fast bin中时。它的下一个chunk的PREV_INUSE（IN_USE位）是不会变的。(还是1)</p>
+<p>它不会被合并。不会被认为是空闲的。但是实际上它已经进入了fast bin 已经空闲了。这是一种欺骗性的做法</p>
+<p>为什么要这么做</p>
+<p>1.反复申请再free这样free的效率就会变低。一直让它保持这个状态好申请</p>
+<p>2.malloc申请小chunk时用完free时。它并不会合并成一个。它还是两个小的</p>
+<h3 id="fast-bin的介绍"><a href="#fast-bin的介绍" class="headerlink" title="fast bin的介绍"></a>fast bin的介绍</h3><p>像高速缓存cache。提高小内存分配效率。速度变快的代价是内存变小。</p>
+<p>相邻chunk 不会合并。导致chunk碎片化。但是free效率提高</p>
+<p>它是10个LIFO（跟栈一样）的单链表。最后三个链表保留不用</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635159-d9a8f5cb-a3bb-49ab-bbca-35451aa39339.png"></p>
+<h3 id="Fast-bin的最大大小"><a href="#Fast-bin的最大大小" class="headerlink" title="Fast bin的最大大小"></a>Fast bin的最大大小</h3><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635329-cbb27467-13d8-4e8f-95eb-04533b412a67.png"></p>
+<p>它会被赋给global_max_fast</p>
+<p>申请时是first fit原则。</p>
+<p>释放fast chunk </p>
+<p>1.检查它的大小以及此时fast bin里chunk是否合法</p>
+<p>2.插入fastbin的链表头。此时fd指向old（指向chunk指针）</p>
+<p>通常，它的大小一般在0x01到0x80之间</p>
+<h2 id="Unsorted-bin"><a href="#Unsorted-bin" class="headerlink" title="Unsorted bin"></a>Unsorted bin</h2><p>缓冲区buffer 。大小超过fast bin的chunk释放后会到这</p>
+<p>使ptmalloc2可以复用使用过的chunk。又提升效率了 </p>
+<p>双向循环链表。unsorted bin的设计用途是临时存储刚释放的堆块，并在后续分配时进行分类（small&#x2F;large bin），最终将它们的地址用于分配或合并。</p>
+<p>chunk大小大于global_max_fast</p>
+<p>当一个堆块被释放到<strong>unsorted bin</strong>时，该堆块的<code>fd</code>和<code>bk</code>指针会被初始化为指向<code>main_arena</code>中的<code>unsorted_bins</code>链表头。</p>
+<p>这种机制使得如果攻击者能够<strong>读取已释放堆块的元数据</strong>（如通过use-after-free或堆溢出），即可从<code>fd</code>或<code>bk</code>指针中 leaks 出<code>main_arena</code>的地址。由于<code>main_arena</code>在libc中的偏移是固定的，攻击者可以通过泄露的地址计算出libc的基地址，从而绕过ASLR保护。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530635748-2d62f22e-a18f-4c9f-9234-27f2ed01da84.png"></p>
+<p>如果在unsorted中找chunk没有找到。就要去top chunk里面切割了</p>
+<h2 id="Small-bins"><a href="#Small-bins" class="headerlink" title="Small bins"></a>Small bins</h2><p>小于0x200(0x400)B的chunk叫做small chunk</p>
+<p>Small chunk肯定就只能存放这些小chunk.</p>
+<p>chunk大小就是从16B开始每次加8B</p>
+<p>chunk大小0x10-0x1f0B(0x20-0x3f0),相邻bin存放的大小相差0x8(0x10)B</p>
+<p>0x200是实际的大小。0x1f0B是用户申请到的</p>
+<h4 id="释放fast-chunk"><a href="#释放fast-chunk" class="headerlink" title="释放fast chunk"></a>释放fast chunk</h4><p>1.前一个空闲，就合并。触发前一个相邻chunk的unlink</p>
+<p>2.下一个chunk 是top chunk。则合并结束。不是的话继续3</p>
+<p>3.下一个chunk空闲。就合并。触发下一个chunk的unlink.否则就设置下一个相邻的PREV_INUSE为0</p>
+<p>4.将现在的chunk插入unstorted bin</p>
+<p>5.如果size 超过了FASTBIN_CONSOLIDATION_THRESHOLD.尽可能合并fastbin中chunk。放到unsortedbin里面</p>
+<p>如果top chunk大小超过了mp_.trim_threshoid。给os归还内存</p>
+<h3 id="Small-bin的介绍"><a href="#Small-bin的介绍" class="headerlink" title="Small bin的介绍"></a>Small bin的介绍</h3><p>62个双向循环链表。FIFO。相邻的空闲chunk会被合并</p>
+<h2 id="Large-bins"><a href="#Large-bins" class="headerlink" title="Large bins"></a>Large bins</h2><p>大于等于0x200（0x400）B的chunk1叫large chunk</p>
+<p>63个双向循环链表。插入和删除不一定要从头开始。可以发生在任意位置。相邻空闲chunk会被合并</p>
+<h3 id="chunk的大小"><a href="#chunk的大小" class="headerlink" title="chunk的大小"></a>chunk的大小</h3><p>前32个：从0x200B开始。每次+0x40B</p>
+<p>接下来16个：每次+0x200B</p>
+<p>接下来8个：每次+0x1000B</p>
+<p>接下来4个：每次+0x8000B</p>
+<p>接下来2个：每次+0x40000B</p>
+<p>最后一个：只有一个chunk.大小和large bins剩下的大小一样。</p>
+<p>每个bin里的chunk大小都不一样。按大小降序。取chunk时也遵循best fit。要好好的合适</p>
+<h2 id="tcache-bin"><a href="#tcache-bin" class="headerlink" title="tcache bin"></a>tcache bin</h2><p> libc 2.26以后又引入了新的bin 。和fast bin类似，主要来提高效率和利用率。但安全性降低</p>
+<p> tcache（Thread-Local Cache）于 <strong>glibc 2.26</strong> 引入，用于加速同一线程内的小块内存分配和释放。</p>
+<p> tcache一共64个bin。每个 bin 最多缓存 <strong>7</strong> 个 freed chunk（由 LIFO 方式管理） </p>
+<p> 范围在 <strong>16–1024 字节</strong>（步长 16 字节）共 <strong>64</strong> 个 bin</p>
+<p> 内部通过单链表存储已释放的堆的<code>tcache_entry</code> 结构。</p>
+<p> 可通过 <strong>tcache poisoning</strong> 等方法利用。</p>
+<p> glibc <strong>2.29</strong> 起加入 <code>key</code> 字段以检测 double free，2.32更新版本又引入指针加密等缓解措施，</p>
+<h3 id="tcache-bin的分配"><a href="#tcache-bin的分配" class="headerlink" title="tcache bin的分配"></a>tcache bin的分配</h3><p> 在内存分配的 malloc 函数中有多处，会将内存块移入 tcache 中。tcache bin像个中转站一样</p>
+<p>（1）首先，申请的内存块符合 fastbin 大小时并且在 fastbin 内找到可用的空闲块时，会把该 fastbin 链上的其他内存块放入 tcache 中。</p>
+<p>（2）其次，申请的内存块符合 smallbin 大小时并且在 smallbin 内找到可用的空闲块时，会把该 smallbin 链上的其他内存块放入 tcache 中。</p>
+<p>（3）当在 unsorted bin 链上循环处理时，当找到大小合适的链时，并不直接返回，而是先放到 tcache 中，继续处理。</p>
+<h3 id="取出"><a href="#取出" class="headerlink" title="取出"></a>取出</h3><p>1.在内存申请的开始部分，首先会判断申请大小块，在 tcache 是否存在，如果存在就直接从 tcache 中摘取，否则再使用_int_malloc 分配。</p>
+<p>2.在循环处理 unsorted bin 内存块时，如果达到放入 unsorted bin 块最大数量，会立即返回。默认是 0，即不存在上限。</p>
+<ol start="3">
+<li>在循环处理 unsorted bin 内存块后，如果之前曾放入过 tcache 块，则会取出一个并返回。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/#0x03-pwn-tcache">https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/#0x03-pwn-tcache</a></p>
+<p>tcache利用起来比fast bin简单，只需要把next 覆盖掉就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636018-ac739ed3-4641-4ddd-bf32-5745d7b2bca5.png"></p>
+<h2 id="内存分配流程-（看上比较复杂）"><a href="#内存分配流程-（看上比较复杂）" class="headerlink" title="内存分配流程 （看上比较复杂）"></a>内存分配流程 （看上比较复杂）</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636014-63c12b18-1ceb-4c33-ba75-b0253fc297ec.png"></p>
+<h2 id="内存释放流程"><a href="#内存释放流程" class="headerlink" title="内存释放流程"></a>内存释放流程</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636066-a7b42384-1587-40e5-b71e-5df7dbdffc28.png"></p>
+<h1 id="其它的"><a href="#其它的" class="headerlink" title="其它的"></a>其它的</h1><p>主线程可以使用brk和mmap来分配</p>
+<p>子线程只能用brk</p>
+<p>mmap是从shared libraries里面取的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760530636536-d0b95e19-8da5-42fb-abf5-97f21a982c9a.png"></p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

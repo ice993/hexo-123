@@ -1,6 +1,7 @@
 ---
 title: about
 layout: about
+comments: true
 ---
 
 ## Hi there 👋
@@ -23,3 +24,5 @@ layout: about
 | GitHub | [ice993](https://github.com/ice993) |
 | X | [@Arctic_oceanIce](https://x.com/Arctic_oceanIce) |
 | Email | [2940582316@qq.com](mailto:2940582316@qq.com) |
+
+![avatar](/images/lty.png)
